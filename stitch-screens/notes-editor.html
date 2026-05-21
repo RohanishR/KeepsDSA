@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AlgoMaster - Notes Editor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Geist:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c5c5d8",
+                        "tertiary": "#c0c6db",
+                        "surface-container-low": "#1c1b1d",
+                        "surface-bright": "#3a393a",
+                        "on-primary": "#001a97",
+                        "on-secondary-fixed": "#001d35",
+                        "inverse-primary": "#314ae6",
+                        "outline-variant": "#444655",
+                        "on-surface": "#e5e2e3",
+                        "on-tertiary": "#293040",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "surface": "#131314",
+                        "secondary-container": "#3196e8",
+                        "surface-tint": "#bcc3ff",
+                        "on-secondary-container": "#002b4c",
+                        "tertiary-fixed-dim": "#c0c6db",
+                        "on-tertiary-container": "#dde3f8",
+                        "primary": "#bcc3ff",
+                        "on-tertiary-fixed-variant": "#404758",
+                        "secondary-fixed": "#d0e4ff",
+                        "tertiary-fixed": "#dce2f7",
+                        "on-secondary": "#003256",
+                        "on-background": "#e5e2e3",
+                        "inverse-on-surface": "#313031",
+                        "on-error": "#690005",
+                        "outline": "#8f8fa1",
+                        "primary-container": "#3a52ed",
+                        "background": "#131314",
+                        "secondary": "#9ccaff",
+                        "on-primary-container": "#e0e1ff",
+                        "on-secondary-fixed-variant": "#00497a",
+                        "surface-variant": "#353436",
+                        "secondary-fixed-dim": "#9ccaff",
+                        "primary-fixed": "#dfe0ff",
+                        "on-primary-fixed": "#000d60",
+                        "surface-container": "#201f21",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353436",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-tertiary-fixed": "#141b2b",
+                        "tertiary-container": "#5e6577",
+                        "primary-fixed-dim": "#bcc3ff",
+                        "on-primary-fixed-variant": "#062acf",
+                        "surface-dim": "#131314"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-gap-md": "16px",
+                        "container-max": "1280px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "stack-gap-lg": "32px",
+                        "unit": "4px",
+                        "stack-gap-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "code-block": ["JetBrains Mono"],
+                        "display-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "code-block": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom scrollbar for editor/preview */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444655; /* outline-variant */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8f8fa1; /* outline */
+        }
+
+        /* Markdown styling basics */
+        .prose h1 { @apply font-headline-md text-headline-md text-on-surface mb-stack-gap-md; }
+        .prose h2 { @apply font-headline-md text-headline-md text-on-surface mb-stack-gap-sm mt-stack-gap-lg; font-size: 20px; line-height: 28px; }
+        .prose p { @apply font-body-md text-body-md text-on-surface-variant mb-stack-gap-md; }
+        .prose code { @apply font-code-block text-code-block bg-surface-container-high px-1 py-0.5 rounded text-primary; }
+        .prose pre code { @apply bg-transparent p-0 text-on-surface; }
+        .prose pre { @apply bg-surface-container-low p-stack-gap-md rounded-lg mb-stack-gap-md border border-outline-variant/20 overflow-x-auto; }
+        
+        .line-number { @apply font-code-block text-code-block text-outline-variant select-none pr-4 text-right inline-block w-12 border-r border-outline-variant/10 mr-4; }
+        
+        .glow-focus:focus-within {
+            box-shadow: inset 0 0 0 1px theme('colors.primary'), 0 0 10px 0 theme('colors.primary' / 10%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex h-screen overflow-hidden antialiased">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[260px] z-40 bg-surface/70 backdrop-blur-xl border-r border-outline-variant/10 shadow-[0_0_20px_rgba(188,195,255,0.05)] hidden md:flex flex-col py-gutter">
+<div class="px-gutter mb-8">
+<h1 class="font-display-lg text-display-lg font-bold text-primary tracking-tighter">AlgoMaster</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">v2.4.0-stable</p>
+</div>
+<button class="mx-gutter mb-6 px-4 py-2 rounded-md bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary-container font-label-sm text-label-sm font-bold flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+            New Problem
+        </button>
+<div class="flex flex-col gap-1 px-2 flex-grow">
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-md group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-md group" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-sm text-label-sm">Explorer</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 bg-primary-container/20 text-primary border-r-2 border-primary rounded-md scale-[0.98] duration-150" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-sm text-label-sm font-bold">Notes</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-md group" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-label-sm text-label-sm">Revision</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-md group" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Mastery</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-md group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</div>
+<div class="mt-auto px-2 flex flex-col gap-1 border-t border-outline-variant/10 pt-4 mx-2">
+<a class="flex items-center gap-stack-gap-md px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-sm text-label-sm">Help</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-label-sm">Documentation</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col ml-0 md:ml-[260px] h-full relative">
+<!-- Editor TopAppBar (Specific to Notes) -->
+<header class="h-16 flex justify-between items-center px-gutter w-full bg-surface/80 backdrop-blur-md border-b border-outline-variant/10 z-30 shrink-0">
+<div class="flex items-center gap-stack-gap-md">
+<span class="material-symbols-outlined text-outline">description</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Binary Tree Level Order Traversal</h2>
+<div class="flex items-center gap-2 ml-4 px-2 py-1 rounded bg-surface-container border border-outline-variant/20">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Saved</span>
+</div>
+</div>
+<div class="flex items-center gap-stack-gap-md">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm mr-4">
+<span class="material-symbols-outlined text-sm">sync</span>
+                    Syncing...
+                </div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-md hover:bg-surface-container-high">
+<span class="material-symbols-outlined">format_bold</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-md hover:bg-surface-container-high">
+<span class="material-symbols-outlined">format_italic</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-md hover:bg-surface-container-high">
+<span class="material-symbols-outlined">code</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-md hover:bg-surface-container-high border-l border-outline-variant/20 pl-4 ml-2">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="px-4 py-2 bg-surface-container-high border border-outline-variant/30 rounded-md font-label-sm text-label-sm text-on-surface hover:border-primary/50 transition-colors ml-2">
+                    Done
+                </button>
+</div>
+</header>
+<!-- Split Workspace -->
+<div class="flex-1 flex flex-row overflow-hidden">
+<!-- Editor Pane -->
+<section class="flex-1 border-r border-outline-variant/10 flex flex-col bg-surface-dim relative group">
+<div class="flex items-center justify-between px-4 py-2 bg-surface-container-lowest border-b border-outline-variant/10 shrink-0">
+<span class="font-label-sm text-label-sm text-outline font-bold tracking-wider">MARKDOWN</span>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm">content_copy</span></button>
+</div>
+<!-- Line Numbers & Editor Canvas -->
+<div class="flex-1 overflow-y-auto p-4 flex font-code-block text-code-block text-on-surface bg-transparent glow-focus transition-shadow duration-300">
+<div class="flex-col text-outline-variant select-none pr-4 text-right border-r border-outline-variant/10 mr-4 w-8 shrink-0 hidden sm:flex">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+</div>
+<textarea class="flex-1 bg-transparent border-none outline-none resize-none p-0 focus:ring-0 text-on-surface placeholder-outline-variant/50 leading-[22px]" placeholder="Start typing... Use Markdown for formatting." spellcheck="false"># Algorithm Approach: BFS
+
+To solve the **Binary Tree Level Order Traversal** problem, we should use a Breadth-First Search (BFS) approach.
+
+## Key Insights
+1.  **Queue Data Structure**: A queue is perfect here because it naturally processes nodes level by level (FIFO).
+2.  **Level Tracking**: To group node values by their level, we need to know how many nodes are currently in the queue *before* we start processing a new level.
+
+### Implementation Details
+We will initialize a `queue` with the `root` node.
+While the queue is not empty:
+- Get the `level_size` (current queue length).
+- Iterate `level_size` times to process all nodes on the current level.
+- Append children to the queue for the next level.</textarea></div></section></div></main></body></html>

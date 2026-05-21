@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AlgoMaster - Revision</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c5c5d8",
+                        "tertiary": "#c0c6db",
+                        "surface-container-low": "#1c1b1d",
+                        "surface-bright": "#3a393a",
+                        "on-primary": "#001a97",
+                        "on-secondary-fixed": "#001d35",
+                        "inverse-primary": "#314ae6",
+                        "outline-variant": "#444655",
+                        "on-surface": "#e5e2e3",
+                        "on-tertiary": "#293040",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e2e3",
+                        "surface-container-high": "#2a2a2b",
+                        "surface": "#131314",
+                        "secondary-container": "#3196e8",
+                        "surface-tint": "#bcc3ff",
+                        "on-secondary-container": "#002b4c",
+                        "tertiary-fixed-dim": "#c0c6db",
+                        "on-tertiary-container": "#dde3f8",
+                        "primary": "#bcc3ff",
+                        "on-tertiary-fixed-variant": "#404758",
+                        "secondary-fixed": "#d0e4ff",
+                        "tertiary-fixed": "#dce2f7",
+                        "on-secondary": "#003256",
+                        "on-background": "#e5e2e3",
+                        "inverse-on-surface": "#313031",
+                        "on-error": "#690005",
+                        "outline": "#8f8fa1",
+                        "primary-container": "#3a52ed",
+                        "background": "#131314",
+                        "secondary": "#9ccaff",
+                        "on-primary-container": "#e0e1ff",
+                        "on-secondary-fixed-variant": "#00497a",
+                        "surface-variant": "#353436",
+                        "secondary-fixed-dim": "#9ccaff",
+                        "primary-fixed": "#dfe0ff",
+                        "on-primary-fixed": "#000d60",
+                        "surface-container": "#201f21",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353436",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-tertiary-fixed": "#141b2b",
+                        "tertiary-container": "#5e6577",
+                        "primary-fixed-dim": "#bcc3ff",
+                        "on-primary-fixed-variant": "#062acf",
+                        "surface-dim": "#131314"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-gap-md": "16px",
+                        "container-max": "1280px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "stack-gap-lg": "32px",
+                        "unit": "4px",
+                        "stack-gap-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "code-block": ["JetBrains Mono"],
+                        "display-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "code-block": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .luminous-layer-1 {
+            background-color: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .luminous-layer-2 {
+            background-color: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 15px rgba(188, 195, 255, 0.15);
+        }
+        .reflective-edge {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #bcc3ff, #9ccaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glow-hover:hover {
+            box-shadow: inset 0 0 20px rgba(188, 195, 255, 0.1);
+        }
+        
+        /* Flashcard Flip Animation */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .transition-transform-700 { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .flip-container.flipped .flipper { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md overflow-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 right-0 left-[260px] h-16 z-30 bg-surface/80 dark:bg-surface/80 text-primary dark:text-primary backdrop-blur-md border-b border-outline-variant/10 flex justify-between items-center px-gutter w-full transition-all duration-300 md:flex hidden">
+<div class="flex items-center gap-stack-gap-lg">
+<div class="font-headline-md text-headline-md font-bold text-primary">AlgoMaster</div>
+<div class="flex gap-stack-gap-md h-full items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer h-full flex items-center px-2" href="#">Problems</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer h-full flex items-center px-2" href="#">Contests</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer h-full flex items-center px-2" href="#">Discuss</a>
+</div>
+</div>
+<div class="flex items-center gap-stack-gap-md">
+<div class="flex items-center gap-stack-gap-sm text-on-surface-variant">
+<button class="p-2 hover:text-primary transition-colors rounded-full hover:bg-surface-container-high"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span></button>
+<button class="p-2 hover:text-primary transition-colors rounded-full hover:bg-surface-container-high"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">terminal</span></button>
+<button class="p-2 hover:text-primary transition-colors rounded-full hover:bg-surface-container-high"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">keyboard_command_key</span></button>
+</div>
+<div class="flex items-center gap-stack-gap-sm ml-4 border-l border-outline-variant/30 pl-4">
+<button class="px-4 py-1.5 text-label-sm font-label-sm border border-outline-variant/50 rounded hover:bg-surface-container-high hover:border-primary/50 transition-all text-on-surface">Submit</button>
+<button class="px-4 py-1.5 text-label-sm font-label-sm bg-gradient-to-r from-primary to-secondary text-on-primary font-medium rounded hover:opacity-90 transition-opacity">Run Code</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/30 overflow-hidden ml-2">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ4kQo2WnGLnPqG4w6o83K01qVCOoh8XdBNoecWa8NMEbS0ifh4ifJy1g9is4OTHkUrsXxrgCX5mDz4aB_W8PnVyntp0DIxn9bBQSmdXJq71PTqtKWBwqqgGQakNydVK5T2mB69YYCNLjqKZbQImWiWZ39mTESPv95aRbVmWZWoD31TzXI0FXQphECZ-xpMFr5loKeu8k61-P8-ueDbykQE4BMvZLTknlrD2BawTvmGOhpXr6Qy_RBEGAKBM1w-dWIrVdYeTHg_A"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] z-40 bg-surface dark:bg-surface text-primary dark:text-primary bg-surface/70 backdrop-blur-xl border-r border-outline-variant/10 shadow-[0_0_20px_rgba(188,195,255,0.05)] flex flex-col h-full py-gutter hidden md:flex">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-on-primary font-bold">A</div>
+<div>
+<h1 class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter text-xl leading-none">AlgoMaster</h1>
+<span class="text-label-sm font-label-sm text-on-surface-variant opacity-70">v2.4.0-stable</span>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full py-2.5 px-4 bg-surface-container-high border border-outline-variant/30 rounded-lg flex items-center justify-center gap-2 text-primary hover:border-primary/50 hover:bg-primary/5 transition-all glow-hover">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="font-label-sm text-label-sm font-medium">New Problem</span>
+</button>
+</div>
+<nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg duration-200" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-sm text-label-sm">Explorer</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg duration-200" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-sm text-label-sm">Notes</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 bg-primary-container/20 text-primary border-r-2 border-primary rounded-l-lg hover:bg-surface-container-high transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<span class="font-label-sm text-label-sm font-medium">Revision</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg duration-200" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Mastery</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-2 space-y-1 pt-4 border-t border-outline-variant/10 mx-4">
+<a class="flex items-center gap-stack-gap-md px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg duration-200" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+<span class="font-label-sm text-label-sm">Help</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg duration-200" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-sm text-label-sm">Documentation</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[260px] md:mt-16 relative flex flex-col items-center justify-center p-gutter md:p-margin-desktop bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-surface-container-low via-background to-background">
+<!-- Header / Context -->
+<div class="w-full max-w-[800px] mb-8 flex justify-between items-end">
+<div>
+<div class="flex items-center gap-2 text-primary font-label-sm text-label-sm mb-2">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>SPACED REPETITION SESSION</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg md:text-[32px] text-headline-lg-mobile md:font-headline-lg font-headline-lg-mobile text-on-surface tracking-tight">Daily Revision</h2>
+</div>
+<div class="text-right">
+<div class="text-on-surface-variant font-label-sm text-label-sm mb-1">Cards Due Today</div>
+<div class="text-2xl font-code-block text-primary">12 <span class="text-outline-variant text-lg">/ 45</span></div>
+</div>
+</div>
+<!-- Flashcard Container -->
+<div class="w-full max-w-[800px] h-[400px] perspective-1000 flip-container relative group cursor-pointer" id="flashcard">
+<div class="flipper w-full h-full relative transform-style-3d transition-transform-700">
+<!-- Front of Card (Question) -->
+<div class="absolute inset-0 backface-hidden luminous-layer-2 rounded-xl reflective-edge p-8 flex flex-col justify-between z-20">
+<div class="flex justify-between items-start">
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-surface-container-high border border-outline-variant/30 rounded text-label-sm font-label-sm text-primary">Dynamic Programming</span>
+<span class="px-2 py-1 bg-surface-container-high border border-outline-variant/30 rounded text-label-sm font-label-sm text-secondary">Trees</span>
+</div>
+<div class="flex items-center gap-1 text-error bg-error/10 px-2 py-1 rounded text-label-sm font-label-sm border border-error/20">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span> Hard
+                        </div>
+</div>
+<div class="flex-1 flex flex-col justify-center items-center text-center px-12">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Maximum Path Sum in a Binary Tree</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg">
+                            Given a non-empty binary tree, find the maximum path sum. The path may start and end at any node in the tree.
+                        </p>
+</div>
+<div class="text-center">
+<span class="inline-flex items-center gap-2 text-primary/70 font-label-sm text-label-sm animate-pulse">
+<span class="material-symbols-outlined text-[18px]">touch_app</span>
+                            Click to Reveal Solution
+                        </span>
+</div>
+</div>
+<!-- Back of Card (Answer) -->
+<div class="absolute inset-0 backface-hidden luminous-layer-2 rounded-xl reflective-edge p-8 flex flex-col rotate-y-180 z-10 bg-surface-container-high/90">
+<div class="flex justify-between items-center mb-6 pb-4 border-b border-outline-variant/20">
+<h4 class="font-headline-md text-lg text-primary">Key Insight</h4>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit_note</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-4">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            For each node, we need to consider two things:
+                        </p>
+<ol class="list-decimal pl-5 text-on-surface-variant font-body-md text-body-md space-y-2">
+<li>The maximum path sum that strictly goes <strong>through</strong> this node (left_child + right_child + node.val). This updates our global maximum.</li>
+<li>What this node <strong>returns</strong> to its parent (node.val + max(left_child, right_child)). If this return value is negative, we return 0 instead (ignore negative paths).</li>
+</ol>
+<div class="bg-surface/80 rounded border border-outline-variant/20 p-4 mt-4">
+<pre class="font-code-block text-code-block text-tertiary-fixed overflow-x-auto"><code>def maxPathSum(root):
+    res = [root.val]
+
+    def dfs(root):
+        if not root: return 0
+        leftMax = max(dfs(root.left), 0)
+        rightMax = max(dfs(root.right), 0)
+        
+        # compute max path sum WITH split
+        res[0] = max(res[0], root.val + leftMax + rightMax)
+        
+        return root.val + max(leftMax, rightMax)
+
+    dfs(root)
+    return res[0]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Feedback Controls (Hidden initially, shown when flipped) -->
+<div class="w-full max-w-[800px] mt-8 flex justify-center gap-4 opacity-50 hover:opacity-100 transition-opacity duration-300" id="feedback-controls">
+<button class="px-6 py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container-high hover:border-error/50 text-error transition-all flex flex-col items-center gap-1 min-w-[120px]">
+<span class="font-label-sm text-label-sm">Again</span>
+<span class="text-xs opacity-50 text-code-block font-code-block">&lt; 1m</span>
+</button>
+<button class="px-6 py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container-high hover:border-error-container/50 text-error-container transition-all flex flex-col items-center gap-1 min-w-[120px]">
+<span class="font-label-sm text-label-sm">Hard</span>
+<span class="text-xs opacity-50 text-code-block font-code-block">2d</span>
+</button>
+<button class="px-6 py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container-high hover:border-primary/50 text-primary transition-all flex flex-col items-center gap-1 min-w-[120px] shadow-[0_0_15px_rgba(188,195,255,0.1)]">
+<span class="font-label-sm text-label-sm">Good</span>
+<span class="text-xs opacity-50 text-code-block font-code-block">5d</span>
+</button>
+<button class="px-6 py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container-high hover:border-secondary/50 text-secondary transition-all flex flex-col items-center gap-1 min-w-[120px]">
+<span class="font-label-sm text-label-sm">Easy</span>
+<span class="text-xs opacity-50 text-code-block font-code-block">14d</span>
+</button>
+</div>
+<!-- Progress Bar -->
+<div class="fixed bottom-0 left-0 md:left-[260px] right-0 h-1 bg-surface-container-high">
+<div class="h-full bg-gradient-to-r from-primary to-secondary w-[25%] relative">
+<div class="absolute right-0 top-0 bottom-0 w-4 bg-white/20 blur-[2px]"></div>
+</div>
+</div>
+</main>
+<script>
+        document.getElementById('flashcard').addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            const controls = document.getElementById('feedback-controls');
+            if (this.classList.contains('flipped')) {
+                controls.classList.remove('opacity-50');
+                controls.classList.add('opacity-100');
+            }
+        });
+    </script>
+</body></html>

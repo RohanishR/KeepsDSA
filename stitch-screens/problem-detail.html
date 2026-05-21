@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Two Sum - AlgoMaster</title>
+<!-- Google Fonts: Geist, Inter, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ffb4ab",
+                      "on-surface-variant": "#c5c5d8",
+                      "tertiary": "#c0c6db",
+                      "surface-container-low": "#1c1b1d",
+                      "surface-bright": "#3a393a",
+                      "on-primary": "#001a97",
+                      "on-secondary-fixed": "#001d35",
+                      "inverse-primary": "#314ae6",
+                      "outline-variant": "#444655",
+                      "on-surface": "#e5e2e3",
+                      "on-tertiary": "#293040",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#e5e2e3",
+                      "surface-container-high": "#2a2a2b",
+                      "surface": "#131314",
+                      "secondary-container": "#3196e8",
+                      "surface-tint": "#bcc3ff",
+                      "on-secondary-container": "#002b4c",
+                      "tertiary-fixed-dim": "#c0c6db",
+                      "on-tertiary-container": "#dde3f8",
+                      "primary": "#bcc3ff",
+                      "on-tertiary-fixed-variant": "#404758",
+                      "secondary-fixed": "#d0e4ff",
+                      "tertiary-fixed": "#dce2f7",
+                      "on-secondary": "#003256",
+                      "on-background": "#e5e2e3",
+                      "inverse-on-surface": "#313031",
+                      "on-error": "#690005",
+                      "outline": "#8f8fa1",
+                      "primary-container": "#3a52ed",
+                      "background": "#131314",
+                      "secondary": "#9ccaff",
+                      "on-primary-container": "#e0e1ff",
+                      "on-secondary-fixed-variant": "#00497a",
+                      "surface-variant": "#353436",
+                      "secondary-fixed-dim": "#9ccaff",
+                      "primary-fixed": "#dfe0ff",
+                      "on-primary-fixed": "#000d60",
+                      "surface-container": "#201f21",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-highest": "#353436",
+                      "surface-container-lowest": "#0e0e0f",
+                      "on-tertiary-fixed": "#141b2b",
+                      "tertiary-container": "#5e6577",
+                      "primary-fixed-dim": "#bcc3ff",
+                      "on-primary-fixed-variant": "#062acf",
+                      "surface-dim": "#131314"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "stack-gap-md": "16px",
+                      "container-max": "1280px",
+                      "margin-desktop": "48px",
+                      "margin-mobile": "16px",
+                      "stack-gap-lg": "32px",
+                      "unit": "4px",
+                      "stack-gap-sm": "8px"
+              },
+              "fontFamily": {
+                      "code-block": ["JetBrains Mono"],
+                      "display-lg": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg-mobile": ["Geist"],
+                      "headline-lg": ["Geist"],
+                      "label-sm": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "code-block": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Base styling overrides for clean glassmorphism */
+        body {
+            background-color: #131314;
+        }
+        /* Custom scrollbar for inner panels */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(68, 70, 85, 0.5); /* outline-variant */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(68, 70, 85, 0.8);
+        }
+        .reflective-edge {
+            box-shadow: inset 1px 1px 0px rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen w-screen overflow-hidden flex">
+<!-- Shared Component: SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[260px] z-40 bg-surface dark:bg-surface bg-surface/70 backdrop-blur-xl border-r border-outline-variant/10 shadow-[0_0_20px_rgba(188,195,255,0.05)] flex flex-col h-full py-gutter">
+<div class="px-gutter mb-8">
+<h1 class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter text-2xl">AlgoMaster</h1>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-1">v2.4.0-stable</span>
+</div>
+<div class="px-gutter mb-6">
+<button class="w-full bg-gradient-to-r from-primary-container to-primary text-on-primary-container font-label-sm text-label-sm py-2 rounded flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Problem
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto px-4 flex flex-col gap-1">
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-stack-gap-md px-4 py-3 bg-primary-container/20 text-primary border-r-2 border-primary hover:bg-surface-container-high transition-all duration-200 rounded-lg scale-[0.98] duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="font-label-sm text-label-sm">Explorer</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-sm text-label-sm">Notes</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-label-sm text-label-sm">Revision</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Mastery</span>
+</a>
+</div>
+<div class="mt-auto px-4 pt-4 border-t border-outline-variant/10 flex flex-col gap-1">
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-sm text-label-sm">Help</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-label-sm">Documentation</span>
+</a>
+<a class="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace Area -->
+<main class="ml-[260px] flex-1 flex flex-col h-full bg-background relative">
+<!-- Shared Component: TopNavBar -->
+<header class="fixed top-0 right-0 left-[260px] h-16 z-30 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-outline-variant/10 flex justify-between items-center px-gutter w-full">
+<div class="flex items-center gap-8">
+<!-- Navigation Links -->
+<nav class="flex items-center gap-6">
+<!-- Active State -->
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-sm text-label-sm opacity-80 transition-opacity" href="#">Problems</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer font-label-sm text-label-sm" href="#">Contests</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer font-label-sm text-label-sm" href="#">Discuss</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search -->
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="bg-surface-container-low border border-outline-variant/30 rounded-full py-1.5 pl-10 pr-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all w-64 text-on-surface" placeholder="Search problems..." type="text"/>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-3">
+<button class="px-4 py-1.5 border border-outline-variant/30 rounded text-on-surface hover:bg-surface-container-high transition-colors font-label-sm text-label-sm">Run Code</button>
+<button class="px-4 py-1.5 bg-primary-container text-on-primary-container rounded hover:brightness-110 transition-all font-label-sm text-label-sm">Submit</button>
+</div>
+<!-- Icons -->
+<div class="flex items-center gap-3 border-l border-outline-variant/30 pl-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">terminal</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">keyboard_command_key</span></button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high ml-2 border border-outline-variant/30 overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A small circular avatar image showing a generic user profile picture in a digital interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBykCFJFfQyGGM6TFj6P1g4k55JmG7ozr9y_oUUm4QDap1-C0PGOK7g3RN310Ltw8twOoqwQvwYBDOVgsHlConk5He-KwW79ra0qrmCra3uIoXbc8OiOoysf38CZKSiAkvvDdi5HhQsOR6wpzIx4z5qd_r2fQE_Kr_BuikFjFlJBo5GVSpzn18cedqeYY8sxCdWBRWzMHJGS7UwFctg4XGLiOOn8l21ReDdLrqyU_mpAklNwbAZ_isJZYpbz5lxBEkXiW-PPL4T4A"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Problem Detail Workspace (3 Columns) -->
+<div class="flex-1 mt-16 p-gutter grid grid-cols-12 gap-stack-gap-md overflow-hidden">
+<!-- Column 1: Problem Statement (Span 3) -->
+<section class="col-span-3 bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 flex flex-col overflow-hidden reflective-edge">
+<div class="p-4 border-b border-outline-variant/10 flex justify-between items-start">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">1. Two Sum</h2>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold tracking-wider uppercase bg-secondary/10 text-secondary border border-secondary/20">Easy</span>
+<div class="flex gap-1">
+<span class="px-2 py-0.5 rounded-full text-[11px] bg-surface-container-highest text-on-surface-variant border border-outline-variant/20">Google</span>
+<span class="px-2 py-0.5 rounded-full text-[11px] bg-surface-container-highest text-on-surface-variant border border-outline-variant/20">Amazon</span>
+</div>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark_border</span>
+</button>
+</div>
+<div class="p-5 overflow-y-auto flex-1 font-body-md text-body-md text-on-surface-variant space-y-4">
+<p>Given an array of integers <code class="font-code-block text-code-block bg-surface-container-high px-1 py-0.5 rounded text-primary">nums</code> and an integer <code class="font-code-block text-code-block bg-surface-container-high px-1 py-0.5 rounded text-primary">target</code>, return <em>indices of the two numbers such that they add up to <code class="font-code-block text-code-block bg-surface-container-high px-1 py-0.5 rounded text-primary">target</code></em>.</p>
+<p>You may assume that each input would have <strong>exactly one solution</strong>, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+<div class="mt-6 space-y-4">
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/10">
+<p class="font-bold text-on-surface mb-1 text-sm">Example 1:</p>
+<div class="font-code-block text-code-block text-tertiary">
+<div><span class="text-on-surface-variant">Input:</span> nums = [2,7,11,15], target = 9</div>
+<div><span class="text-on-surface-variant">Output:</span> [0,1]</div>
+<div class="text-[12px] mt-1 text-on-surface-variant/70">Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Column 2: Code Editor (Span 6) -->
+<section class="col-span-6 bg-surface-container-lowest rounded-xl border border-outline-variant/10 flex flex-col overflow-hidden shadow-inner relative">
+<!-- Editor Header -->
+<div class="h-10 bg-surface-container-low border-b border-outline-variant/10 flex items-center justify-between px-3">
+<div class="flex gap-1">
+<button class="px-3 py-1 bg-surface-container-highest text-on-surface font-label-sm text-label-sm rounded-t border-t border-l border-r border-outline-variant/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">code</span>
+                            Optimal.py
+                        </button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm rounded-t flex items-center gap-2">
+                            BruteForce.py
+                        </button>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] text-on-surface-variant uppercase tracking-wider font-bold">Python 3</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Editor Body (Mock Monaco) -->
+<div class="flex-1 p-4 font-code-block text-code-block overflow-y-auto leading-relaxed text-tertiary relative">
+<!-- Line Numbers -->
+<div class="absolute left-0 top-0 bottom-0 w-10 bg-surface-container-lowest border-r border-outline-variant/5 flex flex-col text-right pr-2 py-4 text-on-surface-variant/30 select-none">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
+</div>
+<div class="pl-8">
+<pre><code><span class="text-[#c586c0]">class</span> <span class="text-[#4ec9b0]">Solution</span>:
+    <span class="text-[#c586c0]">def</span> <span class="text-[#dcdcaa]">twoSum</span>(<span class="text-[#9cdcfe]">self</span>, <span class="text-[#9cdcfe]">nums</span>: List[<span class="text-[#4ec9b0]">int</span>], <span class="text-[#9cdcfe]">target</span>: <span class="text-[#4ec9b0]">int</span>) -&gt; List[<span class="text-[#4ec9b0]">int</span>]:
+        <span class="text-[#6a9955]"># Hash map to store value -&gt; index</span>
+        numMap = {}
+        <span class="text-[#c586c0]">for</span> i, n <span class="text-[#c586c0]">in</span> <span class="text-[#dcdcaa]">enumerate</span>(nums):
+            diff = target - n
+            <span class="text-[#c586c0]">if</span> diff <span class="text-[#c586c0]">in</span> numMap:
+                <span class="text-[#c586c0]">return</span> [numMap[diff], i]
+            numMap[n] = i</code></pre>
+</div>
+</div>
+</section>
+<!-- Column 3: AI Analysis & Context (Span 3) -->
+<section class="col-span-3 flex flex-col gap-stack-gap-md overflow-hidden">
+<!-- Complexity Analysis -->
+<div class="bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 p-4 reflective-edge">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">speed</span>
+                        Complexity Analysis
+                    </h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center bg-surface-container-lowest px-3 py-2 rounded border border-outline-variant/10">
+<span class="text-sm text-on-surface">Time</span>
+<span class="font-code-block text-code-block text-secondary">O(n)</span>
+</div>
+<div class="flex justify-between items-center bg-surface-container-lowest px-3 py-2 rounded border border-outline-variant/10">
+<span class="text-sm text-on-surface">Space</span>
+<span class="font-code-block text-code-block text-secondary">O(n)</span>
+</div>
+</div>
+</div>
+<!-- AI Explanation -->
+<div class="flex-1 bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 p-4 flex flex-col overflow-hidden reflective-edge">
+<h3 class="font-label-sm text-label-sm text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">auto_awesome</span>
+                        AI Insight
+                    </h3>
+<div class="overflow-y-auto flex-1 font-body-md text-sm text-on-surface-variant space-y-3">
+<p>The optimal approach uses a single pass hash table.</p>
+<p>While iterating through the array, we calculate the <code class="font-code-block text-xs bg-surface px-1 rounded">diff = target - current_value</code>.</p>
+<p>If this <code class="font-code-block text-xs bg-surface px-1 rounded">diff</code> exists in our hash map, we've found our pair. If not, we store the current value and its index to check against future elements.</p>
+<div class="mt-4 p-3 bg-primary-container/10 border border-primary/20 rounded-lg text-primary text-xs flex gap-2 items-start">
+<span class="material-symbols-outlined text-[16px] mt-0.5">lightbulb</span>
+<span>This reduces the time complexity from O(n²) in the brute force approach to O(n) by trading space for time.</span>
+</div>
+</div>
+</div>
+<!-- Revision History -->
+<div class="bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 p-4 reflective-edge">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">history</span>
+                        Revision History
+                    </h3>
+<div class="space-y-2">
+<div class="flex items-center gap-3 text-sm">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-on-surface flex-1">Solved</span>
+<span class="text-on-surface-variant text-xs">Today</span>
+</div>
+<div class="flex items-center gap-3 text-sm opacity-60">
+<div class="w-2 h-2 rounded-full border border-outline-variant"></div>
+<span class="text-on-surface flex-1">Attempted</span>
+<span class="text-on-surface-variant text-xs">2w ago</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>
