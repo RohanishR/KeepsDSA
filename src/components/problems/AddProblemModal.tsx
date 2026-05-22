@@ -5,20 +5,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { problemSchema, ProblemInput } from '@/lib/validations/problem';
 import { useRouter } from 'next/navigation';
+import { z } from 'zod';
 
 interface AddProblemModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type FormValues = {
-  title: string;
-  slug: string;
-  difficulty?: 'Easy' | 'Medium' | 'Hard';
-  tags: string;
-  companies: string;
-  leetcodeUrl?: string;
-};
+type FormValues = z.input<typeof problemSchema>;
 
 export default function AddProblemModal({ isOpen, onClose }: AddProblemModalProps) {
   const router = useRouter();

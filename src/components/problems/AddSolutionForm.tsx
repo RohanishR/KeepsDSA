@@ -1,200 +1,201 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { solutionSchema, SolutionInput } from '@/lib/validations/solution';
 import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+import Editor from '@monaco-editor/react';
 
-interface AddSolutionFormProps {
-  slug: string;
-  onSuccess?: () => void;
-  onCancel?: () => void;
-}
+const solutionSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  language: z.string().min(1, 'Language is required'),
+  code: z.string().min(1, 'Code is required'),
+  timeComplexity: z.string().optional(),
+  spaceComplexity: z.string().optional(),
+  explanation: z.string().optional(),
+  isOptimal: z.boolean().default(false),
+});
 
-type FormValues = {
-  title: string;
-  language: string;
-  approachType?: 'Brute Force' | 'Better' | 'Optimal' | 'Other';
-  code: string;
-  explanation?: string;
-  timeComplexity?: string;
-  spaceComplexity?: string;
-  isOptimal?: boolean;
-};
+type SolutionInput = z.infer<typeof solutionSchema>;
 
-export default function AddSolutionForm({ slug, onSuccess, onCancel }: AddSolutionFormProps) {
+export default function AddSolutionForm({ slug, onSuccess }: { slug: string, onSuccess: () => void }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
-    resolver: zodResolver(solutionSchema),
-    defaultValues: {
-      title: '',
-      language: 'Python',
-      approachType: 'Optimal',
-      code: '',
-      explanation: '',
-      timeComplexity: '',
-      spaceComplexity: '',
-      isOptimal: false,
-    },
+  const [form, setForm] = useState<SolutionInput>({
+    title: '',
+    language: 'Python',
+    code: '',
+    timeComplexity: 'O(N)',
+    spaceComplexity: 'O(1)',
+    explanation: '',
+    isOptimal: false,
   });
 
-  const onSubmit = async (data: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
     setError('');
-    const processedData = data as SolutionInput;
-    
+
     try {
+      const validatedData = solutionSchema.parse(form);
       const res = await fetch(`/api/problems/${slug}/solutions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(processedData),
+        body: JSON.stringify(validatedData),
       });
 
-      const result = await res.json();
-
       if (!res.ok) {
-        throw new Error(result.error || 'Failed to create solution');
+        const data = await res.json();
+        throw new Error(data.error || 'Failed to save solution');
       }
 
-      reset();
+      onSuccess();
       router.refresh();
-      if (onSuccess) onSuccess();
     } catch (err: any) {
-      setError(err.message || 'Something went wrong');
+      if (err && err.errors && Array.isArray(err.errors)) {
+        setError(err.errors[0].message);
+      } else {
+        setError(err.message || 'Something went wrong');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
+  const getMonacoLanguage = (lang: string) => {
+    const map: Record<string, string> = {
+      'Python': 'python',
+      'JavaScript': 'javascript',
+      'TypeScript': 'typescript',
+      'Java': 'java',
+      'C++': 'cpp',
+      'C': 'c',
+      'Go': 'go',
+      'Rust': 'rust'
+    };
+    return map[lang] || 'plaintext';
+  };
+
   return (
-    <div className="flex-1 overflow-y-auto p-4 md:p-6 text-on-surface">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6">Add New Solution</h2>
+    <div className="flex-1 overflow-y-auto custom-scrollbar p-4 bg-surface-container-lowest flex flex-col h-full">
+      <h3 className="font-headline-sm text-[18px] text-on-surface mb-4">Add New Solution</h3>
+      
+      {error && (
+        <div className="bg-error/10 text-error p-3 rounded-lg text-sm mb-4 border border-error/20">
+          {error}
+        </div>
+      )}
 
-        {error && (
-          <div className="bg-error/10 text-error px-4 py-3 rounded-lg mb-6 text-[14px]">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Title (e.g. Optimized Hash Map)</label>
-              <input 
-                {...register('title')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
-                placeholder="Title"
-              />
-              {errors.title && <p className="text-error text-[12px] mt-1">{errors.title.message}</p>}
-            </div>
-
-            <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Language</label>
-              <select 
-                {...register('language')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
-              >
-                <option value="Python">Python</option>
-                <option value="JavaScript">JavaScript</option>
-                <option value="TypeScript">TypeScript</option>
-                <option value="Java">Java</option>
-                <option value="C++">C++</option>
-                <option value="Go">Go</option>
-                <option value="Rust">Rust</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Approach Type</label>
-              <select 
-                {...register('approachType')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
-              >
-                <option value="Optimal">Optimal</option>
-                <option value="Better">Better</option>
-                <option value="Brute Force">Brute Force</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            <div className="flex items-center gap-2 pt-6">
-              <input 
-                type="checkbox"
-                id="isOptimal"
-                {...register('isOptimal')}
-                className="w-4 h-4 rounded border-outline-variant/30 text-primary focus:ring-primary bg-surface-container-low"
-              />
-              <label htmlFor="isOptimal" className="text-[14px] text-on-surface-variant select-none cursor-pointer">
-                Mark as the optimal solution
-              </label>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Code</label>
-            <textarea 
-              {...register('code')}
-              className="w-full h-48 font-mono text-[14px] bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary resize-y"
-              placeholder="def twoSum(self, nums: List[int], target: int) -> List[int]:..."
-              spellCheck={false}
-            />
-            {errors.code && <p className="text-error text-[12px] mt-1">{errors.code.message}</p>}
-          </div>
-
-          <div>
-            <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Explanation (Markdown supported)</label>
-            <textarea 
-              {...register('explanation')}
-              className="w-full h-32 bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary resize-y"
-              placeholder="Explain the intuition and steps..."
+      <form onSubmit={handleSubmit} className="flex flex-col gap-5 flex-1 min-h-[600px]">
+        {/* Row 1: Title, Lang, Optimal */}
+        <div className="flex flex-col md:flex-row gap-4 items-end">
+          <div className="flex-1 space-y-1 w-full">
+            <label className="text-[12px] font-bold uppercase tracking-wider text-on-surface-variant">Title (e.g., Brute Force)</label>
+            <input 
+              type="text" 
+              value={form.title}
+              onChange={e => setForm({...form, title: e.target.value})}
+              className="w-full bg-surface border border-outline-variant/30 rounded-lg px-3 py-2 text-on-surface text-sm focus:outline-none focus:border-primary"
+              required
             />
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Time Complexity</label>
-              <input 
-                {...register('timeComplexity')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
-                placeholder="O(N)"
-              />
-            </div>
-            <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Space Complexity</label>
-              <input 
-                {...register('spaceComplexity')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
-                placeholder="O(N)"
-              />
-            </div>
-          </div>
-
-          <div className="pt-4 border-t border-outline-variant/20 flex justify-end gap-3">
-            {onCancel && (
-              <button 
-                type="button" 
-                onClick={onCancel}
-                className="px-6 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors font-medium"
-              >
-                Cancel
-              </button>
-            )}
-            <button 
-              type="submit"
-              disabled={isSubmitting}
-              className="px-6 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors font-bold disabled:opacity-50"
+          
+          <div className="w-full md:w-48 space-y-1">
+            <label className="text-[12px] font-bold uppercase tracking-wider text-on-surface-variant">Language</label>
+            <select 
+              value={form.language}
+              onChange={e => setForm({...form, language: e.target.value})}
+              className="w-full bg-surface border border-outline-variant/30 rounded-lg px-3 py-2 text-on-surface text-sm focus:outline-none focus:border-primary"
             >
-              {isSubmitting ? 'Saving...' : 'Save Solution'}
-            </button>
+              {['Python', 'JavaScript', 'TypeScript', 'Java', 'C++', 'C', 'Go', 'Rust'].map(lang => (
+                <option key={lang} value={lang}>{lang}</option>
+              ))}
+            </select>
           </div>
-        </form>
-      </div>
+
+          <label className="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-surface-container-high transition-colors border border-transparent hover:border-outline-variant/10">
+            <input 
+              type="checkbox" 
+              checked={form.isOptimal}
+              onChange={e => setForm({...form, isOptimal: e.target.checked})}
+              className="w-4 h-4 accent-primary"
+            />
+            <span className="text-sm font-medium text-on-surface">Mark as Optimal</span>
+          </label>
+        </div>
+
+        {/* Row 2: Code Editor */}
+        <div className="flex-1 flex flex-col min-h-[300px] border border-outline-variant/30 rounded-lg overflow-hidden relative">
+          <div className="h-8 bg-surface-container-highest flex items-center px-3 border-b border-outline-variant/20">
+            <span className="text-[11px] uppercase tracking-widest font-bold text-on-surface-variant">Code</span>
+          </div>
+          <div className="flex-1 relative">
+            <Editor
+              height="100%"
+              language={getMonacoLanguage(form.language)}
+              theme="vs-dark"
+              value={form.code}
+              onChange={(val) => setForm({...form, code: val || ''})}
+              options={{
+                minimap: { enabled: false },
+                fontSize: 14,
+                fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+                padding: { top: 16, bottom: 16 },
+                cursorBlinking: "smooth",
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Row 3: Complexities */}
+        <div className="flex gap-4">
+          <div className="flex-1 space-y-1">
+            <label className="text-[12px] font-bold uppercase tracking-wider text-on-surface-variant">Time Comp.</label>
+            <input 
+              type="text" 
+              value={form.timeComplexity}
+              onChange={e => setForm({...form, timeComplexity: e.target.value})}
+              className="w-full bg-surface border border-outline-variant/30 rounded-lg px-3 py-2 text-on-surface text-sm font-mono focus:outline-none focus:border-primary"
+            />
+          </div>
+          <div className="flex-1 space-y-1">
+            <label className="text-[12px] font-bold uppercase tracking-wider text-on-surface-variant">Space Comp.</label>
+            <input 
+              type="text" 
+              value={form.spaceComplexity}
+              onChange={e => setForm({...form, spaceComplexity: e.target.value})}
+              className="w-full bg-surface border border-outline-variant/30 rounded-lg px-3 py-2 text-on-surface text-sm font-mono focus:outline-none focus:border-primary"
+            />
+          </div>
+        </div>
+
+        {/* Row 4: Explanation */}
+        <div className="space-y-1">
+          <label className="text-[12px] font-bold uppercase tracking-wider text-on-surface-variant">AI / Manual Explanation</label>
+          <textarea 
+            value={form.explanation}
+            onChange={e => setForm({...form, explanation: e.target.value})}
+            rows={4}
+            placeholder="Write down the intuition and approach..."
+            className="w-full bg-surface border border-outline-variant/30 rounded-lg px-3 py-2 text-on-surface text-sm focus:outline-none focus:border-primary custom-scrollbar resize-y"
+          />
+        </div>
+
+        <div className="flex justify-end pt-2">
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="bg-primary text-on-primary hover:bg-primary-fixed hover:text-on-primary-fixed px-6 py-2 rounded-full font-label-md transition-colors shadow-md disabled:opacity-50 flex items-center gap-2"
+          >
+            {loading ? (
+              <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
+            ) : (
+              <span className="material-symbols-outlined text-[18px]">save</span>
+            )}
+            Save Solution
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

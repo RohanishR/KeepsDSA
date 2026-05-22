@@ -4,8 +4,21 @@ export interface INote extends Document {
   userId: mongoose.Types.ObjectId;
   problemId: mongoose.Types.ObjectId;
   markdownContent: string;
-  diagrams: string[]; // URLs to diagram images
-  references: string[]; // Array of external links
+  diagrams: string[];
+  references: string[];
+  history: Array<{
+    content: string;
+    timestamp: Date;
+  }>;
+  attachments: Array<{
+    url: string;
+    publicId: string;
+    originalName: string;
+    resourceType: 'image' | 'raw' | 'video' | 'auto';
+    format: string;
+    bytes: number;
+    createdAt: Date;
+  }>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,6 +30,23 @@ const NoteSchema = new Schema<INote>(
     markdownContent: { type: String, default: '' },
     diagrams: [{ type: String }],
     references: [{ type: String }],
+    history: [
+      {
+        content: { type: String, required: true },
+        timestamp: { type: Date, default: Date.now },
+      },
+    ],
+    attachments: [
+      {
+        url: { type: String, required: true },
+        publicId: { type: String, required: true },
+        originalName: { type: String, required: true },
+        resourceType: { type: String, required: true },
+        format: { type: String },
+        bytes: { type: Number },
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

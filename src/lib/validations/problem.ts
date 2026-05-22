@@ -21,6 +21,7 @@ export const problemSchema = z.object({
   source: z.enum(['Manual', 'LeetCode']).default('Manual'),
   importedAt: z.date().optional().or(z.string().transform((str) => new Date(str))),
   hints: z.array(z.string()).default([]),
+  isBookmarked: z.boolean().optional().default(false),
 });
 
 export type ProblemInput = z.infer<typeof problemSchema>;

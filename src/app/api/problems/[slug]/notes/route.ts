@@ -71,9 +71,21 @@ export async function PUT(
       return NextResponse.json({ error: 'Problem not found' }, { status: 404 });
     }
 
+    const { isSnapshot, ...noteData } = validatedData;
+    const updatePayload: any = { $set: noteData };
+
+    if (isSnapshot && noteData.markdownContent) {
+      updatePayload.$push = {
+        history: {
+          content: noteData.markdownContent,
+          timestamp: new Date(),
+        },
+      };
+    }
+
     const note = await Note.findOneAndUpdate(
       { userId: session.user.id, problemId: problem._id },
-      { $set: validatedData },
+      updatePayload,
       { new: true, upsert: true, runValidators: true }
     );
 

@@ -5,7 +5,9 @@ import dbConnect from '@/lib/dbConnect';
 import { Problem } from '@/models/Problem';
 import { Solution } from '@/models/Solution';
 import { Note } from '@/models/Note';
+import { Revision } from '@/models/Revision';
 import ProblemWorkspace from '@/components/problems/ProblemWorkspace';
+import Link from 'next/link';
 
 export default async function ProblemDetailPage({
   params,
@@ -28,7 +30,7 @@ export default async function ProblemDetailPage({
     notFound();
   }
 
-  const [solutions, note] = await Promise.all([
+  const [solutions, note, revisions, relatedProblems] = await Promise.all([
     Solution.find({ 
       userId: session.user.id, 
       problemId: problem._id 
@@ -36,13 +38,23 @@ export default async function ProblemDetailPage({
     Note.findOne({
       userId: session.user.id,
       problemId: problem._id
-    }).lean()
+    }).lean(),
+    Revision.find({
+      userId: session.user.id,
+      problemId: problem._id
+    }).sort({ reviewedAt: -1 }).lean(),
+    // Fetch related problems by matching tags, excluding the current problem
+    Problem.find({
+      userId: session.user.id,
+      _id: { $ne: problem._id },
+      tags: { $in: problem.tags || [] }
+    }).limit(4).lean()
   ]);
 
   return (
-    <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-stack-gap-md h-[calc(100vh-8rem)]">
-      {/* Column 1: Problem Statement */}
-      <section className="col-span-1 md:col-span-3 bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 flex flex-col overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)]">
+    <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-stack-gap-md h-[calc(100vh-8rem)]">
+      {/* Left Pane: Problem Statement */}
+      <section className="col-span-1 lg:col-span-3 bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 flex flex-col overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)]">
         <div className="p-4 border-b border-outline-variant/10 flex justify-between items-start">
           <div>
             <h2 className="font-headline-md text-headline-md text-on-surface mb-2">{problem.title}</h2>
@@ -64,11 +76,12 @@ export default async function ProblemDetailPage({
             </div>
           </div>
           {problem.leetcodeUrl && (
-            <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:text-primary transition-colors">
-              <span className="material-symbols-outlined">link</span>
+            <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:text-primary transition-colors flex-shrink-0 ml-2 bg-surface-container-highest p-1.5 rounded-md border border-outline-variant/20" title="View on LeetCode">
+              <span className="material-symbols-outlined text-[18px]">open_in_new</span>
             </a>
           )}
         </div>
+        
         <div className="p-5 overflow-y-auto flex-1 font-body-md text-body-md text-on-surface-variant space-y-4 custom-scrollbar">
           {problem.source === 'LeetCode' ? (
             <div 
@@ -121,14 +134,39 @@ export default async function ProblemDetailPage({
               </div>
             </div>
           )}
+
+          {/* Related Problems */}
+          {relatedProblems.length > 0 && (
+            <div className="mt-8 pt-6 border-t border-outline-variant/10 pb-4">
+              <h4 className="font-bold text-on-surface mb-3 flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-primary">account_tree</span>
+                Related Problems
+              </h4>
+              <div className="space-y-2">
+                {relatedProblems.map((rp: any) => (
+                  <Link href={`/problem/${rp.slug}`} key={rp._id.toString()} className="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-highest border border-outline-variant/10 transition-colors group">
+                    <span className="text-[13px] text-on-surface-variant group-hover:text-primary truncate mr-2">{rp.title}</span>
+                    <span className={`px-1.5 py-0.5 rounded font-label-sm text-[9px] font-medium border uppercase tracking-wider flex-shrink-0
+                      ${rp.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
+                      ${rp.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
+                      ${rp.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
+                    `}>
+                      {rp.difficulty}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Columns 2 & 3: Interactive Workspace (Client Component) */}
+      {/* Center & Right Panes: Interactive Workspace (Client Component) */}
       <ProblemWorkspace 
         problem={JSON.parse(JSON.stringify(problem))} 
         initialSolutions={JSON.parse(JSON.stringify(solutions))} 
-        initialNote={note ? JSON.parse(JSON.stringify(note)) : null} 
+        initialNote={note ? JSON.parse(JSON.stringify(note)) : null}
+        initialRevisions={JSON.parse(JSON.stringify(revisions))}
       />
     </div>
   );

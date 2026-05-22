@@ -18,6 +18,7 @@ export interface IProblem extends Document {
   source: Source;
   importedAt?: Date;
   hints?: string[];
+  isBookmarked?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -38,6 +39,7 @@ const ProblemSchema = new Schema<IProblem>(
     source: { type: String, enum: ['Manual', 'LeetCode'], default: 'Manual' },
     importedAt: { type: Date },
     hints: [{ type: String }],
+    isBookmarked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
