@@ -22,6 +22,8 @@ export const metadata: Metadata = {
   description: 'A modern platform for tracking and mastering Data Structures and Algorithms.',
 };
 
+import NextAuthSessionProvider from '@/components/providers/SessionProvider';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,7 +37,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased min-h-screen flex flex-col`}
       >
-        {children}
+        <NextAuthSessionProvider>
+          {children}
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

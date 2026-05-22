@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   image?: string;
+  provider?: string;
   emailVerified?: Date | null;
   accounts?: any[];
   sessions?: any[];
@@ -18,6 +19,7 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String },
     image: { type: String },
+    provider: { type: String, default: 'credentials' },
     emailVerified: { type: Date, default: null },
     accounts: [{ type: Schema.Types.Mixed }],
     sessions: [{ type: Schema.Types.Mixed }],

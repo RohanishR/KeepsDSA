@@ -1,11 +1,16 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcryptjs';
 import dbConnect from '@/lib/dbConnect';
 import { User } from '@/models/User';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -22,7 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const user = await User.findOne({ email: credentials.email }).lean();
 
         if (!user || !user.password) {
-          throw new Error('User not found');
+          throw new Error('User not found or uses social login');
         }
 
         const isValid = await bcrypt.compare(
@@ -47,9 +52,39 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: 'jwt',
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async signIn({ user, account }) {
+      if (account?.provider === 'google') {
+        await dbConnect();
+        try {
+          if (!user.email) return false;
+          const existingUser = await User.findOne({ email: user.email });
+          if (!existingUser) {
+            await User.create({
+              name: user.name || 'Google User',
+              email: user.email,
+              image: user.image || '',
+              provider: 'google',
+            });
+          }
+          return true;
+        } catch (error) {
+          console.error("Error saving Google user:", error);
+          return false;
+        }
+      }
+      return true;
+    },
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
+      }
+      
+      if (account?.provider === 'google' && user?.email) {
+        await dbConnect();
+        const dbUser = await User.findOne({ email: user.email }).lean();
+        if (dbUser) {
+          token.id = dbUser._id.toString();
+        }
       }
       return token;
     },
