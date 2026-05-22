@@ -1,15 +1,45 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import dbConnect from '@/lib/dbConnect';
 import { Revision } from '@/models/Revision';
+import { Problem } from '@/models/Problem';
+import { calculateSM2 } from '@/lib/sm2';
 import { z } from 'zod';
 
-const revisionInputSchema = z.object({
-  problemId: z.string().min(1),
-  quality: z.enum(['Again', 'Hard', 'Good', 'Easy'])
+// GET: Fetch all due revisions for the current user
+export async function GET(req: NextRequest) {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    await dbConnect();
+    const now = new Date();
+
+    // Fetch due revisions, populate the related Problem data
+    const dueRevisions = await Revision.find({
+      userId: session.user.id,
+      nextRevisionDate: { $lte: now }
+    })
+    .populate('problemId', 'title slug difficulty tags')
+    .sort({ nextRevisionDate: 1 })
+    .lean();
+
+    return NextResponse.json({ revisions: dueRevisions });
+  } catch (error) {
+    console.error('Error fetching due revisions:', error);
+    return NextResponse.json({ error: 'Failed to fetch due revisions' }, { status: 500 });
+  }
+}
+
+const revisionSchema = z.object({
+  problemId: z.string(),
+  confidenceScore: z.number().min(1).max(5),
 });
 
-export async function POST(req: Request) {
+// POST: Submit a review score and schedule next date
+export async function POST(req: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -17,62 +47,54 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const parsed = revisionInputSchema.safeParse(body);
-    if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid input', details: parsed.error.format() }, { status: 400 });
-    }
+    const { problemId, confidenceScore } = revisionSchema.parse(body);
 
-    const { problemId, quality } = parsed.data;
     await dbConnect();
-    const userId = session.user.id;
 
-    // Calculate interval and confidence
-    let daysToAdd = 0;
-    let confidenceLevel: 'Low' | 'Medium' | 'High' = 'Medium';
+    // Find existing revision stats for this problem/user
+    let revision = await Revision.findOne({
+      userId: session.user.id,
+      problemId: problemId
+    });
 
-    switch (quality) {
-      case 'Again':
-        daysToAdd = 0; // Due immediately
-        confidenceLevel = 'Low';
-        break;
-      case 'Hard':
-        daysToAdd = 2;
-        confidenceLevel = 'Medium';
-        break;
-      case 'Good':
-        daysToAdd = 5;
-        confidenceLevel = 'High';
-        break;
-      case 'Easy':
-        daysToAdd = 14;
-        confidenceLevel = 'High';
-        break;
-    }
+    if (revision) {
+      // Calculate next SM-2 stats based on previous
+      const { interval, easeFactor, nextRevisionDate } = calculateSM2(
+        confidenceScore,
+        revision.interval,
+        revision.easeFactor
+      );
 
-    const nextRevisionDate = new Date();
-    if (daysToAdd > 0) {
-      nextRevisionDate.setDate(nextRevisionDate.getDate() + daysToAdd);
+      revision.confidenceScore = confidenceScore;
+      revision.interval = interval;
+      revision.easeFactor = easeFactor;
+      revision.nextRevisionDate = nextRevisionDate;
+      revision.reviewedAt = new Date();
+      revision.revisionCount += 1;
+
+      await revision.save();
     } else {
-      // Add 1 minute for 'Again'
-      nextRevisionDate.setMinutes(nextRevisionDate.getMinutes() + 1);
+      // First time revision
+      const { interval, easeFactor, nextRevisionDate } = calculateSM2(confidenceScore, 0, 2.5);
+      
+      revision = await Revision.create({
+        userId: session.user.id,
+        problemId: problemId,
+        confidenceScore,
+        interval,
+        easeFactor,
+        nextRevisionDate,
+        reviewedAt: new Date(),
+        revisionCount: 1
+      });
     }
 
-    // Upsert the revision document
-    const revision = await Revision.findOneAndUpdate(
-      { userId, problemId },
-      {
-        $set: {
-          confidenceLevel,
-          nextRevisionDate,
-        },
-        $inc: { revisionCount: 1 }
-      },
-      { new: true, upsert: true }
-    );
-
-    return NextResponse.json({ revision });
+    return NextResponse.json({ success: true, revision });
   } catch (error: any) {
-    console.error('Save revision error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Error submitting revision:', error);
+    if (error.name === 'ZodError') {
+      return NextResponse.json({ error: error.errors }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Failed to submit revision' }, { status: 500 });
   }
 }

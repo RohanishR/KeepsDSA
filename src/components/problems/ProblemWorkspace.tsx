@@ -12,9 +12,11 @@ interface ProblemWorkspaceProps {
   initialSolutions: any[];
   initialNote?: any;
   initialRevisions?: any[];
+  username?: string;
+  isProfilePublic?: boolean;
 }
 
-export default function ProblemWorkspace({ problem, initialSolutions, initialNote, initialRevisions = [] }: ProblemWorkspaceProps) {
+export default function ProblemWorkspace({ problem, initialSolutions, initialNote, initialRevisions = [], username, isProfilePublic }: ProblemWorkspaceProps) {
   // Determine default tab
   const defaultTab = initialSolutions.length > 0 ? initialSolutions[0]._id.toString() : 'add_solution';
   
@@ -25,6 +27,16 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
+  };
+
+  const handleShare = () => {
+    if (!username || !isProfilePublic) {
+      alert("Please set up a public profile in Settings to share your solutions.");
+      return;
+    }
+    const url = `${window.location.origin}/u/${username}/problem/${problem.slug}`;
+    navigator.clipboard.writeText(url);
+    alert("Public link copied to clipboard!");
   };
 
   return (
@@ -100,6 +112,13 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
           </div>
           
           <div className="flex items-center gap-1 px-2">
+            <button 
+              onClick={handleShare}
+              className="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container-highest rounded transition-colors"
+              title="Share Solution"
+            >
+              <span className="material-symbols-outlined text-[18px]">share</span>
+            </button>
             <button 
               onClick={toggleFullscreen}
               className="p-1 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded transition-colors"

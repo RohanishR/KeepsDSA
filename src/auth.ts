@@ -59,11 +59,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!user.email) return false;
           const existingUser = await User.findOne({ email: user.email });
           if (!existingUser) {
+            const baseUsername = user.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+            const randomSuffix = Math.floor(Math.random() * 10000);
+            
             await User.create({
               name: user.name || 'Google User',
               email: user.email,
               image: user.image || '',
               provider: 'google',
+              username: `${baseUsername}${randomSuffix}`
             });
           }
           return true;

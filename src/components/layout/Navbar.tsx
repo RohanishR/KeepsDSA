@@ -48,12 +48,12 @@ export default function Navbar() {
                   
                   <div className="px-2 space-y-1">
                     <Link 
-                      href="/profile" 
+                      href="/settings" 
                       className="flex items-center gap-3 px-3 py-2 text-[13px] font-medium text-on-surface-variant hover:bg-surface-container-highest hover:text-primary rounded-lg transition-colors"
                       onClick={() => setShowDropdown(false)}
                     >
-                      <span className="material-symbols-outlined text-[18px]">person</span>
-                      Profile Settings
+                      <span className="material-symbols-outlined text-[18px]">settings</span>
+                      Settings & Privacy
                     </Link>
                     
                     <button 

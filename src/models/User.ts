@@ -6,6 +6,13 @@ export interface IUser extends Document {
   password?: string;
   image?: string;
   provider?: string;
+  username?: string;
+  privacySettings?: {
+    isProfilePublic: boolean;
+    showStats: boolean;
+    showSolutions: boolean;
+    showNotes: boolean;
+  };
   emailVerified?: Date | null;
   accounts?: any[];
   sessions?: any[];
@@ -20,6 +27,13 @@ const UserSchema = new Schema<IUser>(
     password: { type: String },
     image: { type: String },
     provider: { type: String, default: 'credentials' },
+    username: { type: String, unique: true, sparse: true },
+    privacySettings: {
+      isProfilePublic: { type: Boolean, default: false },
+      showStats: { type: Boolean, default: true },
+      showSolutions: { type: Boolean, default: true },
+      showNotes: { type: Boolean, default: true },
+    },
     emailVerified: { type: Date, default: null },
     accounts: [{ type: Schema.Types.Mixed }],
     sessions: [{ type: Schema.Types.Mixed }],

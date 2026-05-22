@@ -2,6 +2,7 @@ import React from 'react';
 import { notFound, redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import dbConnect from '@/lib/dbConnect';
+import { User } from '@/models/User';
 import { Problem } from '@/models/Problem';
 import { Solution } from '@/models/Solution';
 import { Note } from '@/models/Note';
@@ -23,6 +24,8 @@ export default async function ProblemDetailPage({
   const { slug } = resolvedParams;
 
   await dbConnect();
+
+  const user = await User.findById(session.user.id).lean();
 
   const problem = await Problem.findOne({ userId: session.user.id, slug }).lean();
 
@@ -167,6 +170,8 @@ export default async function ProblemDetailPage({
         initialSolutions={JSON.parse(JSON.stringify(solutions))} 
         initialNote={note ? JSON.parse(JSON.stringify(note)) : null}
         initialRevisions={JSON.parse(JSON.stringify(revisions))}
+        username={user?.username}
+        isProfilePublic={user?.privacySettings?.isProfilePublic}
       />
     </div>
   );

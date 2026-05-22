@@ -1,13 +1,14 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-export type ConfidenceLevel = 'Low' | 'Medium' | 'High';
-
 export interface IRevision extends Document {
   userId: mongoose.Types.ObjectId;
   problemId: mongoose.Types.ObjectId;
-  confidenceLevel: ConfidenceLevel;
+  confidenceScore: number; // 1 to 5
+  easeFactor: number; // SM-2 ease factor
+  interval: number; // SM-2 interval in days
   revisionCount: number;
-  nextRevisionDate?: Date;
+  reviewedAt: Date;
+  nextRevisionDate: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,9 +17,12 @@ const RevisionSchema = new Schema<IRevision>(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     problemId: { type: Schema.Types.ObjectId, ref: 'Problem', required: true },
-    confidenceLevel: { type: String, enum: ['Low', 'Medium', 'High'], required: true },
+    confidenceScore: { type: Number, required: true, min: 1, max: 5 },
+    easeFactor: { type: Number, default: 2.5 },
+    interval: { type: Number, default: 0 },
     revisionCount: { type: Number, default: 1 },
-    nextRevisionDate: { type: Date },
+    reviewedAt: { type: Date, default: Date.now },
+    nextRevisionDate: { type: Date, required: true },
   },
   { timestamps: true }
 );
