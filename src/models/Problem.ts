@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export type Difficulty = 'Easy' | 'Medium' | 'Hard';
+export type Source = 'Manual' | 'LeetCode';
 
 export interface IProblem extends Document {
   userId: mongoose.Types.ObjectId;
@@ -13,6 +14,10 @@ export interface IProblem extends Document {
   description?: string;
   examples?: string;
   constraints?: string;
+  leetcodeId?: string;
+  source: Source;
+  importedAt?: Date;
+  hints?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,6 +34,10 @@ const ProblemSchema = new Schema<IProblem>(
     description: { type: String },
     examples: { type: String },
     constraints: { type: String },
+    leetcodeId: { type: String },
+    source: { type: String, enum: ['Manual', 'LeetCode'], default: 'Manual' },
+    importedAt: { type: Date },
+    hints: [{ type: String }],
   },
   { timestamps: true }
 );

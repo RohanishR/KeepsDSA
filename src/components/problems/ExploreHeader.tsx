@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import AddProblemModal from './AddProblemModal';
+import ImportLeetCodeModal from './ImportLeetCodeModal';
 
 export default function ExploreHeader() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   return (
     <div className="mb-stack-gap-lg">
@@ -13,13 +15,22 @@ export default function ExploreHeader() {
           <h2 className="font-display-lg text-headline-lg-mobile md:text-[32px] md:leading-[40px] font-bold text-on-surface tracking-tight mb-2">Problems Explorer</h2>
           <p className="font-body-md text-[16px] leading-[24px] text-on-surface-variant">Master algorithmic patterns and data structures.</p>
         </div>
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="bg-primary text-on-primary px-4 py-2 rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all flex items-center gap-2"
-        >
-          <span className="material-symbols-outlined text-[18px]">add</span>
-          Add Problem
-        </button>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setIsImportModalOpen(true)}
+            className="bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-bright px-4 py-2 rounded-lg font-medium shadow-sm border border-outline-variant/30 transition-all flex items-center gap-2"
+          >
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" className="w-4 h-4 opacity-70" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
+            Import
+          </button>
+          <button 
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-primary text-on-primary px-4 py-2 rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-[18px]">add</span>
+            Add Problem
+          </button>
+        </div>
       </div>
       
       {/* Deep Focus Search Bar */}
@@ -39,7 +50,8 @@ export default function ExploreHeader() {
         </div>
       </div>
 
-      <AddProblemModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AddProblemModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
+      <ImportLeetCodeModal isOpen={isImportModalOpen} onClose={() => setIsImportModalOpen(false)} />
     </div>
   );
 }

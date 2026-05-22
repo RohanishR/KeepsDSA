@@ -70,7 +70,14 @@ export default async function ProblemDetailPage({
           )}
         </div>
         <div className="p-5 overflow-y-auto flex-1 font-body-md text-body-md text-on-surface-variant space-y-4 custom-scrollbar">
-          <div className="whitespace-pre-wrap">{problem.description || "No description provided."}</div>
+          {problem.source === 'LeetCode' ? (
+            <div 
+              className="prose prose-invert prose-sm max-w-none prose-p:leading-relaxed prose-pre:bg-surface-container-highest prose-pre:border prose-pre:border-outline-variant/20 prose-code:text-[#ffa116] prose-a:text-primary"
+              dangerouslySetInnerHTML={{ __html: problem.description || "No description provided." }} 
+            />
+          ) : (
+            <div className="whitespace-pre-wrap">{problem.description || "No description provided."}</div>
+          )}
           
           {problem.examples && (
             <div className="mt-6 space-y-4">
@@ -88,6 +95,29 @@ export default async function ProblemDetailPage({
               <p className="font-bold text-on-surface mb-1 text-sm">Constraints:</p>
               <div className="font-mono text-[14px] text-tertiary whitespace-pre-wrap bg-surface-container-lowest p-3 rounded border border-outline-variant/10">
                 {problem.constraints}
+              </div>
+            </div>
+          )}
+
+          {problem.hints && problem.hints.length > 0 && (
+            <div className="mt-8 pt-6 border-t border-outline-variant/10">
+              <h4 className="font-bold text-on-surface mb-3 flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] text-[#facc15]">lightbulb</span>
+                Hints
+              </h4>
+              <div className="space-y-2">
+                {problem.hints.map((hint: string, i: number) => (
+                  <details key={i} className="group bg-surface-container-low border border-outline-variant/20 rounded-lg overflow-hidden">
+                    <summary className="p-3 cursor-pointer text-sm font-medium text-on-surface hover:text-primary transition-colors flex items-center justify-between select-none">
+                      Hint {i + 1}
+                      <span className="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">expand_more</span>
+                    </summary>
+                    <div 
+                      className="p-3 pt-0 text-sm text-on-surface-variant border-t border-outline-variant/10 prose prose-invert prose-sm max-w-none"
+                      dangerouslySetInnerHTML={{ __html: hint }}
+                    />
+                  </details>
+                ))}
               </div>
             </div>
           )}

@@ -69,6 +69,12 @@ export default async function ExplorerPage({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="text-[18px] leading-[28px] font-semibold text-on-surface truncate group-hover:text-primary transition-colors">{problem.title}</h3>
+                  {problem.source === 'LeetCode' && (
+                    <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#ffa116]/10 text-[#ffa116] border border-[#ffa116]/20 text-[10px] font-bold tracking-wider" title="Imported from LeetCode">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LC" className="w-2.5 h-2.5 opacity-80" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
+                      LC
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   {problem.tags?.map((tag: string) => (
