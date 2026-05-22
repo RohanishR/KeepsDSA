@@ -23,7 +23,7 @@ export default function Navbar() {
         {session?.user ? (
           <div className="relative">
             <div 
-              className="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant/50 ml-2 cursor-pointer transition-transform hover:scale-105"
+              className="w-9 h-9 rounded-full bg-surface-variant overflow-hidden border border-outline-variant/50 cursor-pointer transition-transform hover:scale-105 shadow-[0_0_10px_rgba(188,195,255,0.1)] hover:shadow-[0_0_15px_rgba(188,195,255,0.2)]"
               onClick={() => setShowDropdown(!showDropdown)}
             >
               <img 
@@ -35,25 +35,37 @@ export default function Navbar() {
 
             {/* Dropdown Menu */}
             {showDropdown && (
-              <div className="absolute right-0 mt-2 w-48 bg-surface-container-high border border-outline-variant/20 rounded-lg shadow-xl py-2 z-50">
-                <div className="px-4 py-2 border-b border-outline-variant/10 mb-1">
-                  <p className="text-[14px] font-semibold text-on-surface truncate">{session.user.name}</p>
-                  <p className="text-[12px] text-on-surface-variant truncate">{session.user.email}</p>
-                </div>
-                <Link 
-                  href="/profile" 
-                  className="block px-4 py-2 text-[14px] text-on-surface-variant hover:bg-surface-container-highest hover:text-primary transition-colors"
+              <>
+                <div 
+                  className="fixed inset-0 z-40" 
                   onClick={() => setShowDropdown(false)}
-                >
-                  Profile
-                </Link>
-                <button 
-                  onClick={() => signOut({ callbackUrl: '/login' })}
-                  className="w-full text-left px-4 py-2 text-[14px] text-error hover:bg-error/10 transition-colors"
-                >
-                  Logout
-                </button>
-              </div>
+                ></div>
+                <div className="absolute right-0 mt-3 w-56 bg-surface-container-high/90 backdrop-blur-xl border border-outline-variant/20 rounded-xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="px-4 py-3 border-b border-outline-variant/10 mb-2">
+                    <p className="text-[14px] font-bold text-on-surface truncate">{session.user.name}</p>
+                    <p className="text-[12px] text-on-surface-variant truncate mt-0.5">{session.user.email}</p>
+                  </div>
+                  
+                  <div className="px-2 space-y-1">
+                    <Link 
+                      href="/profile" 
+                      className="flex items-center gap-3 px-3 py-2 text-[13px] font-medium text-on-surface-variant hover:bg-surface-container-highest hover:text-primary rounded-lg transition-colors"
+                      onClick={() => setShowDropdown(false)}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">person</span>
+                      Profile Settings
+                    </Link>
+                    
+                    <button 
+                      onClick={() => signOut({ callbackUrl: '/login' })}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-[13px] font-medium text-error hover:bg-error/10 rounded-lg transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">logout</span>
+                      Log out
+                    </button>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         ) : (
