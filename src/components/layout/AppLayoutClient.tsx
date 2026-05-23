@@ -19,7 +19,7 @@ export default function AppLayoutClient({ children }: { children: React.ReactNod
   if (!isMounted) {
     // Initial server render (prevents hydration mismatch for sidebar width)
     return (
-      <div className="flex flex-col md:flex-row min-h-screen w-full bg-surface">
+      <div className="flex flex-col md:flex-row min-h-screen w-full bg-background">
         <Sidebar isOpen={true} onToggle={() => {}} />
         <div className="flex-1 flex flex-col md:ml-[260px] min-h-screen relative">
           <Navbar onToggleSidebar={() => {}} isSidebarOpen={true} />
@@ -32,7 +32,7 @@ export default function AppLayoutClient({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen w-full bg-surface overflow-x-hidden">
+    <div className="flex flex-col md:flex-row min-h-screen w-full bg-background overflow-x-hidden">
       <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
       
       {/* Overlay for mobile when sidebar is open */}

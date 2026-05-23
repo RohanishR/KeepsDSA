@@ -24,13 +24,13 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
 
   return (
-    <nav className={`fixed left-0 top-0 h-full w-[260px] z-40 bg-surface/70 backdrop-blur-xl border-r border-outline-variant/10 shadow-[0_0_20px_rgba(188,195,255,0.05)] py-gutter flex flex-col transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+    <nav className={`fixed left-0 top-0 h-full w-[260px] z-40 bg-background/70 backdrop-blur-xl border-r border-border/40 shadow-[0_0_20px_rgba(29,161,242,0.05)] py-gutter flex flex-col transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="px-gutter mb-8 flex items-center justify-between">
         <div>
-          <h1 className="font-display-lg text-[32px] font-bold text-primary tracking-tighter leading-none mt-2">KeepsDSA</h1>
-          <p className="font-label-sm text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">v1.0.0-beta</p>
+          <h1 className="font-heading text-[32px] font-bold text-primary tracking-tighter leading-none mt-2">KeepsDSA</h1>
+          <p className="font-subheading text-[12px] uppercase tracking-wider text-[10px] text-muted-foreground mt-1 uppercase tracking-widest">v1.0.0-beta</p>
         </div>
-        <button onClick={onToggle} className="md:hidden text-on-surface-variant hover:text-on-surface">
+        <button onClick={onToggle} className="md:hidden text-muted-foreground hover:text-foreground">
           <span className="material-symbols-outlined">close</span>
         </button>
       </div>
@@ -38,7 +38,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <div className="px-gutter mb-6 relative">
         <button 
           onClick={() => setIsAddMenuOpen(!isAddMenuOpen)}
-          className="w-full bg-gradient-to-r from-primary to-secondary text-on-primary font-label-sm text-[13px] py-2.5 rounded shadow-[0_0_15px_rgba(188,195,255,0.3)] hover:shadow-[0_0_25px_rgba(188,195,255,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full bg-gradient-to-r from-primary to-secondary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider text-[13px] py-2.5 rounded shadow-[0_0_15px_rgba(29,161,242,0.3)] hover:shadow-[0_0_25px_rgba(29,161,242,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98]"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           New Problem
@@ -56,14 +56,14 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.95 }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
-              className="absolute top-full left-gutter right-gutter mt-2 bg-surface-container-high border border-outline-variant/20 rounded-lg shadow-xl overflow-hidden z-50"
+              className="absolute top-full left-gutter right-gutter mt-2 bg-card border border-border/40 rounded-lg shadow-xl overflow-hidden z-50"
             >
               <button 
                 onClick={() => {
                   router.push('/explore?action=add_problem');
                   setIsAddMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-[13px] text-on-surface hover:bg-surface-container-highest transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left text-[13px] text-foreground hover:bg-muted transition-colors"
               >
                 <span className="material-symbols-outlined text-[16px] text-primary">edit_document</span>
                 Add Manually
@@ -73,7 +73,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                   router.push('/explore?action=import_leetcode');
                   setIsAddMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-[13px] text-on-surface hover:bg-surface-container-highest transition-colors border-t border-outline-variant/10"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left text-[13px] text-foreground hover:bg-muted transition-colors border-t border-border/20"
               >
                 <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" className="w-4 h-4 opacity-70" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
                 Import from LeetCode
@@ -94,7 +94,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
               transition={{ delay: index * 0.05, duration: 0.3 }}
             >
               <Link 
-                className={`relative flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 group ${isActive ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'}`} 
+                className={`relative flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 group ${isActive ? 'bg-primary/10 text-primary font-bold' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`} 
                 href={item.href}
               >
                 {/* Animated active indicator */}
@@ -117,7 +117,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <div className="mt-auto px-4 pb-4 hidden md:block">
         <button 
           onClick={onToggle}
-          className="flex items-center gap-2 text-[12px] text-on-surface-variant hover:text-on-surface transition-colors py-2 px-3 rounded hover:bg-surface-container-high w-full group"
+          className="flex items-center gap-2 text-[12px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded hover:bg-muted w-full group"
         >
           <span className="material-symbols-outlined text-[16px] transition-transform duration-200 group-hover:-translate-x-0.5">keyboard_double_arrow_left</span>
           Collapse Sidebar

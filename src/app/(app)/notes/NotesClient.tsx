@@ -50,10 +50,10 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
         transition={{ duration: 0.45, ease: 'easeOut' }}
         className="mb-8"
       >
-        <h1 className="font-display-lg text-[32px] md:text-[40px] font-bold text-on-surface tracking-tighter leading-none mb-2">
+        <h1 className="font-heading text-[32px] md:text-[40px] font-bold text-foreground tracking-tighter leading-none mb-2">
           Your Notes
         </h1>
-        <p className="font-body-md text-[16px] text-on-surface-variant max-w-2xl">
+        <p className="font-sans text-[16px] text-muted-foreground max-w-2xl">
           A centralized view of all your handwritten and markdown notes across every problem.
         </p>
       </motion.div>
@@ -65,11 +65,11 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
         transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
         className="glass-panel p-2 mb-8 flex items-center gap-3 w-full max-w-2xl sticky top-20 z-20 focus-glow rounded-xl"
       >
-        <span className="material-symbols-outlined text-on-surface-variant ml-2">search</span>
+        <span className="material-symbols-outlined text-muted-foreground ml-2">search</span>
         <input 
           type="text" 
           placeholder="Search by problem name, tag, or note content..." 
-          className="bg-transparent border-none focus:outline-none focus:ring-0 text-on-surface font-label-md w-full placeholder:text-on-surface-variant/50"
+          className="bg-transparent border-none focus:outline-none focus:ring-0 text-foreground font-subheading text-[14px] w-full placeholder:text-muted-foreground/50"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -78,7 +78,7 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             onClick={() => setSearchTerm('')} 
-            className="text-on-surface-variant hover:text-on-surface p-1 mr-1 rounded-full hover:bg-surface-container-highest transition-colors"
+            className="text-muted-foreground hover:text-foreground p-1 mr-1 rounded-full hover:bg-accent transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">close</span>
           </motion.button>
@@ -99,10 +99,10 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
                 className="glass-panel rounded-xl overflow-hidden flex flex-col card-hover group"
               >
                 {/* Header */}
-                <div className="p-5 border-b border-outline-variant/10 bg-surface-container-low/50 flex justify-between items-start gap-4">
+                <div className="p-5 border-b border-border/10 bg-card/50/50 flex justify-between items-start gap-4">
                   <div>
                     <Link href={`/problem/${note.problem.slug}?tab=notes`} className="group/link">
-                      <h3 className="font-bold text-[18px] text-on-surface group-hover/link:text-primary transition-colors leading-tight mb-1">
+                      <h3 className="font-bold text-[18px] text-foreground group-hover/link:text-primary transition-colors leading-tight mb-1">
                         {note.problem.title}
                       </h3>
                     </Link>
@@ -114,14 +114,14 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
                       `}>
                         {note.problem.difficulty}
                       </span>
-                      <span className="text-[11px] text-on-surface-variant">
+                      <span className="text-[11px] text-muted-foreground">
                         Last updated {formatDistanceToNow(new Date(note.updatedAt), { addSuffix: true })}
                       </span>
                     </div>
                   </div>
                   <Link 
                     href={`/problem/${note.problem.slug}?tab=notes`}
-                    className="p-2 rounded-lg bg-surface-container-highest hover:bg-primary/20 hover:text-primary transition-all duration-200 text-on-surface-variant flex-shrink-0 hover:scale-105 active:scale-95"
+                    className="p-2 rounded-lg bg-accent hover:bg-primary/20 hover:text-primary transition-all duration-200 text-muted-foreground flex-shrink-0 hover:scale-105 active:scale-95"
                     title="Edit Notes"
                   >
                     <span className="material-symbols-outlined text-[18px]">edit</span>
@@ -159,7 +159,7 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
                         {note.markdownContent}
                       </ReactMarkdown>
                     ) : (
-                      <p className="italic text-on-surface-variant/50">No written notes, only attachments.</p>
+                      <p className="italic text-muted-foreground/50">No written notes, only attachments.</p>
                     )}
                   </div>
                   
@@ -178,7 +178,7 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
                         rel="noreferrer"
                         className="flex items-center gap-2 bg-[#1e1e1e] border border-[#3c3c3c] rounded px-3 py-1.5 hover:border-primary/50 transition-all duration-200 shrink-0 hover:scale-[1.02]"
                       >
-                        <span className="material-symbols-outlined text-[14px] text-on-surface-variant">
+                        <span className="material-symbols-outlined text-[14px] text-muted-foreground">
                           {att.resourceType === 'image' ? 'image' : 'description'}
                         </span>
                         <span className="text-[11px] text-[#cccccc] truncate max-w-[120px]">{att.originalName}</span>
@@ -195,15 +195,15 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
               transition={{ duration: 0.35 }}
               className="col-span-full glass-panel p-12 flex flex-col items-center justify-center text-center rounded-xl"
             >
-              <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 text-on-surface-variant animate-float">
+              <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center mb-4 text-muted-foreground animate-float">
                 <span className="material-symbols-outlined text-[32px]">edit_note</span>
               </div>
-              <h3 className="text-[20px] font-bold text-on-surface mb-2">No notes found</h3>
-              <p className="text-[14px] text-on-surface-variant max-w-md">
+              <h3 className="text-[20px] font-bold text-foreground mb-2">No notes found</h3>
+              <p className="text-[14px] text-muted-foreground max-w-md">
                 {searchTerm ? 'Try adjusting your search terms.' : "You haven't written any notes yet. Go to a problem workspace and start typing!"}
               </p>
               {!searchTerm && (
-                <Link href="/explore" className="mt-6 bg-primary text-on-primary px-6 py-2 rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                <Link href="/explore" className="mt-6 bg-primary text-primary-foreground px-6 py-2 rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hover:scale-[1.02] active:scale-[0.98]">
                   Find a Problem
                 </Link>
               )}

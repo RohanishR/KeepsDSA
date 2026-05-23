@@ -86,9 +86,9 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
   };
 
   return (
-    <div className="flex flex-col h-full bg-surface-container-lowest">
+    <div className="flex flex-col h-full bg-card">
       {/* Compact Form Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-surface-container-low border-b border-outline-variant/10">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-card/50 border-b border-border/10">
         <div className="flex items-center gap-3 flex-1 min-w-0">
           {/* Title Input - Inline */}
           <input 
@@ -96,7 +96,7 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
             value={form.title}
             onChange={e => setForm({...form, title: e.target.value})}
             placeholder="Solution name (e.g., Optimal Two-Pointer)"
-            className="flex-1 min-w-0 bg-transparent text-on-surface text-sm font-medium focus:outline-none placeholder:text-on-surface-variant/40"
+            className="flex-1 min-w-0 bg-transparent text-foreground text-sm font-medium focus:outline-none placeholder:text-muted-foreground/40"
             required
           />
         </div>
@@ -106,7 +106,7 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
           <select 
             value={form.language}
             onChange={e => setForm({...form, language: e.target.value})}
-            className="bg-surface-container-highest border border-outline-variant/20 rounded-md px-2 py-1 text-on-surface text-xs focus:outline-none focus:border-primary cursor-pointer"
+            className="bg-accent border border-border/20 rounded-md px-2 py-1 text-foreground text-xs focus:outline-none focus:border-primary cursor-pointer"
           >
             {LANGUAGES.map(lang => (
               <option key={lang} value={lang}>{LANG_ICONS[lang]} {lang}</option>
@@ -120,7 +120,7 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
               const val = e.target.value as any;
               setForm({...form, approachType: val, isOptimal: val === 'Optimal'});
             }}
-            className="bg-surface-container-highest border border-outline-variant/20 rounded-md px-2 py-1 text-on-surface text-xs focus:outline-none focus:border-primary cursor-pointer"
+            className="bg-accent border border-border/20 rounded-md px-2 py-1 text-foreground text-xs focus:outline-none focus:border-primary cursor-pointer"
           >
             <option value="Brute Force"> Brute</option>
             <option value="Better"> Better</option>
@@ -132,7 +132,7 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
           <button 
             onClick={handleSubmit}
             disabled={loading}
-            className="flex items-center gap-1.5 bg-primary text-on-primary px-3 py-1 rounded-md text-xs font-bold shadow-md hover:shadow-lg hover:bg-primary-fixed hover:text-on-primary-fixed transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-1.5 bg-primary text-primary-foreground px-3 py-1 rounded-md text-xs font-bold shadow-md hover:shadow-lg hover:bg-primary-fixed hover:text-primary-foreground-fixed transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="material-symbols-outlined animate-spin text-[14px]">progress_activity</span>
@@ -145,7 +145,7 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
       </div>
       
       {error && (
-        <div className="bg-error/10 text-error px-4 py-2 text-xs border-b border-error/20 flex items-center gap-2">
+        <div className="bg-destructive/10 text-destructive px-4 py-2 text-xs border-b border-destructive/20 flex items-center gap-2">
           <span className="material-symbols-outlined text-[14px]">error</span>
           {error}
         </div>
@@ -175,29 +175,29 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
       </div>
 
       {/* Bottom Bar - Complexity & Explanation */}
-      <div className="border-t border-outline-variant/10 bg-surface-container-low">
+      <div className="border-t border-border/10 bg-card/50">
         <div className="flex items-center gap-3 px-4 py-2">
           {/* Time Complexity */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Time</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Time</span>
             <input 
               type="text" 
               value={form.timeComplexity}
               onChange={e => setForm({...form, timeComplexity: e.target.value})}
               placeholder="O(n)"
-              className="w-20 bg-surface-container-highest border border-outline-variant/20 rounded px-2 py-0.5 text-on-surface text-xs font-mono focus:outline-none focus:border-primary"
+              className="w-20 bg-accent border border-border/20 rounded px-2 py-0.5 text-foreground text-xs font-mono focus:outline-none focus:border-primary"
             />
           </div>
           
           {/* Space Complexity */}
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Space</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Space</span>
             <input 
               type="text" 
               value={form.spaceComplexity}
               onChange={e => setForm({...form, spaceComplexity: e.target.value})}
               placeholder="O(1)"
-              className="w-20 bg-surface-container-highest border border-outline-variant/20 rounded px-2 py-0.5 text-on-surface text-xs font-mono focus:outline-none focus:border-primary"
+              className="w-20 bg-accent border border-border/20 rounded px-2 py-0.5 text-foreground text-xs font-mono focus:outline-none focus:border-primary"
             />
           </div>
 
@@ -207,7 +207,7 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
           <button 
             type="button"
             onClick={() => setShowExplanation(!showExplanation)}
-            className={`flex items-center gap-1.5 text-xs transition-colors ${showExplanation ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
+            className={`flex items-center gap-1.5 text-xs transition-colors ${showExplanation ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
           >
             <span className="material-symbols-outlined text-[14px]">
               {showExplanation ? 'expand_more' : 'expand_less'}
@@ -216,18 +216,18 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
           </button>
 
           {/* Char count */}
-          <span className="ml-auto text-[10px] text-on-surface-variant font-mono">{form.code.length} chars</span>
+          <span className="ml-auto text-[10px] text-muted-foreground font-mono">{form.code.length} chars</span>
         </div>
         
         {/* Collapsible Explanation */}
         {showExplanation && (
-          <div className="px-4 pb-3 border-t border-outline-variant/10">
+          <div className="px-4 pb-3 border-t border-border/10">
             <textarea 
               value={form.explanation}
               onChange={e => setForm({...form, explanation: e.target.value})}
               rows={3}
               placeholder="Write your approach, intuition, and key insights..."
-              className="w-full bg-surface-container-highest border border-outline-variant/20 rounded-lg px-3 py-2 text-on-surface text-sm focus:outline-none focus:border-primary custom-scrollbar resize-none mt-2"
+              className="w-full bg-accent border border-border/20 rounded-lg px-3 py-2 text-foreground text-sm focus:outline-none focus:border-primary custom-scrollbar resize-none mt-2"
             />
           </div>
         )}

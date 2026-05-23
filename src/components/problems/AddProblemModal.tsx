@@ -71,27 +71,27 @@ export default function AddProblemModal({ isOpen, onClose }: AddProblemModalProp
         onClick={onClose}
       />
       
-      <div className="fixed inset-y-0 right-0 w-full max-w-md bg-surface border-l border-outline-variant/20 shadow-2xl z-50 overflow-y-auto slide-in-from-right">
+      <div className="fixed inset-y-0 right-0 w-full max-w-md bg-background border-l border-border/20 shadow-2xl z-50 overflow-y-auto slide-in-from-right">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-[20px] font-bold text-on-surface">Add New Problem</h2>
-            <button onClick={onClose} className="text-on-surface-variant hover:text-primary">
+            <h2 className="text-[20px] font-bold text-foreground">Add New Problem</h2>
+            <button onClick={onClose} className="text-muted-foreground hover:text-primary">
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
 
           {error && (
-            <div className="bg-error/10 text-error px-4 py-3 rounded-lg mb-6 text-[14px]">
+            <div className="bg-destructive/10 text-destructive px-4 py-3 rounded-lg mb-6 text-[14px]">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Title</label>
+              <label className="block text-[12px] font-medium text-muted-foreground mb-1">Title</label>
               <input 
                 {...register('title')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
+                className="w-full bg-card/50 border border-border/30 rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary"
                 placeholder="Two Sum"
                 onChange={(e) => {
                   // Auto-generate slug
@@ -103,24 +103,24 @@ export default function AddProblemModal({ isOpen, onClose }: AddProblemModalProp
                   }
                 }}
               />
-              {errors.title && <p className="text-error text-[12px] mt-1">{errors.title.message}</p>}
+              {errors.title && <p className="text-destructive text-[12px] mt-1">{errors.title.message}</p>}
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Slug</label>
+              <label className="block text-[12px] font-medium text-muted-foreground mb-1">Slug</label>
               <input 
                 {...register('slug')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
+                className="w-full bg-card/50 border border-border/30 rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary"
                 placeholder="two-sum"
               />
-              {errors.slug && <p className="text-error text-[12px] mt-1">{errors.slug.message}</p>}
+              {errors.slug && <p className="text-destructive text-[12px] mt-1">{errors.slug.message}</p>}
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Difficulty</label>
+              <label className="block text-[12px] font-medium text-muted-foreground mb-1">Difficulty</label>
               <select 
                 {...register('difficulty')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
+                className="w-full bg-card/50 border border-border/30 rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary"
               >
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
@@ -129,45 +129,45 @@ export default function AddProblemModal({ isOpen, onClose }: AddProblemModalProp
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">LeetCode URL (Optional)</label>
+              <label className="block text-[12px] font-medium text-muted-foreground mb-1">LeetCode URL (Optional)</label>
               <input 
                 {...register('leetcodeUrl')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
+                className="w-full bg-card/50 border border-border/30 rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary"
                 placeholder="https://leetcode.com/problems/..."
               />
-              {errors.leetcodeUrl && <p className="text-error text-[12px] mt-1">{errors.leetcodeUrl.message}</p>}
+              {errors.leetcodeUrl && <p className="text-destructive text-[12px] mt-1">{errors.leetcodeUrl.message}</p>}
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Tags (comma separated)</label>
+              <label className="block text-[12px] font-medium text-muted-foreground mb-1">Tags (comma separated)</label>
               <input 
                 {...register('tags')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
+                className="w-full bg-card/50 border border-border/30 rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary"
                 placeholder="Array, Hash Table"
               />
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-on-surface-variant mb-1">Companies (comma separated)</label>
+              <label className="block text-[12px] font-medium text-muted-foreground mb-1">Companies (comma separated)</label>
               <input 
                 {...register('companies')}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2 text-on-surface focus:outline-none focus:border-primary"
+                className="w-full bg-card/50 border border-border/30 rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary"
                 placeholder="Google, Amazon"
               />
             </div>
 
-            <div className="pt-4 border-t border-outline-variant/20 flex justify-end gap-3">
+            <div className="pt-4 border-t border-border/20 flex justify-end gap-3">
               <button 
                 type="button" 
                 onClick={onClose}
-                className="px-4 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-colors text-[14px] font-medium"
+                className="px-4 py-2 rounded-lg text-muted-foreground hover:bg-accent transition-colors text-[14px] font-medium"
               >
                 Cancel
               </button>
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-[14px] font-bold disabled:opacity-50"
+                className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-[14px] font-bold disabled:opacity-50"
               >
                 {isSubmitting ? 'Saving...' : 'Add Problem'}
               </button>

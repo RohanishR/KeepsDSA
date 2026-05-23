@@ -169,28 +169,28 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#1e1e1e] text-[#cccccc]">
+    <div className="flex flex-col h-full bg-background text-foreground">
       {/* Toolbar */}
-      <div className="h-10 bg-[#252526] border-b border-[#3c3c3c] flex items-center justify-between px-2 shrink-0">
+      <div className="h-10 bg-card border-b border-border flex items-center justify-between px-2 shrink-0">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2 px-2">
             <span className="material-symbols-outlined text-[16px] text-primary">markdown</span>
-            <span className="font-label-sm text-[11px] uppercase tracking-wider font-bold">Notes</span>
+            <span className="font-subheading text-[12px] uppercase tracking-wider text-[11px] uppercase tracking-wider font-bold">Notes</span>
           </div>
-          <div className="hidden sm:flex items-center gap-0.5 border-l border-[#3c3c3c] pl-2 ml-1">
-            <button onClick={() => insertTextAtCursor('**bold**')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">format_bold</span></button>
-            <button onClick={() => insertTextAtCursor('*italic*')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">format_italic</span></button>
-            <button onClick={() => insertTextAtCursor('\n```js\n// code\n```\n')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">code</span></button>
-            <button onClick={() => insertTextAtCursor('$$ \nO(N) \n$$')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">functions</span></button>
+          <div className="hidden sm:flex items-center gap-0.5 border-l border-border pl-2 ml-1">
+            <button onClick={() => insertTextAtCursor('**bold**')} className="p-1 hover:bg-[#3c3c3c] rounded text-muted-foreground hover:text-foreground transition-colors"><span className="material-symbols-outlined text-[16px]">format_bold</span></button>
+            <button onClick={() => insertTextAtCursor('*italic*')} className="p-1 hover:bg-[#3c3c3c] rounded text-muted-foreground hover:text-foreground transition-colors"><span className="material-symbols-outlined text-[16px]">format_italic</span></button>
+            <button onClick={() => insertTextAtCursor('\n```js\n// code\n```\n')} className="p-1 hover:bg-[#3c3c3c] rounded text-muted-foreground hover:text-foreground transition-colors"><span className="material-symbols-outlined text-[16px]">code</span></button>
+            <button onClick={() => insertTextAtCursor('$$ \nO(N) \n$$')} className="p-1 hover:bg-[#3c3c3c] rounded text-muted-foreground hover:text-foreground transition-colors"><span className="material-symbols-outlined text-[16px]">functions</span></button>
           </div>
         </div>
         
         <div className="flex items-center gap-1.5">
-          <div className="text-[10px] font-mono text-[#858585] flex items-center gap-1 mr-2 hidden sm:flex">
+          <div className="text-[10px] font-mono text-muted-foreground flex items-center gap-1 mr-2 hidden sm:flex">
             {isSaving ? (
               <><span className="material-symbols-outlined text-[12px] animate-spin">sync</span> Saving...</>
             ) : lastSaved ? (
-              <><span className="material-symbols-outlined text-[12px] text-[#cccccc]">cloud_done</span> Saved</>
+              <><span className="material-symbols-outlined text-[12px] text-foreground">cloud_done</span> Saved</>
             ) : null}
           </div>
 
@@ -199,7 +199,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
           <button 
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="px-2.5 py-1 text-[#858585] hover:text-[#cccccc] hover:bg-[#3c3c3c] font-label-sm text-[11px] rounded flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            className="px-2.5 py-1 text-muted-foreground hover:text-foreground hover:bg-[#3c3c3c] font-subheading text-[12px] uppercase tracking-wider text-[11px] rounded flex items-center gap-1.5 transition-colors disabled:opacity-50"
           >
             {isUploading ? (
               <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
@@ -211,7 +211,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
 
           <button 
             onClick={() => setShowHistory(true)}
-            className="p-1 text-[#858585] hover:text-[#cccccc] hover:bg-[#3c3c3c] rounded transition-colors"
+            className="p-1 text-muted-foreground hover:text-foreground hover:bg-[#3c3c3c] rounded transition-colors"
             title="View History Snapshots"
           >
             <span className="material-symbols-outlined text-[16px]">history</span>
@@ -220,7 +220,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
           <button 
             onClick={handleManualSave}
             disabled={isSaving}
-            className="px-2.5 py-1 text-primary bg-primary/10 hover:bg-primary/20 border border-primary/20 font-label-sm text-[11px] rounded disabled:opacity-50 flex items-center gap-1 transition-colors ml-1"
+            className="px-2.5 py-1 text-primary bg-primary/10 hover:bg-primary/20 border border-primary/20 font-subheading text-[12px] uppercase tracking-wider text-[11px] rounded disabled:opacity-50 flex items-center gap-1 transition-colors ml-1"
           >
             Snapshot
           </button>
@@ -228,14 +228,14 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
       </div>
 
       {error && (
-        <div className="bg-error/10 text-error px-4 py-1.5 text-[11px] border-b border-error/20 flex justify-between items-center shrink-0">
+        <div className="bg-destructive/10 text-destructive px-4 py-1.5 text-[11px] border-b border-destructive/20 flex justify-between items-center shrink-0">
           {error}
           <button onClick={() => setError('')}><span className="material-symbols-outlined text-[14px]">close</span></button>
         </div>
       )}
 
       {/* Editor Pane (Full Width) */}
-      <div className="flex-1 flex flex-col relative min-h-0 bg-[#1e1e1e]">
+      <div className="flex-1 flex flex-col relative min-h-0 bg-background">
         <textarea
           ref={textareaRef}
           value={content}
@@ -244,18 +244,18 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
           placeholder="Write your notes here using Markdown...&#10;&#10;✨ Supports:&#10;- Math formulas: $$ O(N \log N) $$&#10;- Code blocks&#10;- Drag & drop images/PDFs"
-          className="flex-1 w-full p-6 bg-transparent border-none resize-none focus:outline-none focus:ring-0 text-[14px] leading-[1.6] text-[#cccccc] font-mono placeholder:text-[#858585] custom-scrollbar"
+          className="flex-1 w-full p-6 bg-transparent border-none resize-none focus:outline-none focus:ring-0 text-[14px] leading-[1.6] text-foreground font-mono placeholder:text-muted-foreground custom-scrollbar"
           spellCheck={false}
         />
       </div>
 
       {/* History Modal Overlay (Basic implementation) */}
       {showHistory && (
-        <div className="absolute inset-0 bg-surface/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-surface-container-low w-full max-w-2xl rounded-2xl border border-outline-variant/20 shadow-2xl flex flex-col max-h-full overflow-hidden">
-            <div className="p-4 border-b border-outline-variant/10 flex justify-between items-center">
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-card/50 w-full max-w-2xl rounded-2xl border border-border/20 shadow-2xl flex flex-col max-h-full overflow-hidden">
+            <div className="p-4 border-b border-border/10 flex justify-between items-center">
               <h3 className="font-headline-sm text-[18px]">Version History</h3>
-              <button onClick={() => setShowHistory(false)} className="text-on-surface-variant hover:text-on-surface p-1 rounded-full hover:bg-surface-container-highest">
+              <button onClick={() => setShowHistory(false)} className="text-muted-foreground hover:text-foreground p-1 rounded-full hover:bg-accent">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
@@ -264,11 +264,11 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
                 <div className="text-center opacity-50 py-10">No snapshots saved yet. Click "Snapshot" to save a version.</div>
               ) : (
                 initialNote.history.map((hist: any, i: number) => (
-                  <div key={i} className="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/10">
-                    <div className="text-[12px] text-on-surface-variant mb-2">
+                  <div key={i} className="bg-card p-4 rounded-xl border border-border/10">
+                    <div className="text-[12px] text-muted-foreground mb-2">
                       {new Date(hist.timestamp).toLocaleString()}
                     </div>
-                    <pre className="text-[12px] font-mono text-on-surface bg-surface-container-highest p-2 rounded max-h-32 overflow-y-auto custom-scrollbar whitespace-pre-wrap">
+                    <pre className="text-[12px] font-mono text-foreground bg-accent p-2 rounded max-h-32 overflow-y-auto custom-scrollbar whitespace-pre-wrap">
                       {hist.content}
                     </pre>
                   </div>

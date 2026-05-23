@@ -31,14 +31,14 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
             {user.image ? (
               <img src={user.image} alt={user.name} className="w-12 h-12 rounded-full border-2 border-surface hover:border-primary transition-colors cursor-pointer" />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center border-2 border-surface hover:border-primary transition-colors cursor-pointer">
+              <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center border-2 border-surface hover:border-primary transition-colors cursor-pointer">
                 <span className="material-symbols-outlined text-primary text-[24px]">person</span>
               </div>
             )}
           </Link>
           <div>
-            <h1 className="font-display-sm text-2xl font-bold text-on-surface">{problem.title}</h1>
-            <p className="text-sm text-on-surface-variant flex items-center gap-2">
+            <h1 className="font-display-sm text-2xl font-bold text-foreground">{problem.title}</h1>
+            <p className="text-sm text-muted-foreground flex items-center gap-2">
               <span className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border
                 ${problem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
                 ${problem.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
@@ -52,10 +52,10 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
         </div>
       </motion.div>
 
-      <div className="flex-1 flex overflow-hidden glass-panel rounded-2xl border border-outline-variant/20 shadow-xl">
+      <div className="flex-1 flex overflow-hidden glass-panel rounded-2xl border border-border/20 shadow-xl">
         {/* Left Pane - Problem Description */}
-        <div className="w-1/3 border-r border-outline-variant/10 bg-surface-container-low flex flex-col hidden md:flex">
-          <div className="p-4 border-b border-outline-variant/10 bg-surface-container-lowest font-bold text-on-surface flex items-center gap-2 text-sm uppercase tracking-wider">
+        <div className="w-1/3 border-r border-border/10 bg-card/50 flex flex-col hidden md:flex">
+          <div className="p-4 border-b border-border/10 bg-card font-bold text-foreground flex items-center gap-2 text-sm uppercase tracking-wider">
             <span className="material-symbols-outlined text-[18px]">description</span>
             Problem
           </div>
@@ -65,10 +65,10 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
             </ReactMarkdown>
             
             {problem.tags && problem.tags.length > 0 && (
-              <div className="mt-8 pt-4 border-t border-outline-variant/10">
+              <div className="mt-8 pt-4 border-t border-border/10">
                 <div className="flex flex-wrap gap-2">
                   {problem.tags.map(tag => (
-                    <span key={tag} className="px-2 py-1 rounded bg-surface-container-highest text-[11px] text-on-surface-variant border border-outline-variant/10">
+                    <span key={tag} className="px-2 py-1 rounded bg-accent text-[11px] text-muted-foreground border border-border/10">
                       {tag}
                     </span>
                   ))}
@@ -79,13 +79,13 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
         </div>
 
         {/* Right Pane - Content Tabs */}
-        <div className="flex-1 flex flex-col bg-surface-container-lowest">
+        <div className="flex-1 flex flex-col bg-card">
           {/* Tabs */}
-          <div className="flex border-b border-outline-variant/10 shrink-0">
+          <div className="flex border-b border-border/10 shrink-0">
             {solution && (
               <button 
                 onClick={() => setActiveTab('solution')}
-                className={`px-6 py-3 flex items-center gap-2 text-sm font-medium transition-colors ${activeTab === 'solution' ? 'bg-surface-container-low text-primary border-t-2 border-t-primary' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}`}
+                className={`px-6 py-3 flex items-center gap-2 text-sm font-medium transition-colors ${activeTab === 'solution' ? 'bg-card/50 text-primary border-t-2 border-t-primary' : 'text-muted-foreground hover:bg-card/50 hover:text-foreground'}`}
               >
                 <span className="material-symbols-outlined text-[18px]">code</span>
                 Solution
@@ -94,7 +94,7 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
             {note && (
               <button 
                 onClick={() => setActiveTab('note')}
-                className={`px-6 py-3 flex items-center gap-2 text-sm font-medium transition-colors ${activeTab === 'note' ? 'bg-surface-container-low text-primary border-t-2 border-t-primary' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}`}
+                className={`px-6 py-3 flex items-center gap-2 text-sm font-medium transition-colors ${activeTab === 'note' ? 'bg-card/50 text-primary border-t-2 border-t-primary' : 'text-muted-foreground hover:bg-card/50 hover:text-foreground'}`}
               >
                 <span className="material-symbols-outlined text-[18px]">edit_document</span>
                 Notes
@@ -102,7 +102,7 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
             )}
             <button 
               onClick={() => setActiveTab('problem')}
-              className={`md:hidden px-6 py-3 flex items-center gap-2 text-sm font-medium transition-colors ${activeTab === 'problem' ? 'bg-surface-container-low text-primary border-t-2 border-t-primary' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'}`}
+              className={`md:hidden px-6 py-3 flex items-center gap-2 text-sm font-medium transition-colors ${activeTab === 'problem' ? 'bg-card/50 text-primary border-t-2 border-t-primary' : 'text-muted-foreground hover:bg-card/50 hover:text-foreground'}`}
             >
               <span className="material-symbols-outlined text-[18px]">description</span>
               Problem
@@ -114,7 +114,7 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
             {activeTab === 'solution' && solution && (
               <div className="h-full flex flex-col bg-[#1e1e1e]">
                 <div className="flex justify-between items-center px-4 py-2 bg-[#2d2d2d] border-b border-[#404040]">
-                  <span className="text-xs text-on-surface-variant font-mono bg-[#1e1e1e] px-2 py-1 rounded">{solution.language}</span>
+                  <span className="text-xs text-muted-foreground font-mono bg-[#1e1e1e] px-2 py-1 rounded">{solution.language}</span>
                   <div className="flex gap-4 text-xs font-mono text-[#a5a5a5]">
                     {solution.timeComplexity && <span>O({solution.timeComplexity}) Time</span>}
                     {solution.spaceComplexity && <span>O({solution.spaceComplexity}) Space</span>}

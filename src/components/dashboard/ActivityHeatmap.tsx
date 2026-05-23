@@ -110,19 +110,19 @@ export default function ActivityHeatmap({ data }: HeatmapProps) {
 
   // Get color based on count
   const getColor = (count: number, isGrid = true) => {
-    if (count === 0) return 'bg-surface-container-highest border-outline-variant/10';
+    if (count === 0) return 'bg-accent border-border/10';
     if (count === 1 || (!isGrid && count <= 5)) return 'bg-primary/30 border-primary/20';
     if (count === 2 || (!isGrid && count <= 15)) return 'bg-primary/50 border-primary/40 text-primary-foreground';
     if (count >= 3) return 'bg-primary border-primary text-primary-foreground shadow-[0_0_8px_rgba(188,195,255,0.4)]';
-    return 'bg-surface-container-highest border-outline-variant/10';
+    return 'bg-accent border-border/10';
   };
 
   return (
     <div className="w-full">
       {/* Header with Tabs inside the heatmap component to allow parent to stay clean */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-        <h3 className="font-bold text-[18px] text-on-surface">Consistency Map</h3>
-        <div className="flex bg-surface-container-high rounded-lg p-1 border border-outline-variant/10">
+        <h3 className="font-bold text-[18px] text-foreground">Consistency Map</h3>
+        <div className="flex bg-muted/80 rounded-lg p-1 border border-border/10">
           {[
             { id: '365days', label: '1Y' },
             { id: '12months', label: '12M' },
@@ -134,8 +134,8 @@ export default function ActivityHeatmap({ data }: HeatmapProps) {
               onClick={() => setTimeframe(tab.id as TimeFrame)}
               className={`px-3 py-1 text-[12px] font-medium rounded-md transition-all ${
                 timeframe === tab.id 
-                  ? 'bg-surface text-on-surface shadow-sm border border-outline-variant/20' 
-                  : 'text-on-surface-variant hover:text-on-surface'
+                  ? 'bg-background text-foreground shadow-sm border border-border/20' 
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {tab.label}
@@ -158,7 +158,7 @@ export default function ActivityHeatmap({ data }: HeatmapProps) {
                 {(viewData.data as any[]).map((week, wIndex) => (
                   <div key={wIndex} className="flex flex-col gap-1">
                     {wIndex % 4 === 0 && week[0] ? (
-                      <span className="text-[10px] text-on-surface-variant h-4 mb-1">{week[0].monthLabel}</span>
+                      <span className="text-[10px] text-muted-foreground h-4 mb-1">{week[0].monthLabel}</span>
                     ) : (
                       <span className="h-4 mb-1"></span>
                     )}
@@ -167,7 +167,7 @@ export default function ActivityHeatmap({ data }: HeatmapProps) {
                         key={day.label}
                         className={`w-3.5 h-3.5 rounded-[3px] border ${getColor(day.count)} transition-all hover:scale-125 hover:z-10 relative group cursor-pointer`}
                       >
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-surface-container-highest text-on-surface text-[10px] font-medium rounded opacity-0 group-hover:opacity-100 pointer-events-none z-50 shadow-xl border border-outline-variant/30 transition-opacity">
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-accent text-foreground text-[10px] font-medium rounded opacity-0 group-hover:opacity-100 pointer-events-none z-50 shadow-xl border border-border/30 transition-opacity">
                           {day.count} problems on {day.label}
                           <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-surface-container-highest"></div>
                         </div>
@@ -180,7 +180,7 @@ export default function ActivityHeatmap({ data }: HeatmapProps) {
               <div className="flex items-end gap-2 h-[120px] pt-4">
                 {(viewData.data as any[]).map((item, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-2 group relative">
-                    <div className="absolute bottom-full mb-2 w-max px-2 py-1 bg-surface-container-highest text-on-surface text-[10px] font-medium rounded opacity-0 group-hover:opacity-100 pointer-events-none z-50 shadow-xl border border-outline-variant/30 transition-opacity">
+                    <div className="absolute bottom-full mb-2 w-max px-2 py-1 bg-accent text-foreground text-[10px] font-medium rounded opacity-0 group-hover:opacity-100 pointer-events-none z-50 shadow-xl border border-border/30 transition-opacity">
                       {item.count} problems · {item.label}
                     </div>
                     <div 
@@ -190,7 +190,7 @@ export default function ActivityHeatmap({ data }: HeatmapProps) {
                         opacity: item.count === 0 ? 0.3 : 1
                       }}
                     ></div>
-                    <span className="text-[10px] text-on-surface-variant h-4 truncate w-full text-center">
+                    <span className="text-[10px] text-muted-foreground h-4 truncate w-full text-center">
                       {item.shortLabel || item.label.split(' ')[0]}
                     </span>
                   </div>
@@ -202,10 +202,10 @@ export default function ActivityHeatmap({ data }: HeatmapProps) {
       </div>
 
       {viewData.type === 'grid' && (
-        <div className="flex items-center justify-end gap-2 mt-4 text-[11px] text-on-surface-variant font-medium">
+        <div className="flex items-center justify-end gap-2 mt-4 text-[11px] text-muted-foreground font-medium">
           <span>Less</span>
           <div className="flex gap-1">
-            <div className="w-3 h-3 rounded-[2px] bg-surface-container-highest border border-outline-variant/10"></div>
+            <div className="w-3 h-3 rounded-[2px] bg-accent border border-border/10"></div>
             <div className="w-3 h-3 rounded-[2px] bg-primary/30 border border-primary/20"></div>
             <div className="w-3 h-3 rounded-[2px] bg-primary/50 border border-primary/40"></div>
             <div className="w-3 h-3 rounded-[2px] bg-primary border border-primary"></div>

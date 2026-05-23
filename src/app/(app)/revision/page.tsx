@@ -96,11 +96,11 @@ export default function RevisionPage() {
             transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
             className="material-symbols-outlined text-[64px] text-primary mb-6 relative z-10"
           >workspace_premium</motion.span>
-          <h2 className="font-headline-lg text-[32px] leading-[40px] font-bold text-on-surface tracking-tight mb-4 relative z-10">You&apos;re all caught up!</h2>
-          <p className="text-on-surface-variant font-body-md mb-8 relative z-10">
+          <h2 className="font-heading text-[32px] leading-[40px] font-bold text-foreground tracking-tight mb-4 relative z-10">You&apos;re all caught up!</h2>
+          <p className="text-muted-foreground font-sans mb-8 relative z-10">
             You&apos;ve completed all your scheduled revisions for today. Your logic is sharp.
           </p>
-          <Link href="/explore" className="px-6 py-3 rounded-lg bg-primary text-on-primary font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.03] active:scale-[0.97] relative z-10">
+          <Link href="/explore" className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.03] active:scale-[0.97] relative z-10">
             Learn Something New
           </Link>
         </motion.div>
@@ -112,8 +112,8 @@ export default function RevisionPage() {
   const { problem, solution } = currentItem;
 
   const FEEDBACK_BUTTONS = [
-    { quality: 'Again', label: 'Again', time: '< 1m', color: 'error', hoverBorder: 'hover:border-error/50', textColor: 'text-error' },
-    { quality: 'Hard', label: 'Hard', time: '2d', color: 'error-container', hoverBorder: 'hover:border-error-container/50', textColor: 'text-error-container' },
+    { quality: 'Again', label: 'Again', time: '< 1m', color: 'error', hoverBorder: 'hover:border-destructive/50', textColor: 'text-destructive' },
+    { quality: 'Hard', label: 'Hard', time: '2d', color: 'error-container', hoverBorder: 'hover:border-destructive-container/50', textColor: 'text-destructive-container' },
     { quality: 'Good', label: 'Good', time: '5d', color: 'primary', hoverBorder: 'hover:border-primary/50', textColor: 'text-primary', glow: true },
     { quality: 'Easy', label: 'Easy', time: '14d', color: 'secondary', hoverBorder: 'hover:border-secondary/50', textColor: 'text-secondary' },
   ];
@@ -128,7 +128,7 @@ export default function RevisionPage() {
         className="w-full max-w-[800px] mb-8 flex justify-between items-end"
       >
         <div>
-          <div className="flex items-center gap-2 text-primary font-label-sm text-[12px] font-medium tracking-[0.05em] mb-2">
+          <div className="flex items-center gap-2 text-primary font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] mb-2">
             <motion.span 
               animate={{ rotate: 360 }}
               transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
@@ -136,10 +136,10 @@ export default function RevisionPage() {
             >sync</motion.span>
             <span>SPACED REPETITION SESSION</span>
           </div>
-          <h2 className="font-headline-lg text-[32px] leading-[40px] font-bold text-on-surface tracking-tight">Daily Revision</h2>
+          <h2 className="font-heading text-[32px] leading-[40px] font-bold text-foreground tracking-tight">Daily Revision</h2>
         </div>
         <div className="text-right">
-          <div className="text-on-surface-variant font-label-sm text-[12px] font-medium tracking-[0.05em] mb-1">Cards Due Today</div>
+          <div className="text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] mb-1">Cards Due Today</div>
           <div className="text-2xl font-mono text-primary">
             <motion.span
               key={currentIndex}
@@ -150,7 +150,7 @@ export default function RevisionPage() {
               {currentIndex + 1}
             </motion.span>
             {' '}
-            <span className="text-outline-variant text-lg">/ {queue.length}</span>
+            <span className="text-muted-foreground-variant text-lg">/ {queue.length}</span>
           </div>
         </div>
       </motion.div>
@@ -168,15 +168,15 @@ export default function RevisionPage() {
         >
           <div className={`w-full h-full relative transform-style-3d transition-transform duration-700 ease-in-out ${isFlipped ? 'rotate-y-180' : ''}`}>
             {/* Front of Card (Question) */}
-            <div className="absolute inset-0 backface-hidden glass-panel rounded-xl border border-outline-variant/10 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05),0_20px_60px_-15px_rgba(0,0,0,0.3)] p-8 flex flex-col justify-between z-20">
+            <div className="absolute inset-0 backface-hidden glass-panel rounded-xl border border-border/10 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05),0_20px_60px_-15px_rgba(0,0,0,0.3)] p-8 flex flex-col justify-between z-20">
               <div className="flex justify-between items-start">
                 <div className="flex gap-2 flex-wrap max-w-[70%]">
                   {problem.tags?.slice(0, 3).map((tag: string) => (
-                    <span key={tag} className="px-2 py-1 bg-surface-container-high border border-outline-variant/30 rounded text-[12px] font-medium tracking-[0.05em] text-primary truncate max-w-[120px]">{tag}</span>
+                    <span key={tag} className="px-2 py-1 bg-muted/80 border border-border/30 rounded text-[12px] font-medium tracking-[0.05em] text-primary truncate max-w-[120px]">{tag}</span>
                   ))}
                 </div>
                 <div className={`flex items-center gap-1 px-2 py-1 rounded text-[12px] font-medium tracking-[0.05em] border
-                  ${problem.difficulty === 'Hard' ? 'text-error bg-error/10 border-error/20' : ''}
+                  ${problem.difficulty === 'Hard' ? 'text-destructive bg-destructive/10 border-destructive/20' : ''}
                   ${problem.difficulty === 'Medium' ? 'text-secondary bg-secondary/10 border-secondary/20' : ''}
                   ${problem.difficulty === 'Easy' ? 'text-primary bg-primary/10 border-primary/20' : ''}
                 `}>
@@ -185,8 +185,8 @@ export default function RevisionPage() {
               </div>
               
               <div className="flex-1 flex flex-col justify-center items-center text-center px-12">
-                <h3 className="text-[24px] leading-[32px] font-medium text-on-surface mb-4">{problem.title}</h3>
-                <div className="text-[14px] leading-[22px] text-on-surface-variant max-w-lg max-h-[150px] overflow-hidden relative">
+                <h3 className="text-[24px] leading-[32px] font-medium text-foreground mb-4">{problem.title}</h3>
+                <div className="text-[14px] leading-[22px] text-muted-foreground max-w-lg max-h-[150px] overflow-hidden relative">
                   <p className="whitespace-pre-wrap">{problem.description || "No description provided."}</p>
                   <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-surface-container-low to-transparent"></div>
                 </div>
@@ -205,10 +205,10 @@ export default function RevisionPage() {
             </div>
 
             {/* Back of Card (Answer) */}
-            <div className="absolute inset-0 backface-hidden glass-panel rounded-xl border border-outline-variant/10 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05),0_20px_60px_-15px_rgba(0,0,0,0.3)] p-8 flex flex-col rotate-y-180 z-10 bg-surface-container-high/90">
-              <div className="flex justify-between items-center mb-4 pb-4 border-b border-outline-variant/20">
+            <div className="absolute inset-0 backface-hidden glass-panel rounded-xl border border-border/10 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05),0_20px_60px_-15px_rgba(0,0,0,0.3)] p-8 flex flex-col rotate-y-180 z-10 bg-muted/80/90">
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-border/20">
                 <h4 className="text-[24px] leading-[32px] font-medium text-primary">Solution Overview</h4>
-                <Link href={`/problem/${problem.slug}`} className="text-on-surface-variant hover:text-primary transition-colors hover:scale-110 inline-block" onClick={(e) => e.stopPropagation()}>
+                <Link href={`/problem/${problem.slug}`} className="text-muted-foreground hover:text-primary transition-colors hover:scale-110 inline-block" onClick={(e) => e.stopPropagation()}>
                   <span className="material-symbols-outlined">open_in_new</span>
                 </Link>
               </div>
@@ -217,12 +217,12 @@ export default function RevisionPage() {
                 {solution ? (
                   <>
                     {solution.explanation && (
-                      <div className="text-[14px] leading-[22px] text-on-surface-variant whitespace-pre-wrap">
+                      <div className="text-[14px] leading-[22px] text-muted-foreground whitespace-pre-wrap">
                         {solution.explanation}
                       </div>
                     )}
                     {solution.code && (
-                      <div className="bg-surface/80 rounded border border-outline-variant/20 p-4 mt-4">
+                      <div className="bg-background/80 rounded border border-border/20 p-4 mt-4">
                         <pre className="font-mono text-[13px] text-tertiary-fixed overflow-x-auto"><code>{solution.code}</code></pre>
                       </div>
                     )}
@@ -257,7 +257,7 @@ export default function RevisionPage() {
             transition={{ delay: isFlipped ? 0.25 + i * 0.06 : 0 }}
             disabled={isSubmitting}
             onClick={(e) => { e.stopPropagation(); handleFeedback(btn.quality); }}
-            className={`px-6 py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low hover:bg-surface-container-high ${btn.hoverBorder} ${btn.textColor} transition-all flex flex-col items-center gap-1 min-w-[120px] disabled:opacity-50 hover:scale-[1.03] active:scale-[0.97] ${btn.glow ? 'shadow-[0_0_15px_rgba(188,195,255,0.1)]' : ''}`}
+            className={`px-6 py-3 rounded-lg border border-border/30 bg-card/50 hover:bg-muted/80 ${btn.hoverBorder} ${btn.textColor} transition-all flex flex-col items-center gap-1 min-w-[120px] disabled:opacity-50 hover:scale-[1.03] active:scale-[0.97] ${btn.glow ? 'shadow-[0_0_15px_rgba(188,195,255,0.1)]' : ''}`}
           >
             <span className="text-[12px] font-medium tracking-[0.05em]">{btn.label}</span>
             <span className="text-[10px] font-mono opacity-50">{btn.time}</span>

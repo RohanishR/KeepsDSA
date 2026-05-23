@@ -10,12 +10,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="w-full max-w-md z-10">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <h1 className="font-headline-lg text-[32px] font-bold text-primary tracking-tighter">KeepsDSA</h1>
-          <p className="text-on-surface-variant font-label-sm tracking-[0.05em] mt-2">ALGORITHMIC MASTERY</p>
+          <h1 className="font-heading text-[32px] font-bold text-primary tracking-tighter">KeepsDSA</h1>
+          <p className="text-muted-foreground font-subheading text-[12px] uppercase tracking-wider tracking-[0.05em] mt-2">ALGORITHMIC MASTERY</p>
         </div>
         
         {/* Auth Container */}
-        <div className="glass-panel border border-outline-variant/20 rounded-xl p-8 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05),0_0_40px_rgba(188,195,255,0.05)]">
+        <div className="glass-panel border border-border/20 rounded-xl p-8 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05),0_0_40px_rgba(188,195,255,0.05)]">
           {children}
         </div>
       </div>

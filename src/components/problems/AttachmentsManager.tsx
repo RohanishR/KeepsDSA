@@ -161,18 +161,18 @@ export default function AttachmentsManager({ slug, initialAttachments = [] }: At
   };
 
   return (
-    <div className="flex flex-col h-full bg-surface-container-lowest text-on-surface">
-      <div className="h-12 bg-surface-container-low border-b border-outline-variant/10 flex items-center justify-between px-4 shrink-0">
+    <div className="flex flex-col h-full bg-card text-foreground">
+      <div className="h-12 bg-card/50 border-b border-border/10 flex items-center justify-between px-4 shrink-0">
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-[18px] text-primary">attachment</span>
-          <span className="font-label-sm text-[12px] uppercase tracking-wider font-bold">Attachments Manager</span>
+          <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] uppercase tracking-wider font-bold">Attachments Manager</span>
         </div>
         <div className="flex items-center gap-3">
           <input type="file" accept="image/*,application/pdf" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
           <button 
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="px-4 py-1.5 text-on-primary bg-primary hover:bg-primary-fixed hover:text-on-primary-fixed font-label-sm text-[12px] rounded shadow-sm disabled:opacity-50 flex items-center gap-1.5 transition-colors"
+            className="px-4 py-1.5 text-primary-foreground bg-primary hover:bg-primary-fixed hover:text-primary-foreground-fixed font-subheading text-[12px] uppercase tracking-wider text-[12px] rounded shadow-sm disabled:opacity-50 flex items-center gap-1.5 transition-colors"
           >
             <span className="material-symbols-outlined text-[14px]">upload</span>
             Upload File
@@ -181,7 +181,7 @@ export default function AttachmentsManager({ slug, initialAttachments = [] }: At
       </div>
 
       {isUploading && (
-        <div className="h-1 w-full bg-surface-container-highest overflow-hidden">
+        <div className="h-1 w-full bg-accent overflow-hidden">
           <div 
             className="h-full bg-primary transition-all duration-300 ease-out"
             style={{ width: `${uploadProgress}%` }}
@@ -190,7 +190,7 @@ export default function AttachmentsManager({ slug, initialAttachments = [] }: At
       )}
 
       {error && (
-        <div className="bg-error/10 text-error px-4 py-2 text-[12px] border-b border-error/20 flex justify-between items-center shrink-0">
+        <div className="bg-destructive/10 text-destructive px-4 py-2 text-[12px] border-b border-destructive/20 flex justify-between items-center shrink-0">
           {error}
           <button onClick={() => setError('')}><span className="material-symbols-outlined text-[14px]">close</span></button>
         </div>
@@ -201,28 +201,28 @@ export default function AttachmentsManager({ slug, initialAttachments = [] }: At
         <div 
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className={`border-2 border-dashed border-outline-variant/30 rounded-xl p-8 mb-6 flex flex-col items-center justify-center transition-colors hover:border-primary/50 hover:bg-surface-container-low/50 ${attachments.length === 0 ? 'h-64' : ''}`}
+          className={`border-2 border-dashed border-border/30 rounded-xl p-8 mb-6 flex flex-col items-center justify-center transition-colors hover:border-primary/50 hover:bg-card/50/50 ${attachments.length === 0 ? 'h-64' : ''}`}
         >
-          <span className="material-symbols-outlined text-[48px] text-on-surface-variant mb-4">cloud_upload</span>
-          <p className="text-on-surface font-medium text-sm mb-1">Drag & Drop files here</p>
-          <p className="text-on-surface-variant text-xs">Supports Images (JPG, PNG) and PDFs up to 10MB</p>
+          <span className="material-symbols-outlined text-[48px] text-muted-foreground mb-4">cloud_upload</span>
+          <p className="text-foreground font-medium text-sm mb-1">Drag & Drop files here</p>
+          <p className="text-muted-foreground text-xs">Supports Images (JPG, PNG) and PDFs up to 10MB</p>
         </div>
 
         {/* Gallery */}
         {attachments.length > 0 && (
           <div>
-            <h4 className="font-label-md text-on-surface-variant mb-4 uppercase tracking-wider text-[11px] border-b border-outline-variant/10 pb-2">Uploaded Files ({attachments.length})</h4>
+            <h4 className="font-subheading text-[14px] text-muted-foreground mb-4 uppercase tracking-wider text-[11px] border-b border-border/10 pb-2">Uploaded Files ({attachments.length})</h4>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {attachments.map((attachment) => {
                 const isPdf = attachment.format === 'pdf' || attachment.resourceType === 'raw';
                 
                 return (
-                  <div key={attachment.publicId} className="group relative bg-surface-container-low border border-outline-variant/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-outline-variant/40 transition-all flex flex-col h-48">
+                  <div key={attachment.publicId} className="group relative bg-card/50 border border-border/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-border/40 transition-all flex flex-col h-48">
                     {/* Preview Area */}
-                    <div className="flex-1 bg-surface-container-lowest flex items-center justify-center overflow-hidden relative">
+                    <div className="flex-1 bg-card flex items-center justify-center overflow-hidden relative">
                       {isPdf ? (
                         <div className="flex flex-col items-center opacity-60">
-                          <span className="material-symbols-outlined text-[48px] mb-2 text-error">picture_as_pdf</span>
+                          <span className="material-symbols-outlined text-[48px] mb-2 text-destructive">picture_as_pdf</span>
                           <span className="text-[10px] font-mono uppercase tracking-wider">PDF Document</span>
                         </div>
                       ) : (
@@ -234,26 +234,26 @@ export default function AttachmentsManager({ slug, initialAttachments = [] }: At
                       )}
                       
                       {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-surface/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                         <a 
                           href={attachment.url} 
                           target="_blank" 
                           rel="noreferrer"
-                          className="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
+                          className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
                           title="View File"
                         >
                           <span className="material-symbols-outlined text-[18px]">visibility</span>
                         </a>
                         <button 
                           onClick={() => navigator.clipboard.writeText(attachment.url)}
-                          className="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center hover:scale-110 transition-transform border border-outline-variant/20 shadow-lg"
+                          className="w-10 h-10 rounded-full bg-accent text-foreground flex items-center justify-center hover:scale-110 transition-transform border border-border/20 shadow-lg"
                           title="Copy Link"
                         >
                           <span className="material-symbols-outlined text-[18px]">link</span>
                         </button>
                         <button 
                           onClick={() => handleDelete(attachment.publicId)}
-                          className="w-10 h-10 rounded-full bg-error text-on-error flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
+                          className="w-10 h-10 rounded-full bg-destructive text-on-error flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
                           title="Delete File"
                         >
                           <span className="material-symbols-outlined text-[18px]">delete</span>
@@ -262,9 +262,9 @@ export default function AttachmentsManager({ slug, initialAttachments = [] }: At
                     </div>
                     
                     {/* Details Area */}
-                    <div className="h-14 p-2 bg-surface-container-low border-t border-outline-variant/10 flex flex-col justify-center">
-                      <p className="text-[12px] text-on-surface font-medium truncate mb-0.5">{attachment.originalName}</p>
-                      <div className="flex items-center justify-between text-[10px] text-on-surface-variant font-mono">
+                    <div className="h-14 p-2 bg-card/50 border-t border-border/10 flex flex-col justify-center">
+                      <p className="text-[12px] text-foreground font-medium truncate mb-0.5">{attachment.originalName}</p>
+                      <div className="flex items-center justify-between text-[10px] text-muted-foreground font-mono">
                         <span>{attachment.format ? attachment.format.toUpperCase() : 'RAW'}</span>
                         <span>{attachment.bytes ? formatBytes(attachment.bytes) : 'Unknown size'}</span>
                       </div>

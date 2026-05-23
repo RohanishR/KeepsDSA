@@ -82,9 +82,9 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
   const showRightPanel = !isFullscreen && activeTab !== 'notes' && activeTab !== 'attachments' && activeTab !== 'history';
 
   const centerPanelContent = (
-    <section className="bg-surface-container-lowest rounded-xl border border-outline-variant/10 flex flex-col overflow-hidden shadow-inner relative h-full">
+    <section className="bg-card rounded-xl border border-border/10 flex flex-col overflow-hidden shadow-inner relative h-full">
       {/* Tab Bar */}
-        <div className="h-11 bg-surface-container border-b border-outline-variant/10 flex items-center justify-between px-1 shrink-0 select-none">
+        <div className="h-11 bg-muted border-b border-border/10 flex items-center justify-between px-1 shrink-0 select-none">
           <div className="flex overflow-x-auto custom-scrollbar h-full items-center gap-1">
             {initialSolutions.map((sol: any) => (
               <button 
@@ -92,8 +92,8 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
                 onClick={() => handleTabChange(sol._id.toString())}
                 className={`px-3 py-1.5 h-[34px] rounded-md text-[12px] flex items-center gap-2 whitespace-nowrap transition-all font-medium border
                   ${activeTab === sol._id.toString() 
-                    ? 'bg-surface-container-highest text-on-surface border-outline-variant/20 shadow-sm' 
-                    : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border-transparent'}
+                    ? 'bg-accent text-foreground border-border/20 shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/80 border-transparent'}
                 `}
               >
                 <span className={`material-symbols-outlined text-[16px] ${sol.isOptimal ? 'text-primary' : 'opacity-70'}`}>
@@ -110,7 +110,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
               className={`px-3 py-1.5 h-[34px] rounded-md text-[12px] flex items-center gap-2 whitespace-nowrap transition-all font-medium border
                 ${activeTab === 'add_solution' 
                   ? 'bg-primary/10 text-primary border-primary/20 shadow-sm' 
-                  : 'text-on-surface-variant hover:text-primary hover:bg-primary/5 border-transparent'}`}
+                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5 border-transparent'}`}
             >
               <span className="material-symbols-outlined text-[16px]">add</span> New Solution
             </button>
@@ -119,8 +119,8 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
               onClick={() => handleTabChange('notes')} 
               className={`px-3 py-1.5 h-[34px] rounded-md text-[12px] flex items-center gap-2 whitespace-nowrap transition-all font-medium border
                 ${activeTab === 'notes' 
-                  ? 'bg-surface-container-highest text-on-surface border-outline-variant/20 shadow-sm' 
-                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border-transparent'}`}
+                  ? 'bg-accent text-foreground border-border/20 shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/80 border-transparent'}`}
             >
               <span className="material-symbols-outlined text-[16px]">edit_note</span> Notes
             </button>
@@ -129,8 +129,8 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
               onClick={() => handleTabChange('attachments')} 
               className={`px-3 py-1.5 h-[34px] rounded-md text-[12px] flex items-center gap-2 whitespace-nowrap transition-all font-medium border
                 ${activeTab === 'attachments' 
-                  ? 'bg-surface-container-highest text-on-surface border-outline-variant/20 shadow-sm' 
-                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border-transparent'}`}
+                  ? 'bg-accent text-foreground border-border/20 shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/80 border-transparent'}`}
             >
               <span className="material-symbols-outlined text-[16px]">attachment</span> Files
             </button>
@@ -139,8 +139,8 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
               onClick={() => handleTabChange('history')} 
               className={`px-3 py-1.5 h-[34px] rounded-md text-[12px] flex items-center gap-2 whitespace-nowrap transition-all font-medium border
                 ${activeTab === 'history' 
-                  ? 'bg-surface-container-highest text-on-surface border-outline-variant/20 shadow-sm' 
-                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border-transparent'}`}
+                  ? 'bg-accent text-foreground border-border/20 shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/80 border-transparent'}`}
             >
               <span className="material-symbols-outlined text-[16px]">history</span> History
             </button>
@@ -148,17 +148,17 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
           
           {/* Action Buttons */}
           <div className="flex items-center gap-1 px-1 shrink-0">
-            <button onClick={handleShare} className="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-md transition-colors" title="Share Solution">
+            <button onClick={handleShare} className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors" title="Share Solution">
               <span className="material-symbols-outlined text-[18px]">share</span>
             </button>
-            <button onClick={toggleFullscreen} className="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded-md transition-colors" title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}>
+            <button onClick={toggleFullscreen} className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors" title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}>
               <span className="material-symbols-outlined text-[18px]">{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}</span>
             </button>
           </div>
         </div>
 
         {/* Dynamic Workspace Content */}
-        <div className="flex-1 overflow-hidden relative min-h-0 bg-surface">
+        <div className="flex-1 overflow-hidden relative min-h-0 bg-background">
         {activeTab === 'add_solution' ? (
           <AddSolutionForm slug={problem.slug} onSuccess={() => { window.location.reload(); }} />
         ) : activeTab === 'notes' ? (
@@ -166,28 +166,28 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
         ) : activeTab === 'attachments' ? (
           <AttachmentsManager slug={problem.slug} initialAttachments={initialNote?.attachments || []} />
         ) : activeTab === 'history' ? (
-          <div className="h-full bg-[#1e1e1e] p-6 overflow-y-auto custom-scrollbar flex gap-6">
+          <div className="h-full bg-background p-6 overflow-y-auto custom-scrollbar flex gap-6">
             <div className="flex-1">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-bold text-[16px] text-[#cccccc] flex items-center gap-2">
+                <h3 className="font-bold text-[16px] text-foreground flex items-center gap-2">
                   <span className="material-symbols-outlined text-primary text-[20px]">update</span>
                   Revision Log
                 </h3>
-                <span className="text-xs text-[#858585]">{initialRevisions.length} revision{initialRevisions.length !== 1 ? 's' : ''}</span>
+                <span className="text-xs text-muted-foreground">{initialRevisions.length} revision{initialRevisions.length !== 1 ? 's' : ''}</span>
               </div>
               {initialRevisions.length === 0 ? (
                 <div className="text-center py-16 opacity-50">
-                  <span className="material-symbols-outlined text-[48px] mb-3 block text-[#858585]">history_toggle_off</span>
-                  <p className="text-sm text-[#858585]">No revisions recorded yet.</p>
-                  <p className="text-xs text-[#858585] mt-1">Complete a review session to start tracking.</p>
+                  <span className="material-symbols-outlined text-[48px] mb-3 block text-muted-foreground">history_toggle_off</span>
+                  <p className="text-sm text-muted-foreground">No revisions recorded yet.</p>
+                  <p className="text-xs text-muted-foreground mt-1">Complete a review session to start tracking.</p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {initialRevisions.map((rev: any, index: number) => {
                     const { icon, color } = getDifficultyIcon(rev.confidenceScore);
                     return (
-                      <div key={rev._id.toString()} className="bg-[#252526] p-4 rounded-xl border border-[#3c3c3c] flex items-center gap-4 relative group hover:border-[#4d4d4d] transition-colors">
-                        <div className={`w-10 h-10 rounded-full bg-[#1e1e1e] flex items-center justify-center shrink-0 border border-[#3c3c3c]`}>
+                      <div key={rev._id.toString()} className="bg-card p-4 rounded-xl border border-border flex items-center gap-4 relative group hover:border-border transition-colors">
+                        <div className={`w-10 h-10 rounded-full bg-background flex items-center justify-center shrink-0 border border-border`}>
                           <span className={`material-symbols-outlined text-[22px] ${color}`}>{icon}</span>
                         </div>
                         <div className="flex-1 min-w-0">
@@ -195,7 +195,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
                             <span className={`font-bold text-sm ${color}`}>{rev.confidenceScore}/5</span>
                             {index === 0 && <span className="px-1.5 py-0.5 rounded text-[9px] uppercase font-bold bg-primary/20 text-primary border border-primary/30 tracking-wider">Latest</span>}
                           </div>
-                          <div className="flex items-center gap-3 text-[11px] text-[#858585] mt-1">
+                          <div className="flex items-center gap-3 text-[11px] text-muted-foreground mt-1">
                             <span>{rev.reviewedAt ? formatDistanceToNow(new Date(rev.reviewedAt), { addSuffix: true }) : 'Just now'}</span>
                             <span>•</span>
                             <span>Next: {rev.nextRevisionDate ? new Date(rev.nextRevisionDate).toLocaleDateString() : 'TBD'}</span>
@@ -211,22 +211,22 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
             </div>
             
             {initialRevisions.length > 0 && (
-              <div className="w-[280px] shrink-0 space-y-4 bg-[#252526] p-5 rounded-xl border border-[#3c3c3c] h-fit">
+              <div className="w-[280px] shrink-0 space-y-4 bg-card p-5 rounded-xl border border-border h-fit">
                 <div className="text-center">
-                  <span className="text-3xl font-bold text-[#cccccc]">{initialRevisions.length}</span>
-                  <p className="text-[10px] text-[#858585] uppercase tracking-wider mt-1">Total Reviews</p>
+                  <span className="text-3xl font-bold text-foreground">{initialRevisions.length}</span>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Total Reviews</p>
                 </div>
                 <div className="h-px bg-[#3c3c3c]"></div>
                 <div>
-                  <span className="text-[10px] text-[#858585] uppercase tracking-wider font-bold">Avg Confidence</span>
-                  <p className="text-lg font-bold text-[#cccccc] mt-1">
+                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Avg Confidence</span>
+                  <p className="text-lg font-bold text-foreground mt-1">
                     {(initialRevisions.reduce((acc: number, r: any) => acc + (r.confidenceScore || 0), 0) / initialRevisions.length).toFixed(1)} / 5
                   </p>
                 </div>
                 {initialRevisions[0]?.nextRevisionDate && (
                   <div>
-                    <span className="text-[10px] text-[#858585] uppercase tracking-wider font-bold">Next Review</span>
-                    <p className="text-sm font-medium text-[#cccccc] mt-1">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Next Review</span>
+                    <p className="text-sm font-medium text-foreground mt-1">
                       {new Date(initialRevisions[0].nextRevisionDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                     </p>
                   </div>
@@ -248,83 +248,83 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
   const rightPanelContent = (
     <section className="h-full flex flex-col gap-3 overflow-hidden">
       {activeSolution && (
-        <div className="bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)] shrink-0">
+        <div className="bg-card/50/50 backdrop-blur-md rounded-xl border border-border/10 overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)] shrink-0">
           <div className="p-4 space-y-2">
-            <h3 className="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest mb-3 flex items-center gap-1.5">
+            <h3 className="font-subheading text-[12px] uppercase tracking-wider text-[10px] text-muted-foreground uppercase tracking-widest mb-3 flex items-center gap-1.5">
               <span className="material-symbols-outlined text-[14px]">speed</span> Complexity
             </h3>
             <div className="grid grid-cols-2 gap-2">
-              <div className="bg-surface-container-lowest px-3 py-2 rounded-lg border border-outline-variant/10">
-                <span className="text-[9px] text-on-surface-variant uppercase tracking-wider font-bold block mb-0.5">Time</span>
+              <div className="bg-card px-3 py-2 rounded-lg border border-border/10">
+                <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-bold block mb-0.5">Time</span>
                 <span className="font-mono text-sm text-secondary font-bold">{activeSolution.timeComplexity || '—'}</span>
               </div>
-              <div className="bg-surface-container-lowest px-3 py-2 rounded-lg border border-outline-variant/10">
-                <span className="text-[9px] text-on-surface-variant uppercase tracking-wider font-bold block mb-0.5">Space</span>
+              <div className="bg-card px-3 py-2 rounded-lg border border-border/10">
+                <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-bold block mb-0.5">Space</span>
                 <span className="font-mono text-sm text-secondary font-bold">{activeSolution.spaceComplexity || '—'}</span>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-outline-variant/10 p-3 flex gap-2">
+          <div className="border-t border-border/10 p-3 flex gap-2">
             {!isEditing && (
-              <button onClick={() => setIsEditing(true)} className="flex-1 flex items-center justify-center gap-1.5 text-xs text-on-surface-variant hover:text-primary py-1.5 rounded-lg hover:bg-surface-container-highest transition-colors">
+              <button onClick={() => setIsEditing(true)} className="flex-1 flex items-center justify-center gap-1.5 text-xs text-muted-foreground hover:text-primary py-1.5 rounded-lg hover:bg-accent transition-colors">
                 <span className="material-symbols-outlined text-[14px]">edit</span> Edit
               </button>
             )}
-            <button onClick={handleShare} className="flex-1 flex items-center justify-center gap-1.5 text-xs text-on-surface-variant hover:text-primary py-1.5 rounded-lg hover:bg-surface-container-highest transition-colors">
+            <button onClick={handleShare} className="flex-1 flex items-center justify-center gap-1.5 text-xs text-muted-foreground hover:text-primary py-1.5 rounded-lg hover:bg-accent transition-colors">
               <span className="material-symbols-outlined text-[14px]">share</span> Share
             </button>
-            <button onClick={() => navigator.clipboard.writeText(activeSolution.code)} className="flex-1 flex items-center justify-center gap-1.5 text-xs text-on-surface-variant hover:text-on-surface py-1.5 rounded-lg hover:bg-surface-container-highest transition-colors">
+            <button onClick={() => navigator.clipboard.writeText(activeSolution.code)} className="flex-1 flex items-center justify-center gap-1.5 text-xs text-muted-foreground hover:text-foreground py-1.5 rounded-lg hover:bg-accent transition-colors">
               <span className="material-symbols-outlined text-[14px]">content_copy</span> Copy
             </button>
-            <button onClick={() => handleDeleteSolution(activeSolution._id)} className="flex items-center justify-center gap-1.5 text-xs text-on-surface-variant hover:text-error py-1.5 px-2 rounded-lg hover:bg-error/10 transition-colors">
+            <button onClick={() => handleDeleteSolution(activeSolution._id)} className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground hover:text-destructive py-1.5 px-2 rounded-lg hover:bg-destructive/10 transition-colors">
               <span className="material-symbols-outlined text-[14px]">delete</span>
             </button>
           </div>
         </div>
       )}
 
-      <div className="flex-1 min-h-0 bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 flex flex-col overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)]">
-        <div className="px-4 py-3 border-b border-outline-variant/10 flex items-center gap-2 shrink-0">
+      <div className="flex-1 min-h-0 bg-card/50/50 backdrop-blur-md rounded-xl border border-border/10 flex flex-col overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)]">
+        <div className="px-4 py-3 border-b border-border/10 flex items-center gap-2 shrink-0">
           <span className="material-symbols-outlined text-[16px] text-primary">auto_awesome</span>
-          <h3 className="font-label-sm text-[11px] text-on-surface uppercase tracking-wider font-bold">
+          <h3 className="font-subheading text-[12px] uppercase tracking-wider text-[11px] text-foreground uppercase tracking-wider font-bold">
             {activeTab === 'notes' ? 'Notes Mode' : activeTab === 'history' ? 'Revision Stats' : activeTab === 'add_solution' ? 'New Solution' : 'Explanation'}
           </h3>
         </div>
-        <div className="overflow-y-auto flex-1 p-4 text-sm text-on-surface-variant custom-scrollbar">
+        <div className="overflow-y-auto flex-1 p-4 text-sm text-muted-foreground custom-scrollbar">
           {activeSolution?.explanation ? (
             <div className="prose prose-invert prose-sm max-w-none prose-p:leading-relaxed prose-p:text-[13px]" dangerouslySetInnerHTML={{ __html: activeSolution.explanation.replace(/\n/g, '<br/>') }} />
           ) : activeTab === 'notes' ? (
             <div className="flex flex-col items-center justify-center h-full opacity-50 text-center px-4 py-8">
               <span className="material-symbols-outlined text-[36px] mb-3">edit_note</span>
               <p className="text-xs">Write your personal notes using Markdown.</p>
-              <p className="text-[10px] mt-1 text-on-surface-variant/60">Supports math formulas and code blocks.</p>
+              <p className="text-[10px] mt-1 text-muted-foreground/60">Supports math formulas and code blocks.</p>
             </div>
           ) : activeTab === 'add_solution' ? (
             <div className="flex flex-col items-center justify-center h-full opacity-50 text-center px-4 py-8">
               <span className="material-symbols-outlined text-[36px] mb-3">psychology</span>
               <p className="text-xs">Paste your code and save to attach an explanation.</p>
-              <p className="text-[10px] mt-1 text-on-surface-variant/60">Tip: Mark as ⭐ Optimal for your best approach.</p>
+              <p className="text-[10px] mt-1 text-muted-foreground/60">Tip: Mark as ⭐ Optimal for your best approach.</p>
             </div>
           ) : activeTab === 'history' ? (
             <div className="space-y-4">
               {initialRevisions.length > 0 ? (
                 <>
                   <div className="text-center">
-                    <span className="text-3xl font-bold text-on-surface">{initialRevisions.length}</span>
-                    <p className="text-[10px] text-on-surface-variant uppercase tracking-wider mt-1">Total Reviews</p>
+                    <span className="text-3xl font-bold text-foreground">{initialRevisions.length}</span>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Total Reviews</p>
                   </div>
                   <div className="h-px bg-outline-variant/10"></div>
                   <div>
-                    <span className="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">Avg Confidence</span>
-                    <p className="text-lg font-bold text-on-surface mt-1">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Avg Confidence</span>
+                    <p className="text-lg font-bold text-foreground mt-1">
                       {(initialRevisions.reduce((acc: number, r: any) => acc + (r.confidenceScore || 0), 0) / initialRevisions.length).toFixed(1)} / 5
                     </p>
                   </div>
                   {initialRevisions[0]?.nextRevisionDate && (
                     <div>
-                      <span className="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">Next Review</span>
-                      <p className="text-sm font-medium text-on-surface mt-1">
+                      <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Next Review</span>
+                      <p className="text-sm font-medium text-foreground mt-1">
                         {new Date(initialRevisions[0].nextRevisionDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                       </p>
                     </div>
@@ -349,10 +349,10 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
       </div>
 
       {problem.tags && problem.tags.length > 0 && (
-        <div className="bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 p-3 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)] shrink-0">
+        <div className="bg-card/50/50 backdrop-blur-md rounded-xl border border-border/10 p-3 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)] shrink-0">
           <div className="flex flex-wrap gap-1.5">
             {problem.tags.map((tag: string) => (
-              <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-surface-container-highest text-on-surface-variant border border-outline-variant/10">
+              <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-accent text-muted-foreground border border-border/10">
                 {tag}
               </span>
             ))}
@@ -381,7 +381,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
   return (
     <>
       {shareToast && (
-        <div className="fixed top-20 right-6 z-50 bg-primary text-on-primary px-4 py-2.5 rounded-lg shadow-2xl text-sm font-medium flex items-center gap-2 animate-in slide-in-from-top-2 fade-in duration-200">
+        <div className="fixed top-20 right-6 z-50 bg-primary text-primary-foreground px-4 py-2.5 rounded-lg shadow-2xl text-sm font-medium flex items-center gap-2 animate-in slide-in-from-top-2 fade-in duration-200">
           <span className="material-symbols-outlined text-[18px]">check_circle</span>
           Link copied to clipboard!
         </div>
@@ -394,7 +394,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
         />
       )}
       
-      <div className={`transition-all duration-300 ${isFullscreen ? 'fixed inset-2 md:inset-4 z-[100] shadow-2xl ring-1 ring-primary/20 animate-in zoom-in-95 duration-200 bg-surface rounded-xl' : 'w-full h-full'}`}>
+      <div className={`transition-all duration-300 ${isFullscreen ? 'fixed inset-2 md:inset-4 z-[100] shadow-2xl ring-1 ring-primary/20 animate-in zoom-in-95 duration-200 bg-background rounded-xl' : 'w-full h-full'}`}>
         <Group 
           orientation={isMobile ? 'vertical' : 'horizontal'} 
           id="workspace-group"

@@ -35,11 +35,11 @@ export default function SolutionViewer({ solution }: SolutionViewerProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#1e1e1e]">
+    <div className="flex flex-col h-full bg-background">
       {/* Status Bar */}
-      <div className="flex items-center justify-between px-4 py-1.5 bg-[#252526] border-b border-[#3c3c3c]">
+      <div className="flex items-center justify-between px-4 py-1.5 bg-card border-b border-border">
         <div className="flex items-center gap-3">
-          <span className="text-[11px] font-mono text-[#cccccc] bg-[#1e1e1e] px-2 py-0.5 rounded">{solution.language}</span>
+          <span className="text-[11px] font-mono text-foreground bg-background px-2 py-0.5 rounded">{solution.language}</span>
           {solution.approachType && solution.approachType !== 'Other' ? (
             <span className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold border 
               ${solution.approachType === 'Brute Force' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
@@ -60,19 +60,19 @@ export default function SolutionViewer({ solution }: SolutionViewerProps) {
             </span>
           ) : null}
           {solution.timeComplexity && (
-            <span className="text-[11px] font-mono text-[#858585]">
+            <span className="text-[11px] font-mono text-muted-foreground">
               ⏱ {solution.timeComplexity}
             </span>
           )}
           {solution.spaceComplexity && (
-            <span className="text-[11px] font-mono text-[#858585]">
+            <span className="text-[11px] font-mono text-muted-foreground">
               💾 {solution.spaceComplexity}
             </span>
           )}
         </div>
         <button 
           onClick={handleCopy}
-          className="flex items-center gap-1 text-[#858585] hover:text-[#cccccc] transition-colors text-[11px] px-2 py-1 rounded hover:bg-[#3c3c3c]"
+          className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors text-[11px] px-2 py-1 rounded hover:bg-[#3c3c3c]"
         >
           <span className="material-symbols-outlined text-[14px]">
             {copied ? 'check' : 'content_copy'}

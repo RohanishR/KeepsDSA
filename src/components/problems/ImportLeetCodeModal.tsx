@@ -64,21 +64,21 @@ export default function ImportLeetCodeModal({ isOpen, onClose }: ImportLeetCodeM
       ></div>
 
       {/* Modal */}
-      <div className="relative bg-surface-container-high border border-outline-variant/30 shadow-2xl rounded-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
+      <div className="relative bg-card border border-border/60 shadow-2xl rounded-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 fade-in duration-200">
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-[#ffa116]/10 flex items-center justify-center">
               <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" className="w-5 h-5 opacity-80" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-on-surface">Import from LeetCode</h2>
-              <p className="text-sm text-on-surface-variant">Sync questions, tags, and difficulty.</p>
+              <h2 className="text-xl font-bold text-foreground">Import from LeetCode</h2>
+              <p className="text-sm text-muted-foreground">Sync questions, tags, and difficulty.</p>
             </div>
           </div>
 
           <form onSubmit={handleImport} className="space-y-4">
             <div>
-              <label htmlFor="url" className="block text-sm font-medium text-on-surface-variant mb-1.5">
+              <label htmlFor="url" className="block text-sm font-medium text-muted-foreground mb-1.5">
                 LeetCode URL, Slug, or Question Title
               </label>
               <input
@@ -89,15 +89,15 @@ export default function ImportLeetCodeModal({ isOpen, onClose }: ImportLeetCodeM
                 value={urlOrSlug}
                 onChange={(e) => setUrlOrSlug(e.target.value)}
                 disabled={isLoading || !!success}
-                className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary disabled:opacity-50"
+                className="w-full bg-background border border-border/60 rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-primary disabled:opacity-50"
               />
-              <p className="text-[11px] text-on-surface-variant mt-1.5 opacity-70">
+              <p className="text-[11px] text-muted-foreground mt-1.5 opacity-70">
                 You can paste the full URL, the problem slug (e.g. "two-sum"), or the question title (e.g. "1. Two Sum").
               </p>
             </div>
 
             {error && (
-              <div className="bg-error/10 text-error px-4 py-3 rounded-lg text-sm flex items-start gap-2">
+              <div className="bg-destructive/10 text-destructive px-4 py-3 rounded-lg text-sm flex items-start gap-2">
                 <span className="material-symbols-outlined text-[18px]">error</span>
                 <p>{error}</p>
               </div>
@@ -115,7 +115,7 @@ export default function ImportLeetCodeModal({ isOpen, onClose }: ImportLeetCodeM
                 type="button"
                 onClick={onClose}
                 disabled={isLoading}
-                className="flex-1 px-4 py-2.5 rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container-highest transition-colors font-medium disabled:opacity-50"
+                className="flex-1 px-4 py-2.5 rounded-lg border border-border text-muted-foreground hover:bg-muted transition-colors font-medium disabled:opacity-50"
               >
                 Cancel
               </button>

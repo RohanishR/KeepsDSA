@@ -55,10 +55,10 @@ export default async function ProblemDetailPage({
   ]);
 
   const leftPanelContent = (
-    <section className="h-full bg-surface-container-low/50 backdrop-blur-md rounded-xl border border-outline-variant/10 flex flex-col overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)]">
-      <div className="p-4 border-b border-outline-variant/10 flex justify-between items-start">
+    <section className="h-full bg-card/50/50 backdrop-blur-md rounded-xl border border-border/10 flex flex-col overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)]">
+      <div className="p-4 border-b border-border/10 flex justify-between items-start">
         <div>
-          <h2 className="font-headline-md text-headline-md text-on-surface mb-2">{problem.title}</h2>
+          <h2 className="font-heading text-headline-md text-foreground mb-2">{problem.title}</h2>
           <div className="flex flex-wrap items-center gap-2">
             <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wider uppercase border
               ${problem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
@@ -69,7 +69,7 @@ export default async function ProblemDetailPage({
             </span>
             <div className="flex gap-1 flex-wrap">
               {problem.companies?.map((company: string) => (
-                <span key={company} className="px-2 py-0.5 rounded-full text-[11px] bg-surface-container-highest text-on-surface-variant border border-outline-variant/20">
+                <span key={company} className="px-2 py-0.5 rounded-full text-[11px] bg-accent text-muted-foreground border border-border/20">
                   {company}
                 </span>
               ))}
@@ -77,16 +77,16 @@ export default async function ProblemDetailPage({
           </div>
         </div>
         {problem.leetcodeUrl && (
-          <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:text-primary transition-colors flex-shrink-0 ml-2 bg-surface-container-highest p-1.5 rounded-md border border-outline-variant/20" title="View on LeetCode">
+          <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex-shrink-0 ml-2 bg-accent p-1.5 rounded-md border border-border/20" title="View on LeetCode">
             <span className="material-symbols-outlined text-[18px]">open_in_new</span>
           </a>
         )}
       </div>
       
-      <div className="p-5 overflow-y-auto flex-1 font-body-md text-body-md text-on-surface-variant space-y-4 custom-scrollbar">
+      <div className="p-5 overflow-y-auto flex-1 font-sans text-body-md text-muted-foreground space-y-4 custom-scrollbar">
         {problem.source === 'LeetCode' ? (
           <div 
-            className="prose prose-invert prose-sm max-w-none prose-p:leading-relaxed prose-pre:bg-surface-container-highest prose-pre:border prose-pre:border-outline-variant/20 prose-code:text-[#ffa116] prose-a:text-primary"
+            className="prose prose-invert prose-sm max-w-none prose-p:leading-relaxed prose-pre:bg-accent prose-pre:border prose-pre:border-border/20 prose-code:text-[#ffa116] prose-a:text-primary"
             dangerouslySetInnerHTML={{ __html: problem.description || "No description provided." }} 
           />
         ) : (
@@ -95,8 +95,8 @@ export default async function ProblemDetailPage({
         
         {problem.examples && (
           <div className="mt-6 space-y-4">
-            <div className="bg-surface-container-lowest p-3 rounded border border-outline-variant/10">
-              <p className="font-bold text-on-surface mb-1 text-sm">Examples:</p>
+            <div className="bg-card p-3 rounded border border-border/10">
+              <p className="font-bold text-foreground mb-1 text-sm">Examples:</p>
               <div className="font-mono text-[14px] text-tertiary whitespace-pre-wrap">
                 {problem.examples}
               </div>
@@ -106,28 +106,28 @@ export default async function ProblemDetailPage({
         
         {problem.constraints && (
           <div className="mt-6 space-y-2">
-            <p className="font-bold text-on-surface mb-1 text-sm">Constraints:</p>
-            <div className="font-mono text-[14px] text-tertiary whitespace-pre-wrap bg-surface-container-lowest p-3 rounded border border-outline-variant/10">
+            <p className="font-bold text-foreground mb-1 text-sm">Constraints:</p>
+            <div className="font-mono text-[14px] text-tertiary whitespace-pre-wrap bg-card p-3 rounded border border-border/10">
               {problem.constraints}
             </div>
           </div>
         )}
 
         {problem.hints && problem.hints.length > 0 && (
-          <div className="mt-8 pt-6 border-t border-outline-variant/10">
-            <h4 className="font-bold text-on-surface mb-3 flex items-center gap-2">
+          <div className="mt-8 pt-6 border-t border-border/10">
+            <h4 className="font-bold text-foreground mb-3 flex items-center gap-2">
               <span className="material-symbols-outlined text-[18px] text-[#facc15]">lightbulb</span>
               Hints
             </h4>
             <div className="space-y-2">
               {problem.hints.map((hint: string, i: number) => (
-                <details key={i} className="group bg-surface-container-low border border-outline-variant/20 rounded-lg overflow-hidden">
-                  <summary className="p-3 cursor-pointer text-sm font-medium text-on-surface hover:text-primary transition-colors flex items-center justify-between select-none">
+                <details key={i} className="group bg-card/50 border border-border/20 rounded-lg overflow-hidden">
+                  <summary className="p-3 cursor-pointer text-sm font-medium text-foreground hover:text-primary transition-colors flex items-center justify-between select-none">
                     Hint {i + 1}
                     <span className="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">expand_more</span>
                   </summary>
                   <div 
-                    className="p-3 pt-0 text-sm text-on-surface-variant border-t border-outline-variant/10 prose prose-invert prose-sm max-w-none"
+                    className="p-3 pt-0 text-sm text-muted-foreground border-t border-border/10 prose prose-invert prose-sm max-w-none"
                     dangerouslySetInnerHTML={{ __html: hint }}
                   />
                 </details>
@@ -138,16 +138,16 @@ export default async function ProblemDetailPage({
 
         {/* Related Problems */}
         {relatedProblems.length > 0 && (
-          <div className="mt-8 pt-6 border-t border-outline-variant/10 pb-4">
-            <h4 className="font-bold text-on-surface mb-3 flex items-center gap-2">
+          <div className="mt-8 pt-6 border-t border-border/10 pb-4">
+            <h4 className="font-bold text-foreground mb-3 flex items-center gap-2">
               <span className="material-symbols-outlined text-[18px] text-primary">account_tree</span>
               Related Problems
             </h4>
             <div className="space-y-2">
               {relatedProblems.map((rp: any) => (
-                <Link href={`/problem/${rp.slug}`} key={rp._id.toString()} className="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest hover:bg-surface-container-highest border border-outline-variant/10 transition-colors group">
-                  <span className="text-[13px] text-on-surface-variant group-hover:text-primary truncate mr-2">{rp.title}</span>
-                  <span className={`px-1.5 py-0.5 rounded font-label-sm text-[9px] font-medium border uppercase tracking-wider flex-shrink-0
+                <Link href={`/problem/${rp.slug}`} key={rp._id.toString()} className="flex items-center justify-between p-2 rounded-lg bg-card hover:bg-accent border border-border/10 transition-colors group">
+                  <span className="text-[13px] text-muted-foreground group-hover:text-primary truncate mr-2">{rp.title}</span>
+                  <span className={`px-1.5 py-0.5 rounded font-subheading text-[12px] uppercase tracking-wider text-[9px] font-medium border uppercase tracking-wider flex-shrink-0
                     ${rp.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
                     ${rp.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
                     ${rp.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
