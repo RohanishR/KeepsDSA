@@ -153,6 +153,231 @@
   h3, h4, h5, h6 {
     @apply font-subheading;
   }
+  
+  /* Global Animated Button Effect */
+  button, .btn-animated {
+    position: relative;
+    z-index: 0;
+    overflow: hidden !important;
+    transition: all 0.5s ease-in-out;
+  }
+
+  button > *, .btn-animated > * {
+    position: relative;
+    z-index: 10;
+    transition: color 0.5s ease-in-out, fill 0.5s ease-in-out, stroke 0.5s ease-in-out;
+  }
+
+  button::after, .btn-animated::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    background-color: var(--primary);
+    border-radius: 50%;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  button.bg-primary::after,
+  button[class*="from-primary"]::after,
+  .btn-animated.bg-primary::after,
+  .btn-animated[class*="from-primary"]::after {
+    background-color: var(--secondary);
+  }
+
+  button:not(:disabled):hover,
+  .btn-animated:not(:disabled):hover {
+    box-shadow: 0px 4px 25px rgba(0, 0, 255, 0.25) !important;
+    color: var(--primary-foreground) !important;
+    border-color: transparent !important;
+  }
+
+  button:not(:disabled):hover *,
+  .btn-animated:not(:disabled):hover * {
+    color: var(--primary-foreground) !important;
+  }
+
+  button:not(:disabled):hover svg,
+  .btn-animated:not(:disabled):hover svg,
+  button:not(:disabled):hover svg path,
+  .btn-animated:not(:disabled):hover svg path {
+    fill: var(--primary-foreground);
+    stroke: var(--primary-foreground);
+  }
+
+  button.bg-primary:not(:disabled):hover *,
+  button[class*="from-primary"]:not(:disabled):hover *,
+  .btn-animated.bg-primary:not(:disabled):hover *,
+  .btn-animated[class*="from-primary"]:not(:disabled):hover * {
+    color: var(--secondary-foreground) !important;
+  }
+
+  button.bg-primary:not(:disabled):hover svg,
+  button[class*="from-primary"]:not(:disabled):hover svg,
+  button.bg-primary:not(:disabled):hover svg path,
+  button[class*="from-primary"]:not(:disabled):hover svg path,
+  .btn-animated.bg-primary:not(:disabled):hover svg,
+  .btn-animated[class*="from-primary"]:not(:disabled):hover svg,
+  .btn-animated.bg-primary:not(:disabled):hover svg path,
+  .btn-animated[class*="from-primary"]:not(:disabled):hover svg path {
+    fill: var(--secondary-foreground);
+    stroke: var(--secondary-foreground);
+  }
+
+  button:not(:disabled):hover::after,
+  .btn-animated:not(:disabled):hover::after {
+    visibility: visible;
+    transform: scale(100) translateX(2px);
+  }
+
+  /* Animated Logout Button */
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden !important;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: rgb(255, 65, 65) !important;
+  }
+
+  .logout-btn::after {
+    display: none !important;
+  }
+
+  .logout-btn .sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logout-btn .sign svg {
+    width: 17px;
+  }
+
+  .logout-btn .sign svg path {
+    fill: white !important;
+    stroke: none !important;
+  }
+  
+  .logout-btn .text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white !important;
+    font-size: 14px;
+    font-weight: 600;
+    transition-duration: .3s;
+  }
+
+  .logout-btn:hover {
+    width: 125px !important;
+    border-radius: 40px;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 15px rgba(255, 65, 65, 0.4) !important;
+  }
+
+  .logout-btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 20px;
+  }
+
+  .logout-btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px;
+  }
+
+  .logout-btn:active {
+    transform: translate(2px, 2px);
+  }
+
+  /* Animated Settings Button */
+  .settings-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden !important;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: rgb(71, 85, 105) !important;
+  }
+
+  .settings-btn::after {
+    display: none !important;
+  }
+
+  .settings-btn .sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .settings-btn .sign span {
+    font-size: 20px;
+    color: white !important;
+  }
+  
+  .settings-btn .text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white !important;
+    font-size: 14px;
+    font-weight: 600;
+    transition-duration: .3s;
+    white-space: nowrap;
+  }
+
+  .settings-btn:hover {
+    width: 125px !important;
+    border-radius: 40px;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 15px rgba(71, 85, 105, 0.4) !important;
+  }
+
+  .settings-btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 20px;
+  }
+
+  .settings-btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px;
+  }
+
+  .settings-btn:active {
+    transform: translate(2px, 2px);
+  }
 }
 
 @theme inline {
@@ -328,3 +553,359 @@
   border-color: rgba(188,195,255,0.4) !important;
 }
 
+/* ===== ANIMATED BORDER BOX FOR AUTH ===== */
+.animated-border-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  z-index: 1;
+  padding: 2px; /* Border thickness */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 0 8px rgba(255, 255, 255, 0.1),
+    0 0 16px rgba(255, 255, 255, 0.08);
+}
+
+.animated-border-box::before {
+  content: "";
+  position: absolute;
+  inset: -100px;
+  z-index: -2;
+  background: conic-gradient(
+    from 45deg,
+    transparent 75%,
+    var(--primary),
+    transparent 100%
+  );
+  animation: auth-spin 4s linear infinite;
+}
+
+@keyframes auth-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animated-border-box-inner {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  border-radius: 22px; /* Slightly less to fit inside */
+  background: var(--card);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow:
+    inset 0 40px 60px -8px rgba(255, 255, 255, 0.05),
+    inset 4px 0 12px -6px rgba(255, 255, 255, 0.05),
+    inset 0 0 12px -4px rgba(255, 255, 255, 0.05);
+}
+
+/* ===== 3D FLIP CHECKBOX ===== */
+.flip-cbx-container {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.flip-cbx {
+  -webkit-perspective: 20px;
+  perspective: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  transform: translate3d(0, 0, 0);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.flip-cbx-input {
+  display: none;
+}
+
+.flip-cbx-input:checked + .flip-cbx {
+  border-color: var(--primary);
+}
+
+.flip-cbx-input:checked + .flip-cbx .flip-cbx-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-cbx-inner {
+  display: block;
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.flip-cbx-front,
+.flip-cbx-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: -2px; /* compensate for border */
+  left: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+}
+
+.flip-cbx-front {
+  z-index: 1;
+}
+
+.flip-cbx-back {
+  transform: rotateY(180deg);
+  background: var(--primary);
+  text-align: center;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.flip-cbx-back svg {
+  fill: none;
+  width: 10px;
+  height: 10px;
+}
+
+.flip-cbx-back svg path {
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ===== ANIMATED RADIO CONTAINER ===== */
+.radio-container {
+  --s: 14px; /* control the size */
+  --g: 8px; /* the gap */
+  --c: var(--primary); /* the active color */
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--g);
+  position: relative;
+}
+.radio-container:before {
+  content: "";
+  position: absolute;
+  height: calc(var(--s) / 2);
+  left: calc(var(--s) / 4 + var(--_x, 0px));
+  top: calc(var(--s) / 4);
+  background: var(--c);
+  border-radius: 50%;
+  aspect-ratio: 1;
+  transition: 0.4s, left cubic-bezier(0.1, -2000, 0.7, -2000) 0.4s;
+  pointer-events: none;
+}
+.radio-container label {
+  display: inline-flex;
+  line-height: var(--s);
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.radio-container input {
+  height: var(--s);
+  aspect-ratio: 1;
+  border: 2px solid var(--_c, rgba(255,255,255,0.2));
+  border-radius: 50%;
+  outline-offset: calc(var(--s) / 10);
+  padding: calc(var(--s) / 8);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-size: inherit;
+  margin: 0;
+  transition: 0.3s;
+}
+.radio-container input:checked {
+  --_c: var(--c);
+}
+.radio-container:not(:has(input:checked)):before {
+  --_i: -1;
+  opacity: 0;
+}
+.radio-container:has(input:checked):before {
+  opacity: 1;
+  transform: translateY(calc(var(--_i) * (var(--s) + var(--g))));
+}
+.radio-container:has(label:nth-child(1) input:checked):before {
+  --_i: 0;
+  --_x: 0.02px;
+}
+.radio-container:has(label:nth-child(2) input:checked):before {
+  --_i: 1;
+  --_x: 0.04px;
+}
+.radio-container:has(label:nth-child(3) input:checked):before {
+  --_i: 2;
+  --_x: 0.06px;
+}
+
+/* ===== ANIMATED BOOKMARK ===== */
+.ui-bookmark {
+  --icon-size: 20px;
+  --icon-secondary-color: rgba(255,255,255,0.3);
+  --icon-hover-color: rgba(255,255,255,0.6);
+  --icon-primary-color: var(--primary);
+  --icon-circle-border: 1px solid var(--icon-primary-color);
+  --icon-circle-size: 30px;
+  --icon-anmt-duration: 0.3s;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.ui-bookmark input {
+  display: none;
+}
+
+.ui-bookmark .bookmark {
+  width: var(--icon-size);
+  height: auto;
+  fill: var(--icon-secondary-color);
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transform-origin: top;
+}
+
+.ui-bookmark .bookmark::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  box-shadow: 0 20px 0 -2px var(--icon-primary-color),
+    20px 0 0 -2px var(--icon-primary-color),
+    0 -20px 0 -2px var(--icon-primary-color),
+    -20px 0 0 -2px var(--icon-primary-color),
+    -14px 14px 0 -2px var(--icon-primary-color),
+    -14px -14px 0 -2px var(--icon-primary-color),
+    14px -14px 0 -2px var(--icon-primary-color),
+    14px 14px 0 -2px var(--icon-primary-color);
+  border-radius: 50%;
+  transform: scale(0);
+}
+
+.ui-bookmark .bookmark::before {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: var(--icon-circle-border);
+  opacity: 0;
+}
+
+.ui-bookmark:hover .bookmark {
+  fill: var(--icon-hover-color);
+}
+
+.ui-bookmark input:checked + .bookmark::after {
+  animation: circles var(--icon-anmt-duration) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: var(--icon-anmt-duration);
+}
+
+.ui-bookmark input:checked + .bookmark {
+  fill: var(--icon-primary-color);
+  animation: bookmark var(--icon-anmt-duration) forwards;
+  transition-delay: 0.1s;
+}
+
+.ui-bookmark input:checked + .bookmark::before {
+  animation: bookmark-circle var(--icon-anmt-duration) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: var(--icon-anmt-duration);
+}
+
+@keyframes bookmark {
+  50% { transform: scaleY(0.6); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes bookmark-circle {
+  from { width: 0; height: 0; opacity: 0; }
+  90% { width: var(--icon-circle-size); height: var(--icon-circle-size); opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes circles {
+  from { transform: scale(0); }
+  40% { opacity: 1; }
+  to { transform: scale(0.8); opacity: 0; }
+}
+
+/* ===== ANIMATED SWITCH ===== */
+.switch {
+ --button-width: 3.5em;
+ --button-height: 2em;
+ --toggle-diameter: 1.5em;
+ --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
+ --toggle-shadow-offset: 10px;
+ --toggle-wider: 3em;
+ --color-grey: rgba(255, 255, 255, 0.1);
+ --color-green: var(--primary);
+ font-size: 0.8rem;
+ display: inline-flex;
+ align-items: center;
+}
+
+.slider {
+ display: inline-block;
+ width: var(--button-width);
+ height: var(--button-height);
+ background-color: var(--color-grey);
+ border-radius: calc(var(--button-height) / 2);
+ position: relative;
+ transition: 0.3s all ease-in-out;
+ cursor: pointer;
+}
+
+.slider::after {
+ content: "";
+ display: inline-block;
+ width: var(--toggle-diameter);
+ height: var(--toggle-diameter);
+ background-color: #fff;
+ border-radius: calc(var(--toggle-diameter) / 2);
+ position: absolute;
+ top: var(--button-toggle-offset);
+ transform: translateX(var(--button-toggle-offset));
+ box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+ transition: 0.3s all ease-in-out;
+}
+
+.switch input[type="checkbox"]:checked + .slider {
+ background-color: var(--color-green);
+}
+
+.switch input[type="checkbox"]:checked + .slider::after {
+ transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
+ box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+}
+
+.switch input[type="checkbox"] {
+ display: none;
+}
+
+.switch input[type="checkbox"]:active + .slider::after {
+ width: var(--toggle-wider);
+}
+
+.switch input[type="checkbox"]:checked:active + .slider::after {
+ transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+}

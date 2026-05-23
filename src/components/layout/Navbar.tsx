@@ -79,23 +79,33 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen = true }: Navbar
                       <p className="text-[12px] text-muted-foreground truncate mt-0.5">{session.user.email}</p>
                     </div>
                     
-                    <div className="px-2 space-y-1">
-                      <Link 
-                        href="/settings" 
-                        className="flex items-center gap-3 px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-primary rounded-lg transition-all duration-200 group"
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        <span className="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-45">settings</span>
-                        Settings & Privacy
-                      </Link>
-                      
-                      <button 
-                        onClick={() => signOut({ callbackUrl: '/login' })}
-                        className="w-full flex items-center gap-3 px-3 py-2 text-[13px] font-medium text-destructive hover:bg-destructive/10 rounded-lg transition-all duration-200 group"
-                      >
-                        <span className="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:translate-x-0.5">logout</span>
-                        Log out
-                      </button>
+                    <div className="px-2 pb-2">
+                      <div className="flex justify-center items-center gap-4 pt-1">
+                        <Link 
+                          href="/settings" 
+                          className="settings-btn"
+                          onClick={() => setShowDropdown(false)}
+                          title="Settings"
+                        >
+                          <div className="sign">
+                            <span className="material-symbols-outlined">settings</span>
+                          </div>
+                          <div className="text">Settings</div>
+                        </Link>
+                        
+                        <button 
+                          onClick={() => signOut({ callbackUrl: '/' })}
+                          className="logout-btn"
+                          title="Log out"
+                        >
+                          <div className="sign">
+                            <svg viewBox="0 0 512 512">
+                              <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+                            </svg>
+                          </div>
+                          <div className="text">Logout</div>
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 </>

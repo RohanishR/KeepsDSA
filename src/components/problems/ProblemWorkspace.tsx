@@ -393,8 +393,9 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
         </div>
       )}
 
+      {/* Mobile Floating AI Assistant */}
       <AIAssistant 
-        isOpen={isAIOpen} 
+        isOpen={isAIOpen && isMobile} 
         onClose={() => setIsAIOpen(false)} 
         codeContext={activeSolution?.code || ''}
         problemTitle={problem.title}
@@ -408,9 +409,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
         />
       )}
       
-      <div className={`transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isFullscreen ? 'fixed inset-2 md:inset-4 z-[100] shadow-2xl ring-1 ring-primary/20 animate-in zoom-in-95 duration-200 bg-background rounded-xl' : 'w-full h-full'}`}
-        style={{ marginRight: isAIOpen && !isMobile ? '380px' : '0px' }}
-      >
+      <div className={`transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isFullscreen ? 'fixed inset-2 md:inset-4 z-[100] shadow-2xl ring-1 ring-primary/20 animate-in zoom-in-95 duration-200 bg-background rounded-xl' : 'w-full h-full'}`}>
         <Group 
           orientation={isMobile ? 'vertical' : 'horizontal'} 
           id="workspace-group"
@@ -434,8 +433,28 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
               <div className={resizeHandleIndicatorClass} />
             </Separator>
             
-            <Panel defaultSize={25} minSize={20} className="flex flex-col h-full">
+            <Panel defaultSize={20} minSize={15} className="flex flex-col h-full">
               {rightPanelContent}
+            </Panel>
+          </>
+        )}
+
+        {/* Integrated Desktop AI Assistant */}
+        {isAIOpen && !isMobile && (
+          <>
+            <Separator className={resizeHandleClass}>
+              <div className={resizeHandleIndicatorClass} />
+            </Separator>
+            
+            <Panel defaultSize={25} minSize={20} className="flex flex-col h-full overflow-hidden">
+              <AIAssistant 
+                isOpen={true} 
+                onClose={() => setIsAIOpen(false)} 
+                codeContext={activeSolution?.code || ''}
+                problemTitle={problem.title}
+                problemDescription={problem.description || ''}
+                isIntegrated={true}
+              />
             </Panel>
           </>
         )}

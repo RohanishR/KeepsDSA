@@ -93,7 +93,7 @@ export default function RegisterPage() {
           <input 
             type="text" 
             {...register('name')}
-            className={`w-full bg-card/50 border ${errors.name ? 'border-destructive' : 'border-border/30'} rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
+            className={`w-full bg-card/50 border ${errors.name ? 'border-destructive' : 'border-border/30'} rounded-lg px-4 py-2 text-[16px] md:text-[14px] text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
             placeholder="Alex Chen"
           />
           {errors.name && (
@@ -105,7 +105,7 @@ export default function RegisterPage() {
           <input 
             type="email" 
             {...register('email')}
-            className={`w-full bg-card/50 border ${errors.email ? 'border-destructive' : 'border-border/30'} rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
+            className={`w-full bg-card/50 border ${errors.email ? 'border-destructive' : 'border-border/30'} rounded-lg px-4 py-2 text-[16px] md:text-[14px] text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
             placeholder="developer@example.com"
           />
           {errors.email && (
@@ -117,7 +117,7 @@ export default function RegisterPage() {
           <input 
             type="password" 
             {...register('password')}
-            className={`w-full bg-card/50 border ${errors.password ? 'border-destructive' : 'border-border/30'} rounded-lg px-4 py-2 text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
+            className={`w-full bg-card/50 border ${errors.password ? 'border-destructive' : 'border-border/30'} rounded-lg px-4 py-2 text-[16px] md:text-[14px] text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all`}
             placeholder="••••••••"
           />
           {errors.password && (
@@ -128,9 +128,9 @@ export default function RegisterPage() {
         <button 
           type="submit" 
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-primary to-secondary text-primary-foreground font-bold py-2.5 rounded-lg shadow-[0_0_15px_rgba(188,195,255,0.2)] hover:shadow-[0_0_25px_rgba(188,195,255,0.4)] transition-all disabled:opacity-50 mt-6"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2.5 rounded-lg shadow-[0_0_15px_rgba(188,195,255,0.2)] hover:shadow-[0_0_25px_rgba(188,195,255,0.4)] transition-all disabled:opacity-50 mt-6"
         >
-          {isSubmitting ? 'Creating...' : 'Sign Up'}
+          <span>{isSubmitting ? 'Creating...' : 'Sign Up'}</span>
         </button>
       </form>
 

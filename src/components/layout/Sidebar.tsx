@@ -38,10 +38,10 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <div className="px-gutter mb-6 relative">
         <button 
           onClick={() => setIsAddMenuOpen(!isAddMenuOpen)}
-          className="w-full bg-gradient-to-r from-primary to-secondary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider text-[13px] py-2.5 rounded shadow-[0_0_15px_rgba(29,161,242,0.3)] hover:shadow-[0_0_25px_rgba(29,161,242,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full bg-primary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider text-[13px] py-2.5 rounded shadow-[0_0_15px_rgba(29,161,242,0.3)] hover:shadow-[0_0_25px_rgba(29,161,242,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98]"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
-          New Problem
+          <span>New Problem</span>
           <motion.span 
             animate={{ rotate: isAddMenuOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}

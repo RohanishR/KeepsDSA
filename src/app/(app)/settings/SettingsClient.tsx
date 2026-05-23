@@ -82,16 +82,10 @@ export default function SettingsClient({ initialData }: { initialData: SettingsD
 
   // Animated Toggle Switch Component
   const ToggleSwitch = ({ checked, onChange }: { checked: boolean, onChange: () => void }) => (
-    <button
-      onClick={onChange}
-      className={`w-12 h-6 rounded-full p-1 flex items-center transition-colors duration-300 ${checked ? 'bg-primary' : 'bg-accent'}`}
-    >
-      <motion.div 
-        layout
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className={`w-4 h-4 rounded-full bg-white shadow-sm ${checked ? 'ml-auto' : ''}`}
-      />
-    </button>
+    <label className="switch">
+      <input type="checkbox" checked={checked} onChange={onChange} />
+      <span className="slider" />
+    </label>
   );
 
   return (
@@ -203,24 +197,24 @@ export default function SettingsClient({ initialData }: { initialData: SettingsD
               whileTap={{ scale: 0.98 }}
               onClick={handleSave}
               disabled={isSaving}
-              className={`px-6 py-2.5 rounded-lg font-bold shadow-md transition-all flex items-center gap-2 ${
+              className={`px-8 py-3 rounded-full font-bold shadow-lg transition-all flex items-center gap-2 text-[15px] ${
                 isSuccess 
                   ? 'bg-secondary text-on-secondary shadow-secondary/20' 
-                  : 'bg-primary text-primary-foreground hover:bg-primary-fixed hover:text-primary-foreground-fixed shadow-primary/20 hover:shadow-primary/40'
+                  : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/30 hover:shadow-primary/50'
               }`}
             >
               {isSaving ? (
-                <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
+                <span className="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
               ) : isSuccess ? (
                 <motion.span 
                   initial={{ scale: 0 }} 
                   animate={{ scale: 1 }} 
-                  className="material-symbols-outlined text-[18px]"
+                  className="material-symbols-outlined text-[20px]"
                 >
                   check_circle
                 </motion.span>
               ) : (
-                <span className="material-symbols-outlined text-[18px]">save</span>
+                <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>save</span>
               )}
               {isSaving ? 'Saving...' : isSuccess ? 'Saved!' : 'Save Changes'}
             </motion.button>

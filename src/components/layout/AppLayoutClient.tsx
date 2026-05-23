@@ -21,9 +21,9 @@ export default function AppLayoutClient({ children }: { children: React.ReactNod
     return (
       <div className="flex flex-col md:flex-row min-h-screen w-full bg-background">
         <Sidebar isOpen={true} onToggle={() => {}} />
-        <div className="flex-1 flex flex-col md:ml-[260px] min-h-screen relative">
+        <div className="flex-1 flex flex-col md:ml-[260px] min-h-[100dvh] relative">
           <Navbar onToggleSidebar={() => {}} isSidebarOpen={true} />
-          <main className="flex-1 p-4 md:p-8 mt-16 max-w-7xl mx-auto w-full">
+          <main className="flex-1 p-2 sm:p-4 md:p-8 mt-16 max-w-7xl mx-auto w-full">
             {children}
           </main>
         </div>
@@ -32,7 +32,7 @@ export default function AppLayoutClient({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen w-full bg-background overflow-x-hidden">
+    <div className="flex flex-col md:flex-row min-h-[100dvh] w-full bg-background overflow-x-hidden">
       <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
       
       {/* Overlay for mobile when sidebar is open */}
@@ -44,12 +44,12 @@ export default function AppLayoutClient({ children }: { children: React.ReactNod
       )}
 
       <div 
-        className={`flex-1 flex flex-col min-h-screen relative transition-all duration-300 ${
+        className={`flex-1 flex flex-col min-h-[100dvh] relative transition-all duration-300 ${
           isSidebarOpen ? 'md:ml-[260px]' : 'ml-0'
         }`}
       >
         <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} isSidebarOpen={isSidebarOpen} />
-        <main className="flex-1 p-4 md:p-8 mt-16 max-w-7xl mx-auto w-full">
+        <main className="flex-1 p-2 sm:p-4 md:p-8 mt-16 max-w-7xl mx-auto w-full">
           {children}
         </main>
       </div>

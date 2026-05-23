@@ -164,7 +164,7 @@ export default async function ProblemDetailPage({
   );
 
   return (
-    <div className="flex-1 h-[calc(100vh-8rem)]">
+    <div className="flex-1 h-[calc(100dvh-80px)] sm:h-[calc(100dvh-96px)] md:h-[calc(100vh-8rem)] pb-2 md:pb-0">
       <ProblemWorkspace 
         problem={JSON.parse(JSON.stringify(problem))} 
         initialSolutions={JSON.parse(JSON.stringify(solutions))} 

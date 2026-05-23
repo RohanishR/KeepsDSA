@@ -15,9 +15,10 @@ interface AIAssistantProps {
   codeContext: string;
   problemTitle: string;
   problemDescription: string;
+  isIntegrated?: boolean;
 }
 
-export default function AIAssistant({ isOpen, onClose, codeContext, problemTitle, problemDescription }: AIAssistantProps) {
+export default function AIAssistant({ isOpen, onClose, codeContext, problemTitle, problemDescription, isIntegrated = false }: AIAssistantProps) {
   const { messages, input, handleInputChange, handleSubmit, append, isLoading, error } = useChat({
     api: '/api/chat',
     initialMessages: [
@@ -90,23 +91,32 @@ export default function AIAssistant({ isOpen, onClose, codeContext, problemTitle
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Mobile Backdrop */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-background/60 backdrop-blur-sm z-[150] md:hidden"
-            onClick={onClose}
-          />
+          {/* Mobile Backdrop (only when not integrated) */}
+          {!isIntegrated && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-background/60 backdrop-blur-sm z-[150] md:hidden"
+              onClick={onClose}
+            />
+          )}
           
-          {/* Sliding Drawer - inline, not overlapping */}
+          {/* Sliding Drawer - inline or floating */}
           <motion.div
-            variants={drawerVariants}
+            variants={isIntegrated ? {
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { duration: 0.2 } },
+              exit: { opacity: 0, transition: { duration: 0.1 } }
+            } : drawerVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-y-0 right-0 w-full md:w-[380px] bg-card border-l border-border/40 shadow-2xl z-[100] flex flex-col"
+            className={isIntegrated 
+              ? "w-full h-full bg-card flex flex-col relative"
+              : "fixed inset-y-0 right-0 w-full md:w-[380px] bg-card border-l border-border/40 shadow-2xl z-[100] flex flex-col"
+            }
           >
             {/* Header */}
             <div className="h-12 border-b border-border/30 flex items-center justify-between px-4 bg-card shrink-0">

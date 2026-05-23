@@ -1,11 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
+import { BeamsBackground } from '@/components/ui/beams-background';
+import SpotlightCards from '@/components/ui/spotlight-cards';
 
 export default function LandingPage() {
   return (
     <>
       {/* Ambient Glow Background */}
-      <div className="fixed inset-0 z-[-2] bg-[#070708]"></div>
+      <div className="fixed inset-0 z-[-2]">
+        <BeamsBackground className="h-full bg-[#070708]" intensity="medium" />
+      </div>
       <div className="fixed inset-0 z-[-1] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBoNDBWMHgtNDB6IiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYSkiLz48L3N2Zz4=')] opacity-20 pointer-events-none"></div>
       
       {/* Hero Section */}
@@ -31,13 +35,13 @@ export default function LandingPage() {
         
         {/* Animated CTA Buttons */}
         <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-4 mb-20 w-full sm:w-auto">
-          <Link href="/register" className="group bg-gradient-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02]">
+          <Link href="/register" className="btn-animated group bg-gradient-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02]">
             <span className="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-0.5">cloud_download</span>
-            Get Started
+            <span>Get Started</span>
           </Link>
-          <Link href="/explore" className="group glass-panel text-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-muted/80 transition-all duration-300 w-full sm:w-auto hover:scale-[1.02]">
+          <Link href="/explore" className="btn-animated group glass-panel text-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-muted/80 transition-all duration-300 w-full sm:w-auto hover:scale-[1.02]">
             <span className="material-symbols-outlined transition-transform duration-300 group-hover:scale-110">play_circle</span>
-            View Demo
+            <span>View Demo</span>
           </Link>
         </div>
         
@@ -99,28 +103,14 @@ export default function LandingPage() {
 
       {/* Features Section */}
       <section className="max-w-[1280px] mx-auto px-4 md:px-12 py-24 border-t border-border/10" id="features">
-        <div className="text-center mb-16">
-          <h2 className="animate-fade-in-up font-heading-mobile md:text-[32px] md:leading-[40px] font-bold text-foreground mb-4">Engineered for Technical Mastery</h2>
-          <p className="animate-fade-in-up delay-100 font-sans text-[16px] leading-[24px] text-muted-foreground max-w-2xl mx-auto">Everything you need to stop grinding mindlessly and start learning systematically.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { icon: 'account_tree', color: 'primary', title: 'Multi-solution Tracking', desc: "Don't just store one answer. Track brute-force, optimal, and alternative approaches side-by-side to understand trade-offs.", delay: '' },
-            { icon: 'draw', color: 'secondary', title: 'Handwritten Notes', desc: 'Snap a photo of your whiteboard scribbles or iPad notes. We attach them directly to the problem context.', delay: 'delay-100' },
-            { icon: 'psychology', color: 'tertiary', title: 'AI Explanations', desc: 'Stuck on a specific line of code? Highlight it and get an instant, context-aware explanation tailored to your skill level.', delay: 'delay-200' },
-            { icon: 'autorenew', color: 'error', title: 'Spaced Repetition', desc: 'Our algorithm schedules revisions based on your mastery level, ensuring concepts move from short-term to long-term memory.', delay: 'delay-300' },
-          ].map((feature) => (
-            <div key={feature.title} className={`animate-fade-in-up ${feature.delay} glass-panel p-6 rounded-xl group cursor-default card-hover`}>
-              <div className={`w-12 h-12 rounded-lg bg-${feature.color}/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                <span className={`material-symbols-outlined text-${feature.color} text-[24px]`}>{feature.icon}</span>
-              </div>
-              <h3 className="font-heading text-[20px] font-semibold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
-              <p className="font-sans text-[14px] text-muted-foreground">
-                {feature.desc}
-              </p>
-            </div>
-          ))}
-        </div>
+        <SpotlightCards 
+          items={[
+            { icon: 'GitCompare', title: 'Multi-solution Tracking', description: "Don't just store one answer. Track brute-force, optimal, and alternative approaches side-by-side to understand trade-offs.", color: '#4296f4' },
+            { icon: 'PenLine', title: 'Handwritten Notes', description: 'Snap a photo of your whiteboard scribbles or iPad notes. We attach them directly to the problem context.', color: '#ffb86c' },
+            { icon: 'Sparkles', title: 'AI Explanations', description: 'Stuck on a specific line of code? Highlight it and get an instant, context-aware explanation tailored to your skill level.', color: '#bd93f9' },
+            { icon: 'RefreshCw', title: 'Spaced Repetition', description: 'Our algorithm schedules revisions based on your mastery level, ensuring concepts move from short-term to long-term memory.', color: '#ff5555' },
+          ]}
+        />
       </section>
 
       {/* New CTA Section */}
@@ -134,9 +124,9 @@ export default function LandingPage() {
             <p className="font-sans text-[16px] md:text-[18px] text-muted-foreground max-w-xl mx-auto mb-8">
               Join developers who are mastering DSA patterns systematically instead of grinding blindly.
             </p>
-            <Link href="/register" className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider text-[14px] font-bold tracking-[0.05em] px-10 py-4 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.03] transition-all duration-300">
+            <Link href="/register" className="btn-animated inline-flex items-center gap-2 bg-gradient-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider text-[14px] font-bold tracking-[0.05em] px-10 py-4 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.03] transition-all duration-300">
               <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
-              Get Started — It&apos;s Free
+              <span>Get Started — It&apos;s Free</span>
             </Link>
           </div>
         </div>

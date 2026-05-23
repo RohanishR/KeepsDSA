@@ -48,20 +48,22 @@ export default function SidebarFilters({ availableTags, filters, setters }: Side
 
       {/* Bookmarks Toggle */}
       <div>
-        <label className="flex items-center gap-3 cursor-pointer group">
-          <div className={`w-8 h-4 rounded-full transition-colors relative ${filters.isBookmarked ? 'bg-primary' : 'bg-accent border border-border/30'}`}>
-            <div className={`absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-transform ${filters.isBookmarked ? 'translate-x-4' : 'translate-x-0'}`}></div>
-          </div>
-          <span className="text-[13px] font-medium text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[16px] text-destructive">favorite</span>
-            Favorites Only
-          </span>
+        <label className="ui-bookmark group">
           <input 
             type="checkbox"
-            className="hidden"
             checked={filters.isBookmarked}
             onChange={() => setters.setIsBookmarked(prev => !prev)}
           />
+          <div className="bookmark">
+            <svg viewBox="0 0 32 32">
+              <g>
+                <path d="M27 4v27a1 1 0 0 1-1.625.781L16 24.281l-9.375 7.5A1 1 0 0 1 5 31V4a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4z" />
+              </g>
+            </svg>
+          </div>
+          <span className="text-[13px] font-medium text-foreground group-hover:text-primary transition-colors">
+            Bookmarks Only
+          </span>
         </label>
       </div>
 
@@ -70,16 +72,15 @@ export default function SidebarFilters({ availableTags, filters, setters }: Side
       {/* Status */}
       <div>
         <label className="block text-[11px] uppercase tracking-wider font-bold text-muted-foreground mb-3">Status</label>
-        <div className="flex flex-col gap-2">
+        <div className="radio-container">
           {['', 'Solved', 'Unsolved'].map(statusOption => (
-            <label key={statusOption || 'Any'} className="flex items-center gap-2 cursor-pointer group">
+            <label key={statusOption || 'Any'} className="group">
               <input 
                 type="radio" 
                 name="status"
                 value={statusOption}
                 checked={filters.status === statusOption}
                 onChange={() => setters.setStatus(statusOption)}
-                className="w-3.5 h-3.5 accent-primary bg-card/50 border-border/30"
               />
               <span className={`text-[13px] ${filters.status === statusOption ? 'text-primary font-medium' : 'text-muted-foreground group-hover:text-foreground'}`}>
                 {statusOption || 'Any Status'}
@@ -94,15 +95,28 @@ export default function SidebarFilters({ availableTags, filters, setters }: Side
       {/* Difficulty */}
       <div>
         <label className="block text-[11px] uppercase tracking-wider font-bold text-muted-foreground mb-3">Difficulty</label>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           {['Easy', 'Medium', 'Hard'].map(diff => (
-            <label key={diff} className="flex items-center gap-2 cursor-pointer group">
-              <input 
-                type="checkbox"
-                checked={filters.difficulty.includes(diff)}
-                onChange={() => toggleArrayItem(setters.setDifficulty, diff)}
-                className="w-3.5 h-3.5 rounded-[3px] accent-primary bg-card/50 border-border/30"
-              />
+            <label key={diff} className="flex items-center cursor-pointer group">
+              <div className="flip-cbx-container">
+                <input 
+                  type="checkbox"
+                  id={`cbx-diff-${diff}`}
+                  className="flip-cbx-input"
+                  checked={filters.difficulty.includes(diff)}
+                  onChange={() => toggleArrayItem(setters.setDifficulty, diff)}
+                />
+                <div className="flip-cbx">
+                  <div className="flip-cbx-inner">
+                    <div className="flip-cbx-front" />
+                    <div className="flip-cbx-back">
+                      <svg viewBox="0 0 16 14" height={14} width={16}>
+                        <path d="M2 8.5L6 12.5L14 1.5" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <span className={`text-[13px] ${filters.difficulty.includes(diff) ? 'text-primary font-medium' : 'text-muted-foreground group-hover:text-foreground'}`}>
                 {diff}
               </span>
