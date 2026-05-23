@@ -5,6 +5,7 @@ import AddSolutionForm from './AddSolutionForm';
 import NotesEditor from './NotesEditor';
 import SolutionViewer from './SolutionViewer';
 import AttachmentsManager from './AttachmentsManager';
+import AIAssistant from './AIAssistant';
 import { formatDistanceToNow } from 'date-fns';
 import { Panel, Group, Separator } from 'react-resizable-panels';
 
@@ -22,6 +23,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
   const defaultTab = initialSolutions.length > 0 ? initialSolutions[0]._id.toString() : 'add_solution';
   
   const [activeTab, setActiveTab] = useState<string>(defaultTab);
+  const [isAIOpen, setIsAIOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [shareToast, setShareToast] = useState(false);
@@ -148,6 +150,10 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
           
           {/* Action Buttons */}
           <div className="flex items-center gap-1 px-1 shrink-0">
+            <button onClick={() => setIsAIOpen(true)} className="flex items-center gap-1.5 px-3 py-1.5 h-[30px] rounded-md text-[12px] font-bold bg-gradient-to-r from-primary/10 to-primary/5 text-primary hover:bg-primary/20 border border-primary/20 transition-colors shadow-sm mr-1">
+              <span className="material-symbols-outlined text-[16px]">psychology</span>
+              Ask AI
+            </button>
             <button onClick={handleShare} className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors" title="Share Solution">
               <span className="material-symbols-outlined text-[18px]">share</span>
             </button>
@@ -387,6 +393,14 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
         </div>
       )}
 
+      <AIAssistant 
+        isOpen={isAIOpen} 
+        onClose={() => setIsAIOpen(false)} 
+        codeContext={activeSolution?.code || ''}
+        problemTitle={problem.title}
+        problemDescription={problem.description || ''}
+      />
+
       {isFullscreen && (
         <div 
           className="fixed inset-0 bg-background/90 backdrop-blur-sm z-[90] transition-opacity animate-in fade-in duration-200"
@@ -394,7 +408,9 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
         />
       )}
       
-      <div className={`transition-all duration-300 ${isFullscreen ? 'fixed inset-2 md:inset-4 z-[100] shadow-2xl ring-1 ring-primary/20 animate-in zoom-in-95 duration-200 bg-background rounded-xl' : 'w-full h-full'}`}>
+      <div className={`transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${isFullscreen ? 'fixed inset-2 md:inset-4 z-[100] shadow-2xl ring-1 ring-primary/20 animate-in zoom-in-95 duration-200 bg-background rounded-xl' : 'w-full h-full'}`}
+        style={{ marginRight: isAIOpen && !isMobile ? '380px' : '0px' }}
+      >
         <Group 
           orientation={isMobile ? 'vertical' : 'horizontal'} 
           id="workspace-group"
