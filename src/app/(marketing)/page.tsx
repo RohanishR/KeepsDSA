@@ -11,30 +11,38 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative max-w-[1280px] mx-auto px-4 md:px-12 pt-16 md:pt-32 pb-24 flex flex-col items-center text-center">
         <div className="absolute w-[600px] h-[600px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(58,82,237,0.15)_0%,rgba(7,7,8,0)_70%)] z-[-1] pointer-events-none"></div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-container/30 bg-primary-container/10 mb-8">
+        
+        {/* Animated Badge */}
+        <div className="animate-fade-in-down inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-container/30 bg-primary-container/10 mb-8 animate-glow-pulse">
           <span className="material-symbols-outlined text-primary text-[16px]">new_releases</span>
           <span className="font-label-sm text-[12px] font-medium tracking-[0.05em] text-primary">v1.0.0 is now live</span>
         </div>
-        <h1 className="font-display-lg text-[48px] md:text-[64px] leading-[56px] md:leading-[72px] font-bold tracking-tighter mb-6 max-w-4xl text-on-surface">
+        
+        {/* Animated Heading */}
+        <h1 className="animate-fade-in-up font-display-lg text-[48px] md:text-[64px] leading-[56px] md:leading-[72px] font-bold tracking-tighter mb-6 max-w-4xl text-on-surface">
           Your Personal <br className="hidden md:block" />
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">DSA Knowledge Base</span>
+          <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-shift">DSA Knowledge Base</span>
         </h1>
-        <p className="font-body-lg text-[18px] leading-[28px] text-on-surface-variant max-w-2xl mb-10">
+        
+        {/* Animated Subtitle */}
+        <p className="animate-fade-in-up delay-150 font-body-lg text-[18px] leading-[28px] text-on-surface-variant max-w-2xl mb-10">
           Master patterns, track revisions, and build your technical second brain. Stop solving the same problems from scratch and start building a reusable library of algorithmic insights.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 mb-20 w-full sm:w-auto">
-          <Link href="/register" className="bg-gradient-to-r from-primary-container to-secondary-container text-white font-label-sm text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity w-full sm:w-auto">
-            <span className="material-symbols-outlined" data-icon="cloud_download" data-weight="fill">cloud_download</span>
+        
+        {/* Animated CTA Buttons */}
+        <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-4 mb-20 w-full sm:w-auto">
+          <Link href="/register" className="group bg-gradient-to-r from-primary-container to-secondary-container text-white font-label-sm text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02]">
+            <span className="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-0.5">cloud_download</span>
             Get Started
           </Link>
-          <Link href="/explore" className="glass-panel text-on-surface font-label-sm text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container-high transition-all duration-200 w-full sm:w-auto">
-            <span className="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+          <Link href="/explore" className="group glass-panel text-on-surface font-label-sm text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container-high transition-all duration-300 w-full sm:w-auto hover:scale-[1.02]">
+            <span className="material-symbols-outlined transition-transform duration-300 group-hover:scale-110">play_circle</span>
             View Demo
           </Link>
         </div>
         
         {/* Hero Graphic (Code Editor Preview) */}
-        <div className="w-full max-w-5xl rounded-xl glass-panel overflow-hidden shadow-[0_0_40px_rgba(58,82,237,0.1)] border border-outline-variant/20 relative text-left">
+        <div className="animate-fade-in-up delay-500 w-full max-w-5xl rounded-xl glass-panel overflow-hidden shadow-[0_0_60px_rgba(58,82,237,0.12)] border border-outline-variant/20 relative text-left hover:shadow-[0_0_80px_rgba(58,82,237,0.18)] transition-shadow duration-700">
           {/* Mac Window Controls */}
           <div className="h-10 bg-surface-container-high/50 border-b border-outline-variant/20 flex items-center px-4 gap-2 backdrop-blur-md">
             <div className="w-3 h-3 rounded-full bg-error/80"></div>
@@ -74,8 +82,8 @@ export default function LandingPage() {
               <div className="pl-5 relative"><span className="absolute left-0 text-on-surface-variant/50">9</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-secondary">for</span> i, n <span className="text-secondary">in</span> enumerate(nums):</div>
               <div className="pl-5 relative"><span className="absolute left-0 text-on-surface-variant/50">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diff = target - n</div>
               
-              {/* Floating Insights Panel Mock */}
-              <div className="absolute bottom-6 right-6 w-64 glass-panel rounded-lg p-4 border-l-2 border-primary-container shadow-lg">
+              {/* Floating Insights Panel Mock — animated */}
+              <div className="absolute bottom-6 right-6 w-64 glass-panel rounded-lg p-4 border-l-2 border-primary-container shadow-lg animate-float">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="material-symbols-outlined text-primary text-[18px]">lightbulb</span>
                   <span className="font-label-sm text-[12px] font-bold text-primary">Mastery Insight</span>
@@ -92,45 +100,44 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className="max-w-[1280px] mx-auto px-4 md:px-12 py-24 border-t border-outline-variant/10" id="features">
         <div className="text-center mb-16">
-          <h2 className="font-headline-lg-mobile md:text-[32px] md:leading-[40px] font-bold text-on-surface mb-4">Engineered for Technical Mastery</h2>
-          <p className="font-body-md text-[16px] leading-[24px] text-on-surface-variant max-w-2xl mx-auto">Everything you need to stop grinding mindlessly and start learning systematically.</p>
+          <h2 className="animate-fade-in-up font-headline-lg-mobile md:text-[32px] md:leading-[40px] font-bold text-on-surface mb-4">Engineered for Technical Mastery</h2>
+          <p className="animate-fade-in-up delay-100 font-body-md text-[16px] leading-[24px] text-on-surface-variant max-w-2xl mx-auto">Everything you need to stop grinding mindlessly and start learning systematically.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="glass-panel p-6 rounded-xl hover:shadow-[inset_0_0_10px_rgba(58,82,237,0.15)] transition-all duration-300">
-            <div className="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-primary text-[24px]">account_tree</span>
+          {[
+            { icon: 'account_tree', color: 'primary', title: 'Multi-solution Tracking', desc: "Don't just store one answer. Track brute-force, optimal, and alternative approaches side-by-side to understand trade-offs.", delay: '' },
+            { icon: 'draw', color: 'secondary', title: 'Handwritten Notes', desc: 'Snap a photo of your whiteboard scribbles or iPad notes. We attach them directly to the problem context.', delay: 'delay-100' },
+            { icon: 'psychology', color: 'tertiary', title: 'AI Explanations', desc: 'Stuck on a specific line of code? Highlight it and get an instant, context-aware explanation tailored to your skill level.', delay: 'delay-200' },
+            { icon: 'autorenew', color: 'error', title: 'Spaced Repetition', desc: 'Our algorithm schedules revisions based on your mastery level, ensuring concepts move from short-term to long-term memory.', delay: 'delay-300' },
+          ].map((feature) => (
+            <div key={feature.title} className={`animate-fade-in-up ${feature.delay} glass-panel p-6 rounded-xl group cursor-default card-hover`}>
+              <div className={`w-12 h-12 rounded-lg bg-${feature.color}/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <span className={`material-symbols-outlined text-${feature.color} text-[24px]`}>{feature.icon}</span>
+              </div>
+              <h3 className="font-headline-md text-[20px] font-semibold text-on-surface mb-3 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
+              <p className="font-body-md text-[14px] text-on-surface-variant">
+                {feature.desc}
+              </p>
             </div>
-            <h3 className="font-headline-md text-[20px] font-semibold text-on-surface mb-3">Multi-solution Tracking</h3>
-            <p className="font-body-md text-[14px] text-on-surface-variant">
-              Don't just store one answer. Track brute-force, optimal, and alternative approaches side-by-side to understand trade-offs.
+          ))}
+        </div>
+      </section>
+
+      {/* New CTA Section */}
+      <section className="max-w-[1280px] mx-auto px-4 md:px-12 py-24 border-t border-outline-variant/10">
+        <div className="glass-panel rounded-2xl p-12 md:p-16 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary-container/10 pointer-events-none"></div>
+          <div className="relative z-10">
+            <h2 className="font-headline-lg text-[28px] md:text-[36px] font-bold text-on-surface mb-4 tracking-tight">
+              Ready to build your <span className="text-primary">second brain</span>?
+            </h2>
+            <p className="font-body-lg text-[16px] md:text-[18px] text-on-surface-variant max-w-xl mx-auto mb-8">
+              Join developers who are mastering DSA patterns systematically instead of grinding blindly.
             </p>
-          </div>
-          <div className="glass-panel p-6 rounded-xl hover:shadow-[inset_0_0_10px_rgba(58,82,237,0.15)] transition-all duration-300">
-            <div className="w-12 h-12 rounded-lg bg-secondary-container/10 flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-secondary text-[24px]">draw</span>
-            </div>
-            <h3 className="font-headline-md text-[20px] font-semibold text-on-surface mb-3">Handwritten Notes</h3>
-            <p className="font-body-md text-[14px] text-on-surface-variant">
-              Snap a photo of your whiteboard scribbles or iPad notes. We attach them directly to the problem context.
-            </p>
-          </div>
-          <div className="glass-panel p-6 rounded-xl hover:shadow-[inset_0_0_10px_rgba(58,82,237,0.15)] transition-all duration-300">
-            <div className="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-tertiary text-[24px]">psychology</span>
-            </div>
-            <h3 className="font-headline-md text-[20px] font-semibold text-on-surface mb-3">AI Explanations</h3>
-            <p className="font-body-md text-[14px] text-on-surface-variant">
-              Stuck on a specific line of code? Highlight it and get an instant, context-aware explanation tailored to your skill level.
-            </p>
-          </div>
-          <div className="glass-panel p-6 rounded-xl hover:shadow-[inset_0_0_10px_rgba(58,82,237,0.15)] transition-all duration-300">
-            <div className="w-12 h-12 rounded-lg bg-error/10 flex items-center justify-center mb-6">
-              <span className="material-symbols-outlined text-error text-[24px]">autorenew</span>
-            </div>
-            <h3 className="font-headline-md text-[20px] font-semibold text-on-surface mb-3">Spaced Repetition</h3>
-            <p className="font-body-md text-[14px] text-on-surface-variant">
-              Our algorithm schedules revisions based on your mastery level, ensuring concepts move from short-term to long-term memory.
-            </p>
+            <Link href="/register" className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-container to-secondary-container text-white font-label-sm text-[14px] font-bold tracking-[0.05em] px-10 py-4 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.03] transition-all duration-300">
+              <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
+              Get Started — It&apos;s Free
+            </Link>
           </div>
         </div>
       </section>

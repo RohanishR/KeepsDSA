@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { motion, Variants } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, Variants, useMotionValue, useTransform, animate } from 'framer-motion';
 import Link from 'next/link';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import ActivityHeatmap from '@/components/dashboard/ActivityHeatmap';
@@ -25,14 +25,34 @@ const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 }
   }
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } }
 };
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20, scale: 0.96 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } }
+};
+
+// Animated counter component
+function AnimatedCounter({ value, duration = 1.2 }: { value: number; duration?: number }) {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (v) => Math.round(v));
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    const controls = animate(count, value, { duration, ease: 'easeOut' });
+    const unsubscribe = rounded.on('change', (v) => setDisplayValue(v));
+    return () => { controls.stop(); unsubscribe(); };
+  }, [value, count, rounded, duration]);
+
+  return <>{displayValue}</>;
+}
 
 export default function DashboardClient({ initialData }: DashboardClientProps) {
   const { userName, totalSolved, revisionsDueCount, streak, upcomingProblem, heatmapData, difficultyData, topicData, activityFeed } = initialData;
@@ -56,20 +76,21 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
       animate="visible"
       className="pb-16"
     >
+      {/* Welcome Header */}
       <motion.div variants={itemVariants} className="mb-8 flex justify-between items-end">
         <div>
           <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-[32px] text-on-surface mb-1 tracking-tight font-bold">
             Welcome back, {userName}.
           </h2>
-          <p className="font-body-md text-[16px] text-on-surface-variant">Your logic is sharp today. Let's build.</p>
+          <p className="font-body-md text-[16px] text-on-surface-variant">Your logic is sharp today. Let&apos;s build.</p>
         </div>
         <div className="hidden md:flex gap-3">
-          <Link href="/explore" className="bg-surface-container-high text-on-surface hover:bg-surface-bright px-4 py-2 rounded-lg font-medium shadow-sm border border-outline-variant/30 transition-all flex items-center gap-2">
-            <span className="material-symbols-outlined text-[18px]">search</span>
+          <Link href="/explore" className="group bg-surface-container-high text-on-surface hover:bg-surface-bright px-4 py-2 rounded-lg font-medium shadow-sm border border-outline-variant/30 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]">
+            <span className="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:scale-110">search</span>
             Explore
           </Link>
-          <Link href="/review" className="bg-primary text-on-primary px-4 py-2 rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all flex items-center gap-2">
-            <span className="material-symbols-outlined text-[18px]">history_edu</span>
+          <Link href="/revision" className="group bg-primary text-on-primary px-4 py-2 rounded-lg font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]">
+            <span className="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-12">history_edu</span>
             Start Revision
           </Link>
         </div>
@@ -77,71 +98,99 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
       
       {/* Top Stats Row */}
       <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-stack-gap-md mb-stack-gap-md">
-        <div className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] relative overflow-hidden group">
-          <div className="absolute -right-6 -top-6 text-primary/5 group-hover:text-primary/10 transition-colors pointer-events-none">
+        <motion.div 
+          variants={cardVariants}
+          whileHover={{ y: -5, boxShadow: '0 10px 30px -5px rgba(188,195,255,0.12)' }}
+          className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] relative overflow-hidden group cursor-default"
+        >
+          <div className="absolute -right-6 -top-6 text-primary/5 group-hover:text-primary/10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
             <span className="material-symbols-outlined text-[120px]">task_alt</span>
           </div>
           <div className="flex justify-between items-start text-on-surface-variant relative z-10">
             <span className="font-label-sm text-[12px] uppercase tracking-wider font-bold">Total Solved</span>
           </div>
           <div className="mt-4 relative z-10">
-            <span className="font-display-lg text-[48px] font-bold tracking-tighter text-on-surface leading-none">{totalSolved}</span>
+            <span className="font-display-lg text-[48px] font-bold tracking-tighter text-on-surface leading-none">
+              <AnimatedCounter value={totalSolved} />
+            </span>
             <span className="font-label-sm text-[12px] text-primary ml-2 bg-primary/10 px-2 py-0.5 rounded border border-primary/20">Problems</span>
           </div>
-        </div>
+        </motion.div>
         
-        <div className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] relative overflow-hidden group">
-          <div className="absolute -right-6 -top-6 text-error/5 group-hover:text-error/10 transition-colors pointer-events-none">
+        <motion.div 
+          variants={cardVariants}
+          whileHover={{ y: -5, boxShadow: '0 10px 30px -5px rgba(239,68,68,0.12)' }}
+          className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] relative overflow-hidden group cursor-default"
+        >
+          <div className="absolute -right-6 -top-6 text-error/5 group-hover:text-error/10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
             <span className="material-symbols-outlined text-[120px]">warning</span>
           </div>
           <div className="flex justify-between items-start text-on-surface-variant relative z-10">
             <span className="font-label-sm text-[12px] uppercase tracking-wider font-bold">Revisions Due</span>
           </div>
           <div className="mt-4 relative z-10">
-            <span className={`font-display-lg text-[48px] font-bold tracking-tighter text-on-surface leading-none ${revisionsDueCount > 0 ? 'text-error' : ''}`}>{revisionsDueCount}</span>
+            <span className={`font-display-lg text-[48px] font-bold tracking-tighter text-on-surface leading-none ${revisionsDueCount > 0 ? 'text-error' : ''}`}>
+              <AnimatedCounter value={revisionsDueCount} />
+            </span>
             <span className={`font-label-sm text-[12px] ml-2 px-2 py-0.5 rounded border ${revisionsDueCount > 0 ? 'text-error bg-error/10 border-error/20' : 'text-on-surface-variant bg-surface-container-highest border-outline-variant/20'}`}>
               {revisionsDueCount > 0 ? 'Needs attention' : 'Caught up'}
             </span>
           </div>
-        </div>
+        </motion.div>
         
-        <div className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] relative overflow-hidden group">
-          <div className="absolute -right-6 -top-6 text-secondary/5 group-hover:text-secondary/10 transition-colors pointer-events-none">
+        <motion.div 
+          variants={cardVariants}
+          whileHover={{ y: -5, boxShadow: '0 10px 30px -5px rgba(16,185,129,0.12)' }}
+          className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] relative overflow-hidden group cursor-default"
+        >
+          <div className="absolute -right-6 -top-6 text-secondary/5 group-hover:text-secondary/10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 pointer-events-none">
             <span className="material-symbols-outlined text-[120px]">local_fire_department</span>
           </div>
           <div className="flex justify-between items-start text-on-surface-variant relative z-10">
             <span className="font-label-sm text-[12px] uppercase tracking-wider font-bold">Current Streak</span>
           </div>
           <div className="mt-4 relative z-10">
-            <span className="font-display-lg text-[48px] font-bold tracking-tighter text-on-surface leading-none">{streak}</span>
+            <span className="font-display-lg text-[48px] font-bold tracking-tighter text-on-surface leading-none">
+              <AnimatedCounter value={streak} />
+            </span>
             <span className="font-label-sm text-[12px] text-secondary ml-2 bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">Days</span>
           </div>
-        </div>
+        </motion.div>
         
         {upcomingProblem ? (
-          <div className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] border-l-4 border-l-primary relative overflow-hidden group">
-            <div className="relative z-10">
-              <span className="font-label-sm text-[12px] uppercase tracking-wider font-bold text-primary mb-2 block">Upcoming Revision</span>
-              <h3 className="text-[18px] font-bold text-on-surface leading-tight truncate group-hover:text-primary transition-colors" title={upcomingProblem.title}>{upcomingProblem.title}</h3>
-              <div className="flex items-center gap-2 mt-2">
-                <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border
-                  ${upcomingProblem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
-                  ${upcomingProblem.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
-                  ${upcomingProblem.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
-                `}>
-                  {upcomingProblem.difficulty}
-                </span>
-                <span className="text-[12px] text-on-surface-variant truncate">
-                  {upcomingProblem.tags && upcomingProblem.tags.length > 0 ? upcomingProblem.tags[0] : 'General'}
-                </span>
+          <Link href="/revision" className="block">
+            <motion.div 
+              variants={cardVariants}
+              whileHover={{ y: -5, boxShadow: '0 10px 30px -5px rgba(188,195,255,0.15)' }}
+              className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-between min-h-[140px] border-l-4 border-l-primary relative overflow-hidden group cursor-pointer h-full"
+            >
+              <div className="relative z-10">
+                <span className="font-label-sm text-[12px] uppercase tracking-wider font-bold text-primary mb-2 block">Upcoming Revision</span>
+                <h3 className="text-[18px] font-bold text-on-surface leading-tight truncate group-hover:text-primary transition-colors duration-300" title={upcomingProblem.title}>{upcomingProblem.title}</h3>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border
+                    ${upcomingProblem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
+                    ${upcomingProblem.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
+                    ${upcomingProblem.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
+                  `}>
+                    {upcomingProblem.difficulty}
+                  </span>
+                  <span className="text-[12px] text-on-surface-variant truncate">
+                    {upcomingProblem.tags && upcomingProblem.tags.length > 0 ? upcomingProblem.tags[0] : 'General'}
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </Link>
         ) : (
-          <div className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-center items-center min-h-[140px] border-l-4 border-l-outline-variant">
+          <motion.div 
+            variants={cardVariants}
+            whileHover={{ y: -5 }}
+            className="glass-panel rounded-xl p-6 glow-accent flex flex-col justify-center items-center min-h-[140px] border-l-4 border-l-outline-variant"
+          >
             <span className="material-symbols-outlined text-[32px] text-on-surface-variant mb-2">done_all</span>
             <span className="font-label-sm text-[12px] text-on-surface-variant text-center">No upcoming revisions.</span>
-          </div>
+          </motion.div>
         )}
       </motion.div>
 
@@ -172,6 +221,9 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
                     paddingAngle={5}
                     dataKey="value"
                     stroke="none"
+                    animationBegin={200}
+                    animationDuration={1000}
+                    animationEasing="ease-out"
                   >
                     {difficultyData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -186,7 +238,7 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
             {/* Center Label */}
             {difficultyData.length > 0 && (
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-[24px] font-bold text-on-surface leading-none">{totalSolved}</span>
+                <span className="text-[24px] font-bold text-on-surface leading-none"><AnimatedCounter value={totalSolved} duration={1.5} /></span>
                 <span className="text-[10px] text-on-surface-variant uppercase tracking-wider mt-1">Total</span>
               </div>
             )}
@@ -216,7 +268,7 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
                   <XAxis type="number" hide />
                   <YAxis dataKey="topic" type="category" axisLine={false} tickLine={false} tick={{ fill: '#c5c5d8', fontSize: 12 }} width={100} />
                   <RechartsTooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
-                  <Bar dataKey="count" fill="#314ae6" radius={[0, 4, 4, 0]} barSize={20}>
+                  <Bar dataKey="count" fill="#314ae6" radius={[0, 4, 4, 0]} barSize={20} animationDuration={1200} animationEasing="ease-out">
                     {topicData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={`hsl(232, ${60 + (index * 5)}%, ${60 - (index * 5)}%)`} />
                     ))}
@@ -239,32 +291,39 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
           <div className="flex-1 flex flex-col gap-4 overflow-y-auto pr-2 custom-scrollbar max-h-[250px]">
             {activityFeed.length > 0 ? (
               activityFeed.map((activity, index) => (
-                <Link key={activity._id} href={`/problem/${activity.problem.slug}`} className="flex gap-4 group">
-                  <div className="flex flex-col items-center">
-                    <div className="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center text-primary group-hover:bg-primary/20 group-hover:border-primary/50 transition-colors">
-                      <span className="material-symbols-outlined text-[16px]">code</span>
+                <motion.div
+                  key={activity._id}
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + index * 0.08, duration: 0.35 }}
+                >
+                  <Link href={`/problem/${activity.problem.slug}`} className="flex gap-4 group">
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center text-primary group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-200">
+                        <span className="material-symbols-outlined text-[16px]">code</span>
+                      </div>
+                      {index < activityFeed.length - 1 && <div className="w-[1px] flex-1 bg-outline-variant/20 my-1"></div>}
                     </div>
-                    {index < activityFeed.length - 1 && <div className="w-[1px] flex-1 bg-outline-variant/20 my-1"></div>}
-                  </div>
-                  <div className="flex-1 pb-4">
-                    <div className="flex justify-between items-start">
-                      <h4 className="text-[14px] font-bold text-on-surface group-hover:text-primary transition-colors">{activity.problem.title}</h4>
-                      <span className="text-[11px] text-on-surface-variant whitespace-nowrap">{formatDistanceToNow(new Date(activity.createdAt), { addSuffix: true })}</span>
+                    <div className="flex-1 pb-4">
+                      <div className="flex justify-between items-start">
+                        <h4 className="text-[14px] font-bold text-on-surface group-hover:text-primary transition-colors">{activity.problem.title}</h4>
+                        <span className="text-[11px] text-on-surface-variant whitespace-nowrap">{formatDistanceToNow(new Date(activity.createdAt), { addSuffix: true })}</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase border
+                          ${activity.problem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
+                          ${activity.problem.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
+                          ${activity.problem.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
+                        `}>
+                          {activity.problem.difficulty}
+                        </span>
+                        {activity.language && (
+                          <span className="text-[11px] text-on-surface-variant font-mono bg-surface-container-highest px-2 py-0.5 rounded border border-outline-variant/20">{activity.language}</span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase border
-                        ${activity.problem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
-                        ${activity.problem.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
-                        ${activity.problem.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
-                      `}>
-                        {activity.problem.difficulty}
-                      </span>
-                      {activity.language && (
-                        <span className="text-[11px] text-on-surface-variant font-mono bg-surface-container-highest px-2 py-0.5 rounded border border-outline-variant/20">{activity.language}</span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                </motion.div>
               ))
             ) : (
               <div className="flex-1 flex items-center justify-center flex-col text-on-surface-variant">

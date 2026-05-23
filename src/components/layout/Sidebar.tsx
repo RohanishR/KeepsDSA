@@ -1,25 +1,128 @@
-import Link from 'next/link';
+'use client';
 
-export default function Sidebar() {
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+interface SidebarProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+const NAV_ITEMS = [
+  { href: '/dashboard', icon: 'dashboard', label: 'Dashboard' },
+  { href: '/explore', icon: 'search', label: 'Problems' },
+  { href: '/notes', icon: 'edit_note', label: 'Notes' },
+  { href: '/revision', icon: 'history_edu', label: 'Revision' },
+  { href: '/settings', icon: 'settings', label: 'Settings' },
+];
+
+export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
+
   return (
-    <nav className="hidden md:flex flex-col fixed left-0 top-0 h-full w-[260px] z-40 bg-surface/70 backdrop-blur-xl border-r border-outline-variant/10 shadow-[0_0_20px_rgba(188,195,255,0.05)] py-gutter">
-      <div className="px-gutter mb-8">
-        <h1 className="font-display-lg text-[32px] font-bold text-primary tracking-tighter leading-none mt-2">KeepsDSA</h1>
-        <p className="font-label-sm text-label-sm text-on-surface-variant mt-1">v1.0.0-beta</p>
-      </div>
-      <div className="px-gutter mb-6">
-        <button className="w-full bg-gradient-to-r from-primary to-secondary text-on-primary font-label-sm text-label-sm py-2 rounded shadow-[0_0_15px_rgba(188,195,255,0.3)] hover:shadow-[0_0_20px_rgba(188,195,255,0.5)] transition-all flex items-center justify-center gap-2">
-          <span className="material-symbols-outlined text-[16px]">add</span>
-          New Problem
+    <nav className={`fixed left-0 top-0 h-full w-[260px] z-40 bg-surface/70 backdrop-blur-xl border-r border-outline-variant/10 shadow-[0_0_20px_rgba(188,195,255,0.05)] py-gutter flex flex-col transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className="px-gutter mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="font-display-lg text-[32px] font-bold text-primary tracking-tighter leading-none mt-2">KeepsDSA</h1>
+          <p className="font-label-sm text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">v1.0.0-beta</p>
+        </div>
+        <button onClick={onToggle} className="md:hidden text-on-surface-variant hover:text-on-surface">
+          <span className="material-symbols-outlined">close</span>
         </button>
       </div>
-      <ul className="flex flex-col flex-grow">
-        <li><Link className="flex items-center gap-stack-gap-md px-4 py-3 bg-primary-container/20 text-primary border-r-2 border-primary scale-[0.98] duration-150" href="/dashboard"><span className="material-symbols-outlined">dashboard</span><span className="font-label-sm text-label-sm">Dashboard</span></Link></li>
-        <li><Link className="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200" href="/explore"><span className="material-symbols-outlined">database</span><span className="font-label-sm text-label-sm">Explorer</span></Link></li>
-        <li><Link className="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200" href="/notes"><span className="material-symbols-outlined">edit_note</span><span className="font-label-sm text-label-sm">Notes</span></Link></li>
-        <li><Link className="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200" href="/revision"><span className="material-symbols-outlined">history_edu</span><span className="font-label-sm text-label-sm">Revision</span></Link></li>
-        <li><Link className="flex items-center gap-stack-gap-md px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high transition-all duration-200" href="/profile"><span className="material-symbols-outlined">settings</span><span className="font-label-sm text-label-sm">Settings</span></Link></li>
+      
+      <div className="px-gutter mb-6 relative">
+        <button 
+          onClick={() => setIsAddMenuOpen(!isAddMenuOpen)}
+          className="w-full bg-gradient-to-r from-primary to-secondary text-on-primary font-label-sm text-[13px] py-2.5 rounded shadow-[0_0_15px_rgba(188,195,255,0.3)] hover:shadow-[0_0_25px_rgba(188,195,255,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98]"
+        >
+          <span className="material-symbols-outlined text-[18px]">add</span>
+          New Problem
+          <motion.span 
+            animate={{ rotate: isAddMenuOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="material-symbols-outlined text-[16px] ml-1"
+          >expand_more</motion.span>
+        </button>
+
+        <AnimatePresence>
+          {isAddMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.95 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
+              className="absolute top-full left-gutter right-gutter mt-2 bg-surface-container-high border border-outline-variant/20 rounded-lg shadow-xl overflow-hidden z-50"
+            >
+              <button 
+                onClick={() => {
+                  router.push('/explore?action=add_problem');
+                  setIsAddMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left text-[13px] text-on-surface hover:bg-surface-container-highest transition-colors"
+              >
+                <span className="material-symbols-outlined text-[16px] text-primary">edit_document</span>
+                Add Manually
+              </button>
+              <button 
+                onClick={() => {
+                  router.push('/explore?action=import_leetcode');
+                  setIsAddMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left text-[13px] text-on-surface hover:bg-surface-container-highest transition-colors border-t border-outline-variant/10"
+              >
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" className="w-4 h-4 opacity-70" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
+                Import from LeetCode
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <ul className="flex flex-col flex-grow px-3 gap-1">
+        {NAV_ITEMS.map((item, index) => {
+          const isActive = pathname === item.href;
+          return (
+            <motion.li 
+              key={item.href}
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05, duration: 0.3 }}
+            >
+              <Link 
+                className={`relative flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 group ${isActive ? 'bg-primary/10 text-primary font-bold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'}`} 
+                href={item.href}
+              >
+                {/* Animated active indicator */}
+                {isActive && (
+                  <motion.div 
+                    layoutId="sidebar-active-pill"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full"
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
+                )}
+                <span className={`material-symbols-outlined text-[20px] transition-transform duration-200 ${isActive ? '' : 'group-hover:scale-110'}`}>{item.icon}</span>
+                <span className="text-[14px]">{item.label}</span>
+              </Link>
+            </motion.li>
+          );
+        })}
       </ul>
+      
+      {/* Collapse button for desktop */}
+      <div className="mt-auto px-4 pb-4 hidden md:block">
+        <button 
+          onClick={onToggle}
+          className="flex items-center gap-2 text-[12px] text-on-surface-variant hover:text-on-surface transition-colors py-2 px-3 rounded hover:bg-surface-container-high w-full group"
+        >
+          <span className="material-symbols-outlined text-[16px] transition-transform duration-200 group-hover:-translate-x-0.5">keyboard_double_arrow_left</span>
+          Collapse Sidebar
+        </button>
+      </div>
     </nav>
   );
 }

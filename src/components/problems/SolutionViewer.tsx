@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 
 interface SolutionViewerProps {
@@ -10,37 +10,82 @@ interface SolutionViewerProps {
     language: string;
     code: string;
     isOptimal: boolean;
+    approachType?: string;
+    timeComplexity?: string;
+    spaceComplexity?: string;
+    explanation?: string;
   };
 }
 
 export default function SolutionViewer({ solution }: SolutionViewerProps) {
+  const [copied, setCopied] = useState(false);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(solution.code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const getMonacoLanguage = (lang: string) => {
+    const map: Record<string, string> = {
+      'Python': 'python', 'JavaScript': 'javascript', 'TypeScript': 'typescript',
+      'Java': 'java', 'C++': 'cpp', 'C': 'c', 'Go': 'go', 'Rust': 'rust'
+    };
+    return map[lang] || 'plaintext';
   };
 
   return (
     <div className="flex flex-col h-full bg-[#1e1e1e]">
-      <div className="flex items-center justify-between px-4 py-2 bg-surface-container-highest border-b border-outline-variant/10">
-        <div className="flex items-center gap-2">
-          <span className="text-[12px] font-mono text-tertiary">{solution.language}</span>
-          {solution.isOptimal && (
-            <span className="px-1.5 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold bg-primary/20 text-primary border border-primary/30">
+      {/* Status Bar */}
+      <div className="flex items-center justify-between px-4 py-1.5 bg-[#252526] border-b border-[#3c3c3c]">
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] font-mono text-[#cccccc] bg-[#1e1e1e] px-2 py-0.5 rounded">{solution.language}</span>
+          {solution.approachType && solution.approachType !== 'Other' ? (
+            <span className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold border 
+              ${solution.approachType === 'Brute Force' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
+              ${solution.approachType === 'Better' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
+              ${solution.approachType === 'Optimal' ? 'bg-primary/20 text-primary border-primary/30' : ''}
+            `}>
+              <span className="material-symbols-outlined text-[12px]">
+                {solution.approachType === 'Brute Force' ? 'hardware' : ''}
+                {solution.approachType === 'Better' ? 'trending_up' : ''}
+                {solution.approachType === 'Optimal' ? 'star' : ''}
+              </span>
+              {solution.approachType}
+            </span>
+          ) : solution.isOptimal ? (
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold bg-primary/20 text-primary border border-primary/30">
+              <span className="material-symbols-outlined text-[12px]">star</span>
               Optimal
+            </span>
+          ) : null}
+          {solution.timeComplexity && (
+            <span className="text-[11px] font-mono text-[#858585]">
+              ⏱ {solution.timeComplexity}
+            </span>
+          )}
+          {solution.spaceComplexity && (
+            <span className="text-[11px] font-mono text-[#858585]">
+              💾 {solution.spaceComplexity}
             </span>
           )}
         </div>
         <button 
           onClick={handleCopy}
-          className="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors text-[12px] px-2 py-1 rounded bg-surface-container-low hover:bg-surface-container-high"
+          className="flex items-center gap-1 text-[#858585] hover:text-[#cccccc] transition-colors text-[11px] px-2 py-1 rounded hover:bg-[#3c3c3c]"
         >
-          <span className="material-symbols-outlined text-[14px]">content_copy</span>
-          Copy
+          <span className="material-symbols-outlined text-[14px]">
+            {copied ? 'check' : 'content_copy'}
+          </span>
+          {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
-      <div className="flex-1 relative">
+
+      {/* Editor */}
+      <div className="flex-1 relative min-h-0">
         <Editor
           height="100%"
-          language={solution.language.toLowerCase() === 'c++' ? 'cpp' : solution.language.toLowerCase()}
+          language={getMonacoLanguage(solution.language)}
           theme="vs-dark"
           value={solution.code}
           options={{
@@ -52,6 +97,10 @@ export default function SolutionViewer({ solution }: SolutionViewerProps) {
             scrollBeyondLastLine: false,
             smoothScrolling: true,
             cursorBlinking: "smooth",
+            renderLineHighlight: 'none',
+            overviewRulerBorder: false,
+            hideCursorInOverviewRuler: true,
+            lineNumbersMinChars: 3,
           }}
         />
       </div>

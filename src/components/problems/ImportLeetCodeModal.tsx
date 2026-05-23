@@ -40,12 +40,12 @@ export default function ImportLeetCodeModal({ isOpen, onClose }: ImportLeetCodeM
 
       setSuccess(data.isCached ? 'Problem was already in your workspace!' : 'Problem imported successfully!');
       
-      // Clear input and refresh after short delay
+      // Clear input and redirect to the problem workspace after short delay
       setTimeout(() => {
         setUrlOrSlug('');
         setSuccess('');
         onClose();
-        router.refresh();
+        router.push(`/problem/${data.problem.slug}`);
       }, 1500);
 
     } catch (err: any) {
@@ -79,7 +79,7 @@ export default function ImportLeetCodeModal({ isOpen, onClose }: ImportLeetCodeM
           <form onSubmit={handleImport} className="space-y-4">
             <div>
               <label htmlFor="url" className="block text-sm font-medium text-on-surface-variant mb-1.5">
-                LeetCode URL or Slug
+                LeetCode URL, Slug, or Question Title
               </label>
               <input
                 id="url"
@@ -92,7 +92,7 @@ export default function ImportLeetCodeModal({ isOpen, onClose }: ImportLeetCodeM
                 className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary disabled:opacity-50"
               />
               <p className="text-[11px] text-on-surface-variant mt-1.5 opacity-70">
-                You can paste the full URL or just the problem slug (e.g. "two-sum").
+                You can paste the full URL, the problem slug (e.g. "two-sum"), or the question title (e.g. "1. Two Sum").
               </p>
             </div>
 

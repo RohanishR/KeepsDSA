@@ -18,8 +18,23 @@ function extractSlug(input: string): string {
         return match[1].toLowerCase().trim();
       }
     }
-    // If it's just a raw slug, clean it up
-    return input.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase().trim();
+    
+    // Process input (could be a slug, or a question title like "1. Two Sum" or "Valid Anagram")
+    let cleaned = input.trim().toLowerCase();
+    
+    // Remove leading problem numbers if present (e.g. "1. " or "123. ")
+    cleaned = cleaned.replace(/^[0-9]+\.\s*/, '');
+    
+    // Replace multiple spaces or underscores with a single hyphen
+    cleaned = cleaned.replace(/[\s_]+/g, '-');
+    
+    // Remove all non-alphanumeric characters except hyphens
+    cleaned = cleaned.replace(/[^a-z0-9-]/g, '');
+    
+    // Strip leading/trailing hyphens just in case
+    cleaned = cleaned.replace(/^-+|-+$/g, '');
+    
+    return cleaned;
   } catch {
     return input.trim();
   }
@@ -57,9 +72,9 @@ export async function POST(req: Request) {
     }
 
     // 2. Fetch from LeetCode
-    const leetcodeData = await fetchLeetCodeProblem(slug);
-    if (!leetcodeData) {
-      return NextResponse.json({ error: 'Failed to fetch problem from LeetCode. Ensure the URL or slug is correct and the problem is public.' }, { status: 404 });
+    const { data: leetcodeData, error: fetchError } = await fetchLeetCodeProblem(slug);
+    if (fetchError || !leetcodeData) {
+      return NextResponse.json({ error: `Failed to fetch problem: ${fetchError || 'Unknown error'}. Ensure the URL or slug is correct and public.` }, { status: 404 });
     }
 
     // 3. Transform & Save to MongoDB

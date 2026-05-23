@@ -89,6 +89,11 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
       p._id === problemId ? { ...p, isBookmarked: !p.isBookmarked } : p
     ));
 
+    // Trigger pop animation on the heart
+    const heartEl = (e.currentTarget as HTMLElement);
+    heartEl.classList.add('animate-pop');
+    setTimeout(() => heartEl.classList.remove('animate-pop'), 300);
+
     try {
       await fetch(`/api/problems/${problemId}/bookmark`, { method: 'POST' });
     } catch (err) {
@@ -138,7 +143,12 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
         {/* Main Content Area */}
         <div className="flex-1 min-w-0 flex flex-col">
           {/* Controls Bar */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-surface-container-low border border-outline-variant/20 rounded-xl p-3">
+          <motion.div 
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.15 }}
+            className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-surface-container-low border border-outline-variant/20 rounded-xl p-3"
+          >
             <div className="flex items-center gap-4 w-full sm:w-auto">
               <button 
                 className="lg:hidden flex items-center gap-2 text-[14px] font-medium text-on-surface-variant bg-surface-container-highest px-3 py-1.5 rounded-lg border border-outline-variant/30"
@@ -182,7 +192,7 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Problem List/Grid */}
           {problems.length > 0 ? (
@@ -193,16 +203,16 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
                 : "flex flex-col gap-3"}
             >
               <AnimatePresence mode='popLayout'>
-                {problems.map((problem) => (
+                {problems.map((problem, idx) => (
                   <motion.div
                     layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.3, delay: idx * 0.03 }}
                     key={problem._id}
                   >
-                    <Link href={`/problem/${problem.slug}`} className={`glass-panel border-t border-l border-outline-variant/10 rounded-xl p-4 flex hover:-translate-y-[2px] hover:shadow-[inset_0_0_20px_rgba(188,195,255,0.05)] cursor-pointer group transition-all duration-200 relative ${viewMode === 'list' ? 'flex-col md:flex-row md:items-center gap-4' : 'flex-col gap-4 h-full'}`}>
+                    <Link href={`/problem/${problem.slug}`} className={`glass-panel border-t border-l border-outline-variant/10 rounded-xl p-4 flex card-hover cursor-pointer group transition-all duration-200 relative ${viewMode === 'list' ? 'flex-col md:flex-row md:items-center gap-4' : 'flex-col gap-4 h-full'}`}>
                       
                       {/* Top/Left Section: Icon and Title */}
                       <div className={`flex ${viewMode === 'list' ? 'items-center gap-4 min-w-0 flex-1' : 'flex-col gap-3'}`}>
@@ -282,13 +292,18 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
               </AnimatePresence>
             </motion.div>
           ) : !loading ? (
-            <div className="text-center py-16 glass-panel rounded-xl border border-outline-variant/10">
-              <span className="material-symbols-outlined text-[48px] text-outline mb-4">search_off</span>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.35 }}
+              className="text-center py-16 glass-panel rounded-xl border border-outline-variant/10"
+            >
+              <span className="material-symbols-outlined text-[48px] text-outline mb-4 animate-bounce-subtle">search_off</span>
               <h3 className="text-[18px] font-medium text-on-surface mb-2">No problems found</h3>
               <p className="text-[14px] text-on-surface-variant max-w-sm mx-auto">
                 Try tweaking your filters or adding a new problem to your database.
               </p>
-            </div>
+            </motion.div>
           ) : null}
 
           {/* Loading Indicator / Intersection Observer Target */}

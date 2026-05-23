@@ -45,6 +45,9 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
       });
       if (!res.ok) throw new Error('Failed to auto-save');
       setLastSaved(new Date());
+      if (isSnapshot) {
+        router.refresh();
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -111,11 +114,31 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Upload failed');
 
+        const shortId = `img-${Math.random().toString(36).substring(2, 6)}`;
         const markdownInsert = isPdf 
-          ? `\n📄 [Download ${file.name}](${data.url})\n`
-          : `\n![${file.name}](${data.url})\n`;
+          ? `\n📄 [Download ${file.name}][${shortId}]\n`
+          : `\n![${file.name}][${shortId}]\n`;
           
-        insertTextAtCursor(markdownInsert);
+        const reference = `\n[${shortId}]: ${data.url}\n`;
+
+        if (!textareaRef.current) return;
+        const textarea = textareaRef.current;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        
+        // Ensure there's a newline before appending references if it's the first one
+        const hasReferences = content.includes('\n[');
+        const refSection = (!hasReferences && content.trim() ? '\n\n' : '') + reference;
+        
+        const newContent = content.substring(0, start) + markdownInsert + content.substring(end) + refSection;
+        
+        setContent(newContent);
+        debouncedSave(newContent);
+        
+        setTimeout(() => {
+          textarea.selectionStart = textarea.selectionEnd = start + markdownInsert.length;
+          textarea.focus();
+        }, 0);
       };
     } catch (err: any) {
       setError(err.message || 'File upload failed');
@@ -146,28 +169,28 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-surface-container-lowest text-on-surface">
+    <div className="flex flex-col h-full bg-[#1e1e1e] text-[#cccccc]">
       {/* Toolbar */}
-      <div className="h-12 bg-surface-container-low border-b border-outline-variant/10 flex items-center justify-between px-4 shrink-0">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[18px] text-primary">markdown</span>
-            <span className="font-label-sm text-[12px] uppercase tracking-wider font-bold">Notes Editor</span>
+      <div className="h-10 bg-[#252526] border-b border-[#3c3c3c] flex items-center justify-between px-2 shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 px-2">
+            <span className="material-symbols-outlined text-[16px] text-primary">markdown</span>
+            <span className="font-label-sm text-[11px] uppercase tracking-wider font-bold">Notes</span>
           </div>
-          <div className="hidden sm:flex items-center gap-1 border-l border-outline-variant/20 pl-4">
-            <button onClick={() => insertTextAtCursor('**bold**')} className="p-1.5 hover:bg-surface-container-highest rounded text-on-surface-variant transition-colors"><span className="material-symbols-outlined text-[16px]">format_bold</span></button>
-            <button onClick={() => insertTextAtCursor('*italic*')} className="p-1.5 hover:bg-surface-container-highest rounded text-on-surface-variant transition-colors"><span className="material-symbols-outlined text-[16px]">format_italic</span></button>
-            <button onClick={() => insertTextAtCursor('\n```js\n// code\n```\n')} className="p-1.5 hover:bg-surface-container-highest rounded text-on-surface-variant transition-colors"><span className="material-symbols-outlined text-[16px]">code</span></button>
-            <button onClick={() => insertTextAtCursor('$$ \nO(N) \n$$')} className="p-1.5 hover:bg-surface-container-highest rounded text-on-surface-variant transition-colors"><span className="material-symbols-outlined text-[16px]">functions</span></button>
+          <div className="hidden sm:flex items-center gap-0.5 border-l border-[#3c3c3c] pl-2 ml-1">
+            <button onClick={() => insertTextAtCursor('**bold**')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">format_bold</span></button>
+            <button onClick={() => insertTextAtCursor('*italic*')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">format_italic</span></button>
+            <button onClick={() => insertTextAtCursor('\n```js\n// code\n```\n')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">code</span></button>
+            <button onClick={() => insertTextAtCursor('$$ \nO(N) \n$$')} className="p-1 hover:bg-[#3c3c3c] rounded text-[#858585] hover:text-[#cccccc] transition-colors"><span className="material-symbols-outlined text-[16px]">functions</span></button>
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
-          <div className="text-[11px] text-on-surface-variant flex items-center gap-1 mr-2 hidden sm:flex">
+        <div className="flex items-center gap-1.5">
+          <div className="text-[10px] font-mono text-[#858585] flex items-center gap-1 mr-2 hidden sm:flex">
             {isSaving ? (
-              <><span className="material-symbols-outlined text-[14px] animate-spin">sync</span> Saving...</>
+              <><span className="material-symbols-outlined text-[12px] animate-spin">sync</span> Saving...</>
             ) : lastSaved ? (
-              <><span className="material-symbols-outlined text-[14px] text-primary">cloud_done</span> Saved</>
+              <><span className="material-symbols-outlined text-[12px] text-[#cccccc]">cloud_done</span> Saved</>
             ) : null}
           </div>
 
@@ -176,7 +199,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
           <button 
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="px-3 py-1.5 text-on-surface-variant hover:text-primary font-label-sm text-[12px] rounded border border-outline-variant/20 flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            className="px-2.5 py-1 text-[#858585] hover:text-[#cccccc] hover:bg-[#3c3c3c] font-label-sm text-[11px] rounded flex items-center gap-1.5 transition-colors disabled:opacity-50"
           >
             {isUploading ? (
               <span className="material-symbols-outlined text-[14px] animate-spin">progress_activity</span>
@@ -188,7 +211,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
 
           <button 
             onClick={() => setShowHistory(true)}
-            className="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest rounded border border-transparent transition-colors"
+            className="p-1 text-[#858585] hover:text-[#cccccc] hover:bg-[#3c3c3c] rounded transition-colors"
             title="View History Snapshots"
           >
             <span className="material-symbols-outlined text-[16px]">history</span>
@@ -197,7 +220,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
           <button 
             onClick={handleManualSave}
             disabled={isSaving}
-            className="px-3 py-1.5 text-on-primary bg-primary hover:bg-primary-fixed hover:text-on-primary-fixed font-label-sm text-[12px] rounded shadow-sm disabled:opacity-50 flex items-center gap-1.5 transition-colors"
+            className="px-2.5 py-1 text-primary bg-primary/10 hover:bg-primary/20 border border-primary/20 font-label-sm text-[11px] rounded disabled:opacity-50 flex items-center gap-1 transition-colors ml-1"
           >
             Snapshot
           </button>
@@ -205,66 +228,25 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
       </div>
 
       {error && (
-        <div className="bg-error/10 text-error px-4 py-2 text-[12px] border-b border-error/20 flex justify-between items-center shrink-0">
+        <div className="bg-error/10 text-error px-4 py-1.5 text-[11px] border-b border-error/20 flex justify-between items-center shrink-0">
           {error}
           <button onClick={() => setError('')}><span className="material-symbols-outlined text-[14px]">close</span></button>
         </div>
       )}
 
-      {/* Split Pane */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
-        {/* Editor Pane */}
-        <div className="flex-1 border-b lg:border-b-0 lg:border-r border-outline-variant/20 flex flex-col relative bg-surface-container-lowest">
-          <textarea
-            ref={textareaRef}
-            value={content}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            onDrop={handleDrop}
-            onDragOver={(e) => e.preventDefault()}
-            placeholder="Write your notes here using Markdown...&#10;&#10;✨ Supports:&#10;- Math formulas: $$ O(N \log N) $$&#10;- Code blocks&#10;- Drag & drop images/PDFs"
-            className="flex-1 w-full p-4 bg-transparent border-none resize-none focus:outline-none focus:ring-0 text-[14px] leading-relaxed text-on-surface font-mono placeholder:text-outline-variant/40 custom-scrollbar"
-            spellCheck={false}
-          />
-        </div>
-
-        {/* Live Preview Pane */}
-        <div className="flex-1 bg-[#1e1e1e] overflow-y-auto p-6 custom-scrollbar">
-          <div className="prose prose-invert prose-sm max-w-none text-on-surface-variant prose-headings:text-on-surface prose-a:text-primary prose-img:rounded-xl prose-img:border prose-img:border-outline-variant/20 prose-img:shadow-lg">
-            {content ? (
-              <ReactMarkdown
-                remarkPlugins={[remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-                components={{
-                  code({ node, inline, className, children, ...props }: any) {
-                    const match = /language-(\w+)/.exec(className || '');
-                    return !inline && match ? (
-                      <SyntaxHighlighter
-                        style={vscDarkPlus as any}
-                        language={match[1]}
-                        PreTag="div"
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, '')}
-                      </SyntaxHighlighter>
-                    ) : (
-                      <code className="bg-surface-container-high px-1.5 py-0.5 rounded text-secondary font-mono text-[13px]" {...props}>
-                        {children}
-                      </code>
-                    );
-                  }
-                }}
-              >
-                {content}
-              </ReactMarkdown>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full opacity-30 pt-20">
-                <span className="material-symbols-outlined text-[48px] mb-4">visibility</span>
-                <p>Live Preview</p>
-              </div>
-            )}
-          </div>
-        </div>
+      {/* Editor Pane (Full Width) */}
+      <div className="flex-1 flex flex-col relative min-h-0 bg-[#1e1e1e]">
+        <textarea
+          ref={textareaRef}
+          value={content}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          placeholder="Write your notes here using Markdown...&#10;&#10;✨ Supports:&#10;- Math formulas: $$ O(N \log N) $$&#10;- Code blocks&#10;- Drag & drop images/PDFs"
+          className="flex-1 w-full p-6 bg-transparent border-none resize-none focus:outline-none focus:ring-0 text-[14px] leading-[1.6] text-[#cccccc] font-mono placeholder:text-[#858585] custom-scrollbar"
+          spellCheck={false}
+        />
       </div>
 
       {/* History Modal Overlay (Basic implementation) */}

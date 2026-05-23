@@ -7,16 +7,18 @@ import { notFound } from 'next/navigation';
 import { calculateBadges, UserStats } from '@/lib/badges';
 import PublicProfileClient from './PublicProfileClient';
 
-export async function generateMetadata({ params }: { params: { username: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
   return {
-    title: `${params.username}'s DSA Portfolio`,
+    title: `${username}'s DSA Portfolio`,
   };
 }
 
-export default async function PublicProfilePage({ params }: { params: { username: string } }) {
+export default async function PublicProfilePage({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
   await dbConnect();
   
-  const user = await User.findOne({ username: params.username.toLowerCase() }).lean();
+  const user = await User.findOne({ username: username.toLowerCase() }).lean();
   if (!user || !user.privacySettings?.isProfilePublic) {
     notFound(); // 404 if user doesn't exist or profile is private
   }

@@ -7,21 +7,23 @@ import { Note } from '@/models/Note';
 import { notFound } from 'next/navigation';
 import PublicProblemClient from './PublicProblemClient';
 
-export async function generateMetadata({ params }: { params: { username: string, slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ username: string, slug: string }> }) {
+  const { slug, username } = await params;
   return {
-    title: `${params.slug} - ${params.username}'s Solution`,
+    title: `${slug} - ${username}'s Solution`,
   };
 }
 
-export default async function PublicProblemPage({ params }: { params: { username: string, slug: string } }) {
+export default async function PublicProblemPage({ params }: { params: Promise<{ username: string, slug: string }> }) {
+  const { username, slug } = await params;
   await dbConnect();
   
-  const user = await User.findOne({ username: params.username.toLowerCase() }).lean();
+  const user = await User.findOne({ username: username.toLowerCase() }).lean();
   if (!user || !user.privacySettings?.isProfilePublic) {
     notFound(); 
   }
 
-  const problem = await Problem.findOne({ slug: params.slug }).lean();
+  const problem = await Problem.findOne({ slug: slug }).lean();
   if (!problem) {
     notFound();
   }

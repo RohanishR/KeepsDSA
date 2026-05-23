@@ -27,7 +27,7 @@ const GET_QUESTION_DETAIL_QUERY = `
   }
 `;
 
-export async function fetchLeetCodeProblem(slug: string): Promise<LeetCodeProblemData | null> {
+export async function fetchLeetCodeProblem(slug: string): Promise<{ data: LeetCodeProblemData | null, error?: string }> {
   try {
     const response = await fetch(LEETCODE_GRAPHQL_URL, {
       method: 'POST',
@@ -38,29 +38,26 @@ export async function fetchLeetCodeProblem(slug: string): Promise<LeetCodeProble
       body: JSON.stringify({
         query: GET_QUESTION_DETAIL_QUERY,
         variables: { titleSlug: slug }
-      }),
-      // Cache settings if running in Next.js environment
-      next: { revalidate: 3600 } // Cache for 1 hour
+      })
     });
 
     if (!response.ok) {
-      throw new Error(`LeetCode API responded with status ${response.status}`);
+      return { data: null, error: `LeetCode API responded with status ${response.status} - ${response.statusText}` };
     }
 
     const json = await response.json();
     
     if (json.errors) {
-      console.error('LeetCode GraphQL Errors:', json.errors);
-      return null;
+      return { data: null, error: `GraphQL Errors: ${JSON.stringify(json.errors)}` };
     }
 
     const question = json.data?.question;
     if (!question) {
-      return null;
+      return { data: null, error: `Question not found in response. JSON: ${JSON.stringify(json)}` };
     }
 
     // Transform response
-    return {
+    return { data: {
       leetcodeId: question.questionId,
       title: question.title,
       slug: question.titleSlug,
@@ -68,9 +65,8 @@ export async function fetchLeetCodeProblem(slug: string): Promise<LeetCodeProble
       difficulty: question.difficulty as 'Easy' | 'Medium' | 'Hard',
       tags: question.topicTags?.map((t: any) => t.name) || [],
       hints: question.hints || [],
-    };
-  } catch (error) {
-    console.error('Failed to fetch from LeetCode:', error);
-    return null;
+    } };
+  } catch (error: any) {
+    return { data: null, error: `Network/Fetch Error: ${error.message}` };
   }
 }
