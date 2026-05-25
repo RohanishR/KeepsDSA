@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "KeepsDSA Vault",
+  "version": "1.0.0",
+  "description": "Sync LeetCode problems, code, and notes directly into your KeepsDSA vault.",
+  "action": {
+    "default_popup": "src/popup.html"
+  },
+  "background": {
+    "service_worker": "service-worker-loader.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "assets/content.ts-BRbh9xN_.js"
+      ],
+      "matches": [
+        "https://leetcode.com/problems/*",
+        "https://leetcode.com/submissions/*"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://leetcode.com/*",
+    "http://localhost:3000/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "https://leetcode.com/*",
+        "https://leetcode.com/*"
+      ],
+      "resources": [
+        "assets/content.ts-BRbh9xN_.js"
+      ],
+      "use_dynamic_url": false
+    }
+  ]
+}

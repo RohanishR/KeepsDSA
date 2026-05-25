@@ -12,6 +12,7 @@ export const noteSchema = z.object({
     resourceType: z.string(),
     format: z.string().optional(),
     bytes: z.number().optional(),
+    topics: z.array(z.string()).optional(),
     createdAt: z.union([z.string(), z.date()]).optional(),
   })).optional(),
 });

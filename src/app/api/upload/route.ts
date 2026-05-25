@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { v2 as cloudinary } from 'cloudinary';
+import dbConnect from '@/lib/dbConnect';
+import { Upload } from '@/models/Upload';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,24 +18,44 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { file, resourceType = 'auto' } = body; // Base64 string and resource type
+    const { file, resourceType = 'auto', originalName = 'upload', topics = [] } = body;
 
     if (!file) {
       return NextResponse.json({ error: 'File is required' }, { status: 400 });
     }
+
+    // Base64 overhead is ~33%, so a 5MB file is roughly 6.6MB in length.
+    // We set a hard limit of 8,000,000 characters to prevent overloading the server.
+    if (file.length > 8000000) {
+      return NextResponse.json({ error: 'File size exceeds the 5MB limit' }, { status: 413 });
+    }
+
+    await dbConnect();
 
     const uploadResponse = await cloudinary.uploader.upload(file, {
       folder: `keepsdsa/users/${session.user.id}`,
       resource_type: resourceType, // 'image', 'video', 'raw', or 'auto'
     });
 
+    const newUpload = await Upload.create({
+      userId: session.user.id,
+      url: uploadResponse.secure_url,
+      publicId: uploadResponse.public_id,
+      originalName: originalName,
+      resourceType: uploadResponse.resource_type,
+      format: uploadResponse.format || '',
+      size: uploadResponse.bytes,
+      topics: topics,
+    });
+
     return NextResponse.json({ 
       url: uploadResponse.secure_url,
       publicId: uploadResponse.public_id,
-      originalName: uploadResponse.original_filename,
+      originalName: originalName,
       resourceType: uploadResponse.resource_type,
       format: uploadResponse.format,
       bytes: uploadResponse.bytes,
+      _id: newUpload._id,
     });
   } catch (error: any) {
     console.error('Upload error:', error);
@@ -68,6 +90,9 @@ export async function DELETE(req: Request) {
     if (destroyResponse.result !== 'ok' && destroyResponse.result !== 'not found') {
       throw new Error(`Cloudinary deletion failed: ${destroyResponse.result}`);
     }
+
+    await dbConnect();
+    await Upload.deleteOne({ publicId, userId: session.user.id });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

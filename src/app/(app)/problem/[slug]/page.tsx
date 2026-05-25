@@ -76,11 +76,19 @@ export default async function ProblemDetailPage({
             </div>
           </div>
         </div>
-        {problem.leetcodeUrl && (
-          <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex-shrink-0 ml-2 bg-accent p-1.5 rounded-md border border-border/20" title="View on LeetCode">
-            <span className="material-symbols-outlined text-[18px]">open_in_new</span>
-          </a>
-        )}
+        <div className="flex items-center gap-2">
+          {problem.source === 'LeetCode' && (
+            <span className="flex items-center gap-1 px-2 py-1 bg-blue-500/10 text-blue-400 text-[11px] font-semibold rounded border border-blue-500/20" title={`Imported on ${new Date(problem.importedAt || problem.createdAt).toLocaleDateString()}`}>
+              <span className="material-symbols-outlined text-[14px]">extension</span>
+              Imported
+            </span>
+          )}
+          {problem.leetcodeUrl && (
+            <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex-shrink-0 bg-accent p-1.5 rounded-md border border-border/20" title="View on LeetCode">
+              <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+            </a>
+          )}
+        </div>
       </div>
       
       <div className="p-5 overflow-y-auto flex-1 font-sans text-body-md text-muted-foreground space-y-4 custom-scrollbar">

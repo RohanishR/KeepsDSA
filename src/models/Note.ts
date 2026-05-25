@@ -17,6 +17,7 @@ export interface INote extends Document {
     resourceType: 'image' | 'raw' | 'video' | 'auto';
     format: string;
     bytes: number;
+    topics?: string[];
     createdAt: Date;
   }>;
   createdAt: Date;
@@ -44,6 +45,7 @@ const NoteSchema = new Schema<INote>(
         resourceType: { type: String, required: true },
         format: { type: String },
         bytes: { type: Number },
+        topics: [{ type: String }],
         createdAt: { type: Date, default: Date.now },
       },
     ],

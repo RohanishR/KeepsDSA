@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import AddSolutionForm from './AddSolutionForm';
 import NotesEditor from './NotesEditor';
 import SolutionViewer from './SolutionViewer';
-import AttachmentsManager from './AttachmentsManager';
 import AIAssistant from './AIAssistant';
 import { formatDistanceToNow } from 'date-fns';
 import { Panel, Group, Separator } from 'react-resizable-panels';
@@ -81,7 +80,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
     return { icon: 'sentiment_very_dissatisfied', color: 'text-[#f87171]' };
   };
 
-  const showRightPanel = !isFullscreen && activeTab !== 'notes' && activeTab !== 'attachments' && activeTab !== 'history';
+  const showRightPanel = !isFullscreen && activeTab !== 'notes' && activeTab !== 'history';
 
   const centerPanelContent = (
     <section className="bg-card rounded-xl border border-border/10 flex flex-col overflow-hidden shadow-inner relative h-full">
@@ -127,15 +126,6 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
               <span className="material-symbols-outlined text-[16px]">edit_note</span> Notes
             </button>
 
-            <button 
-              onClick={() => handleTabChange('attachments')} 
-              className={`px-3 py-1.5 h-[34px] rounded-md text-[12px] flex items-center gap-2 whitespace-nowrap transition-all font-medium border
-                ${activeTab === 'attachments' 
-                  ? 'bg-accent text-foreground border-border/20 shadow-sm' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/80 border-transparent'}`}
-            >
-              <span className="material-symbols-outlined text-[16px]">attachment</span> Files
-            </button>
 
             <button 
               onClick={() => handleTabChange('history')} 
@@ -169,8 +159,6 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
           <AddSolutionForm slug={problem.slug} onSuccess={() => { window.location.reload(); }} />
         ) : activeTab === 'notes' ? (
           <NotesEditor slug={problem.slug} initialNote={initialNote} />
-        ) : activeTab === 'attachments' ? (
-          <AttachmentsManager slug={problem.slug} initialAttachments={initialNote?.attachments || []} />
         ) : activeTab === 'history' ? (
           <div className="h-full bg-background p-6 overflow-y-auto custom-scrollbar flex gap-6">
             <div className="flex-1">
@@ -343,11 +331,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
                 </div>
               )}
             </div>
-          ) : activeTab === 'attachments' ? (
-            <div className="flex flex-col items-center justify-center h-full opacity-50 text-center px-4 py-8">
-              <span className="material-symbols-outlined text-[36px] mb-3">folder_open</span>
-              <p className="text-xs">Upload images and PDFs of handwritten notes.</p>
-            </div>
+
           ) : (
             <p className="italic opacity-40 text-xs">No explanation provided for this solution.</p>
           )}

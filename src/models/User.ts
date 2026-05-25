@@ -16,6 +16,7 @@ export interface IUser extends Document {
   emailVerified?: Date | null;
   accounts?: any[];
   sessions?: any[];
+  extensionToken?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,6 +38,7 @@ const UserSchema = new Schema<IUser>(
     emailVerified: { type: Date, default: null },
     accounts: [{ type: Schema.Types.Mixed }],
     sessions: [{ type: Schema.Types.Mixed }],
+    extensionToken: { type: String, unique: true, sparse: true },
   },
   { timestamps: true }
 );

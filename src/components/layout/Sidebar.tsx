@@ -14,6 +14,8 @@ const NAV_ITEMS = [
   { href: '/dashboard', icon: 'dashboard', label: 'Dashboard' },
   { href: '/explore', icon: 'search', label: 'Problems' },
   { href: '/notes', icon: 'edit_note', label: 'Notes' },
+  { href: '/files', icon: 'folder_open', label: 'Files' },
+  { href: '/extension', icon: 'extension', label: 'Extension' },
   { href: '/revision', icon: 'history_edu', label: 'Revision' },
   { href: '/settings', icon: 'settings', label: 'Settings' },
 ];
