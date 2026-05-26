@@ -28,11 +28,11 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen = true }: Navbar
       </div>
 
       <nav className="hidden md:flex gap-6 h-full items-center ml-4">
-        <Link className="relative text-muted-foreground hover:text-primary transition-colors cursor-pointer font-subheading text-[12px] uppercase tracking-wider text-[14px] h-full flex items-center font-medium group" href="/explore">
+        <Link className="relative text-muted-foreground hover:text-primary transition-colors cursor-pointer font-subheading uppercase tracking-wider text-[14px] h-full flex items-center font-medium group" href="/explore">
           Problems
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300 rounded-full"></span>
         </Link>
-        <Link className="relative text-muted-foreground hover:text-primary transition-colors cursor-pointer font-subheading text-[12px] uppercase tracking-wider text-[14px] h-full flex items-center font-medium group" href="/dashboard">
+        <Link className="relative text-muted-foreground hover:text-primary transition-colors cursor-pointer font-subheading uppercase tracking-wider text-[14px] h-full flex items-center font-medium group" href="/dashboard">
           Dashboard
           <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300 rounded-full"></span>
         </Link>

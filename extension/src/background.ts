@@ -1,6 +1,6 @@
-const API_URL = 'http://localhost:3000/api/extension';
+const API_URL = import.meta.env.VITE_API_URL || 'https://keepsdsa.com/api/extension';
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request: any, sender: any, sendResponse: any) => {
   if (request.action === 'syncToKeepsDSA') {
     handleSync(request.payload)
       .then(response => sendResponse({ success: true, data: response }))
