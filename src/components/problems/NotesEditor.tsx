@@ -325,7 +325,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
                     );
                   },
                   img({src, alt}) {
-                    return <Image src={src || ''} alt={alt || ''} width={0} height={0} sizes="100vw" style={{ width: '100%', height: 'auto' }} className="rounded-lg my-4 shadow-lg border border-white/10" />
+                    return <Image src={(src as string) || ''} alt={alt || ''} width={0} height={0} sizes="100vw" style={{ width: '100%', height: 'auto' }} className="rounded-lg my-4 shadow-lg border border-white/10" />
                   },
                   a({href, children}) {
                     return <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{children}</a>

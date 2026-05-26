@@ -110,7 +110,7 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
       
       <div className="flex flex-1 gap-6 relative pb-20">
         {/* Desktop Sidebar */}
-        <div className="hidden lg:block w-64 flex-shrink-0">
+        <div className="hidden lg:block w-64 shrink-0">
           <div className="sticky top-24">
             <SidebarFilters 
               availableTags={availableTags}
@@ -157,7 +157,7 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
                 <span className="material-symbols-outlined text-[18px]">filter_list</span>
                 Filters
               </button>
-              <div className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground">
+              <div className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground">
                 <span className="text-foreground font-bold">{totalCount}</span> problems
               </div>
             </div>
@@ -219,13 +219,13 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
                         <div className="flex justify-between items-start w-full">
                           <div className="flex items-center gap-3 min-w-0">
                             {viewMode === 'grid' && (
-                              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted/80 border border-border/20 flex items-center justify-center">
+                              <div className="shrink-0 w-8 h-8 rounded-full bg-muted/80 border border-border/20 flex items-center justify-center">
                                 <span className="material-symbols-outlined text-[16px] text-primary">code</span>
                               </div>
                             )}
                             <h3 className="text-[16px] md:text-[18px] leading-tight font-semibold text-foreground truncate group-hover:text-primary transition-colors">{problem.title}</h3>
                             {problem.source === 'LeetCode' && (
-                              <span className="flex-shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#ffa116]/10 text-[#ffa116] border border-[#ffa116]/20 text-[10px] font-bold tracking-wider">
+                              <span className="shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#ffa116]/10 text-[#ffa116] border border-[#ffa116]/20 text-[10px] font-bold tracking-wider">
                                 LC
                               </span>
                             )}
@@ -262,7 +262,7 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
                           </span>
                           
                           {problem.tags?.slice(0, viewMode === 'list' ? 4 : 2).map((tag: string) => (
-                            <span key={tag} className="px-1.5 py-0.5 rounded text-[9px] font-subheading text-[12px] uppercase tracking-wider uppercase tracking-wider bg-accent text-muted-foreground border border-border/20 truncate max-w-[100px]">
+                            <span key={tag} className="px-1.5 py-0.5 rounded text-[9px] font-subheading text-[12px] uppercase tracking-wider bg-accent text-muted-foreground border border-border/20 truncate max-w-[100px]">
                               {tag}
                             </span>
                           ))}

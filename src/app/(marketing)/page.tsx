@@ -19,13 +19,13 @@ export default function LandingPage() {
         {/* Animated Badge */}
         <div className="animate-fade-in-down inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-container/30 bg-primary/20/10 mb-8 animate-glow-pulse">
           <span className="material-symbols-outlined text-primary text-[16px]">new_releases</span>
-          <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-primary">v1.0.0 is now live</span>
+          <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-primary">v1.0.0 is now live</span>
         </div>
         
         {/* Animated Heading */}
         <h1 className="animate-fade-in-up font-heading text-[48px] md:text-[64px] leading-[56px] md:leading-[72px] font-bold tracking-tighter mb-6 max-w-4xl text-foreground">
           Your Personal <br className="hidden md:block" />
-          <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-shift">DSA Knowledge Base</span>
+          <span className="bg-linear-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-shift">DSA Knowledge Base</span>
         </h1>
         
         {/* Animated Subtitle */}
@@ -35,11 +35,11 @@ export default function LandingPage() {
         
         {/* Animated CTA Buttons */}
         <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-4 mb-20 w-full sm:w-auto">
-          <Link href="/register" className="btn-animated group bg-gradient-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02]">
+          <Link href="/register" className="btn-animated group bg-linear-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all duration-300 w-full sm:w-auto shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02]">
             <span className="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-0.5">cloud_download</span>
             <span>Get Started</span>
           </Link>
-          <Link href="/explore" className="btn-animated group glass-panel text-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-muted/80 transition-all duration-300 w-full sm:w-auto hover:scale-[1.02]">
+          <Link href="/explore" className="btn-animated group glass-panel text-foreground font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-muted/80 transition-all duration-300 w-full sm:w-auto hover:scale-[1.02]">
             <span className="material-symbols-outlined transition-transform duration-300 group-hover:scale-110">play_circle</span>
             <span>View Demo</span>
           </Link>
@@ -52,22 +52,22 @@ export default function LandingPage() {
             <div className="w-3 h-3 rounded-full bg-destructive/80"></div>
             <div className="w-3 h-3 rounded-full bg-secondary/80"></div>
             <div className="w-3 h-3 rounded-full bg-primary/80"></div>
-            <div className="mx-auto font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground/50">two_sum.py — KeepsDSA</div>
+            <div className="mx-auto font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground/50">two_sum.py — KeepsDSA</div>
           </div>
           <div className="flex h-[400px]">
             {/* Sidebar Mock */}
             <div className="hidden md:block w-[200px] border-r border-border/10 bg-card/50/30 p-4">
-              <div className="font-subheading text-[12px] uppercase tracking-wider text-[10px] font-medium tracking-[0.05em] text-muted-foreground mb-4 uppercase">Explorer</div>
+              <div className="font-subheading text-[12px] uppercase tracking-wider text-[10px] font-medium tracking-[0.05em] text-muted-foreground mb-4">Explorer</div>
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-primary bg-primary/20/10 px-2 py-1 rounded font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium">
+                <div className="flex items-center gap-2 text-primary bg-primary/20/10 px-2 py-1 rounded font-subheading text-[12px] uppercase tracking-wider font-medium">
                   <span className="material-symbols-outlined text-[16px]">folder</span>
                   Arrays &amp; Hashing
                 </div>
-                <div className="flex items-center gap-2 text-muted-foreground pl-6 font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium">
+                <div className="flex items-center gap-2 text-muted-foreground pl-6 font-subheading text-[12px] uppercase tracking-wider font-medium">
                   <span className="material-symbols-outlined text-[16px]">description</span>
                   two_sum.py
                 </div>
-                <div className="flex items-center gap-2 text-muted-foreground pl-6 font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium">
+                <div className="flex items-center gap-2 text-muted-foreground pl-6 font-subheading text-[12px] uppercase tracking-wider font-medium">
                   <span className="material-symbols-outlined text-[16px]">description</span>
                   valid_anagram.py
                 </div>
@@ -90,7 +90,7 @@ export default function LandingPage() {
               <div className="absolute bottom-6 right-6 w-64 glass-panel rounded-lg p-4 border-l-2 border-primary-container shadow-lg animate-float">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="material-symbols-outlined text-primary text-[18px]">lightbulb</span>
-                  <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-bold text-primary">Mastery Insight</span>
+                  <span className="font-subheading text-[12px] uppercase tracking-wider font-bold text-primary">Mastery Insight</span>
                 </div>
                 <p className="font-sans text-[13px] leading-relaxed text-muted-foreground">
                   You've solved this using Brute Force last week. The Hash Map approach improves time from O(N²) to O(N).
@@ -116,7 +116,7 @@ export default function LandingPage() {
       {/* New CTA Section */}
       <section className="max-w-[1280px] mx-auto px-4 md:px-12 py-24 border-t border-border/10">
         <div className="glass-panel rounded-2xl p-12 md:p-16 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary-container/10 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-secondary-container/10 pointer-events-none"></div>
           <div className="relative z-10">
             <h2 className="font-heading text-[28px] md:text-[36px] font-bold text-foreground mb-4 tracking-tight">
               Ready to build your <span className="text-primary">second brain</span>?
@@ -124,7 +124,7 @@ export default function LandingPage() {
             <p className="font-sans text-[16px] md:text-[18px] text-muted-foreground max-w-xl mx-auto mb-8">
               Join developers who are mastering DSA patterns systematically instead of grinding blindly.
             </p>
-            <Link href="/register" className="btn-animated inline-flex items-center gap-2 bg-gradient-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider text-[14px] font-bold tracking-[0.05em] px-10 py-4 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.03] transition-all duration-300">
+            <Link href="/register" className="btn-animated inline-flex items-center gap-2 bg-linear-to-r from-primary-container to-secondary-container text-white font-subheading text-[12px] uppercase tracking-wider text-[14px] font-bold tracking-[0.05em] px-10 py-4 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.03] transition-all duration-300">
               <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
               <span>Get Started — It&apos;s Free</span>
             </Link>

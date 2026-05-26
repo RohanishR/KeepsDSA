@@ -81,7 +81,7 @@ export default function LoginPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] mb-1">Email</label>
+          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider mb-1">Email</label>
           <input 
             type="email" 
             {...register('email')}
@@ -94,8 +94,8 @@ export default function LoginPage() {
         </div>
         <div>
           <div className="flex justify-between items-center mb-1">
-            <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px]">Password</label>
-            <Link href="/forgot-password" className="text-primary hover:underline font-subheading text-[12px] uppercase tracking-wider text-[12px]">Forgot?</Link>
+            <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider">Password</label>
+            <Link href="/forgot-password" className="text-primary hover:underline font-subheading text-[12px] uppercase tracking-wider">Forgot?</Link>
           </div>
           <input 
             type="password" 

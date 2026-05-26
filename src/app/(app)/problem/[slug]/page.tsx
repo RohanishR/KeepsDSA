@@ -84,7 +84,7 @@ export default async function ProblemDetailPage({
             </span>
           )}
           {problem.leetcodeUrl && (
-            <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex-shrink-0 bg-accent p-1.5 rounded-md border border-border/20" title="View on LeetCode">
+            <a href={problem.leetcodeUrl} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors shrink-0 bg-accent p-1.5 rounded-md border border-border/20" title="View on LeetCode">
               <span className="material-symbols-outlined text-[18px]">open_in_new</span>
             </a>
           )}
@@ -155,7 +155,7 @@ export default async function ProblemDetailPage({
               {relatedProblems.map((rp: any) => (
                 <Link href={`/problem/${rp.slug}`} key={rp._id.toString()} className="flex items-center justify-between p-2 rounded-lg bg-card hover:bg-accent border border-border/10 transition-colors group">
                   <span className="text-[13px] text-muted-foreground group-hover:text-primary truncate mr-2">{rp.title}</span>
-                  <span className={`px-1.5 py-0.5 rounded font-subheading text-[12px] uppercase tracking-wider text-[9px] font-medium border uppercase tracking-wider flex-shrink-0
+                  <span className={`px-1.5 py-0.5 rounded font-subheading text-[12px] uppercase tracking-wider text-[9px] font-medium border uppercase tracking-wider shrink-0
                     ${rp.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
                     ${rp.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
                     ${rp.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}

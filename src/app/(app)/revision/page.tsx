@@ -89,7 +89,7 @@ export default function RevisionPage() {
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="glass-panel rounded-xl p-12 glow-accent flex flex-col items-center justify-center max-w-md text-center relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary-container/5 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary-container/5 pointer-events-none"></div>
           <motion.span 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -128,7 +128,7 @@ export default function RevisionPage() {
         className="w-full max-w-[800px] mb-8 flex justify-between items-end"
       >
         <div>
-          <div className="flex items-center gap-2 text-primary font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] mb-2">
+          <div className="flex items-center gap-2 text-primary font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] mb-2">
             <motion.span 
               animate={{ rotate: 360 }}
               transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
@@ -139,7 +139,7 @@ export default function RevisionPage() {
           <h2 className="font-heading text-[32px] leading-[40px] font-bold text-foreground tracking-tight">Daily Revision</h2>
         </div>
         <div className="text-right">
-          <div className="text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] mb-1">Cards Due Today</div>
+          <div className="text-muted-foreground font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] mb-1">Cards Due Today</div>
           <div className="text-2xl font-mono text-primary">
             <motion.span
               key={currentIndex}
@@ -188,7 +188,7 @@ export default function RevisionPage() {
                 <h3 className="text-[24px] leading-[32px] font-medium text-foreground mb-4">{problem.title}</h3>
                 <div className="text-[14px] leading-[22px] text-muted-foreground max-w-lg max-h-[150px] overflow-hidden relative">
                   <p className="whitespace-pre-wrap">{problem.description || "No description provided."}</p>
-                  <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-surface-container-low to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-10 bg-linear-to-t from-surface-container-low to-transparent"></div>
                 </div>
               </div>
               

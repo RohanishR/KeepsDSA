@@ -89,7 +89,7 @@ export default function RegisterPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] mb-1">Name</label>
+          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider mb-1">Name</label>
           <input 
             type="text" 
             {...register('name')}
@@ -101,7 +101,7 @@ export default function RegisterPage() {
           )}
         </div>
         <div>
-          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] mb-1">Email</label>
+          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider mb-1">Email</label>
           <input 
             type="email" 
             {...register('email')}
@@ -113,7 +113,7 @@ export default function RegisterPage() {
           )}
         </div>
         <div>
-          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] mb-1">Password</label>
+          <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider mb-1">Password</label>
           <input 
             type="password" 
             {...register('password')}

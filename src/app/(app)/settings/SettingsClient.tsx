@@ -120,7 +120,7 @@ export default function SettingsClient({ initialData }: { initialData: SettingsD
         <div className="md:col-span-2 space-y-8">
           
           <motion.div variants={itemVariants} className="glass-panel p-6 rounded-xl relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-primary/0 via-primary/5 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
             <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">person</span>
               Public Profile

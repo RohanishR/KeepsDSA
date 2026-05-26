@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] mb-1">Email</label>
+            <label className="block text-muted-foreground font-subheading text-[12px] uppercase tracking-wider mb-1">Email</label>
             <input 
               type="email" 
               {...register('email')}
@@ -81,7 +81,7 @@ export default function ForgotPasswordPage() {
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-primary to-secondary text-primary-foreground font-bold py-2.5 rounded-lg shadow-[0_0_15px_rgba(188,195,255,0.2)] hover:shadow-[0_0_25px_rgba(188,195,255,0.4)] transition-all disabled:opacity-50 mt-6"
+            className="w-full bg-linear-to-r from-primary to-secondary text-primary-foreground font-bold py-2.5 rounded-lg shadow-[0_0_15px_rgba(188,195,255,0.2)] hover:shadow-[0_0_25px_rgba(188,195,255,0.4)] transition-all disabled:opacity-50 mt-6"
           >
             {isSubmitting ? 'Sending...' : 'Send Reset Link'}
           </button>

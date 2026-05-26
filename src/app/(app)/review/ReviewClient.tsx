@@ -184,7 +184,7 @@ export default function ReviewClient({ initialCards }: { initialCards: Flashcard
 
             {/* BACK OF CARD (SOLUTION & NOTES) */}
             <div 
-              className={`absolute inset-0 backface-hidden glass-panel rounded-2xl border border-border/30 shadow-2xl flex flex-col [transform:rotateX(180deg)] ${!isFlipped ? 'pointer-events-none' : ''}`}
+              className={`absolute inset-0 backface-hidden glass-panel rounded-2xl border border-border/30 shadow-2xl flex flex-col transform-[rotateX(180deg)] ${!isFlipped ? 'pointer-events-none' : ''}`}
             >
               <div className="p-6 border-b border-border/10 bg-card/50 rounded-t-2xl flex justify-between items-center shrink-0">
                 <h3 className="font-bold text-foreground flex items-center gap-2">

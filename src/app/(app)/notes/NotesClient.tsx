@@ -121,7 +121,7 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
                   </div>
                   <Link 
                     href={`/problem/${note.problem.slug}?tab=notes`}
-                    className="p-2 rounded-lg bg-accent hover:bg-primary/20 hover:text-primary transition-all duration-200 text-muted-foreground flex-shrink-0 hover:scale-105 active:scale-95"
+                    className="p-2 rounded-lg bg-accent hover:bg-primary/20 hover:text-primary transition-all duration-200 text-muted-foreground shrink-0 hover:scale-105 active:scale-95"
                     title="Edit Notes"
                   >
                     <span className="material-symbols-outlined text-[18px]">edit</span>
@@ -164,7 +164,7 @@ export default function NotesClient({ initialNotes }: NotesClientProps) {
                   </div>
                   
                   {/* Fade out long content */}
-                  <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#1e1e1e] to-transparent pointer-events-none"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t from-[#1e1e1e] to-transparent pointer-events-none"></div>
                 </div>
 
                 {/* Attachments Footer */}

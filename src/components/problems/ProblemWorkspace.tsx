@@ -140,7 +140,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
           
           {/* Action Buttons */}
           <div className="flex items-center gap-1 px-1 shrink-0">
-            <button onClick={() => setIsAIOpen(true)} className="flex items-center gap-1.5 px-3 py-1.5 h-[30px] rounded-md text-[12px] font-bold bg-gradient-to-r from-primary/10 to-primary/5 text-primary hover:bg-primary/20 border border-primary/20 transition-colors shadow-sm mr-1">
+            <button onClick={() => setIsAIOpen(true)} className="flex items-center gap-1.5 px-3 py-1.5 h-[30px] rounded-md text-[12px] font-bold bg-linear-to-r from-primary/10 to-primary/5 text-primary hover:bg-primary/20 border border-primary/20 transition-colors shadow-sm mr-1">
               <span className="material-symbols-outlined text-[16px]">psychology</span>
               Ask AI
             </button>
@@ -244,7 +244,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
       {activeSolution && (
         <div className="bg-card/50/50 backdrop-blur-md rounded-xl border border-border/10 overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)] shrink-0">
           <div className="p-4 space-y-2">
-            <h3 className="font-subheading text-[12px] uppercase tracking-wider text-[10px] text-muted-foreground uppercase tracking-widest mb-3 flex items-center gap-1.5">
+            <h3 className="font-subheading text-[12px] uppercase tracking-wider text-[10px] text-muted-foreground tracking-widest mb-3 flex items-center gap-1.5">
               <span className="material-symbols-outlined text-[14px]">speed</span> Complexity
             </h3>
             <div className="grid grid-cols-2 gap-2">
@@ -281,7 +281,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
       <div className="flex-1 min-h-0 bg-card/50/50 backdrop-blur-md rounded-xl border border-border/10 flex flex-col overflow-hidden shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)]">
         <div className="px-4 py-3 border-b border-border/10 flex items-center gap-2 shrink-0">
           <span className="material-symbols-outlined text-[16px] text-primary">auto_awesome</span>
-          <h3 className="font-subheading text-[12px] uppercase tracking-wider text-[11px] text-foreground uppercase tracking-wider font-bold">
+          <h3 className="font-subheading text-[12px] uppercase tracking-wider text-[11px] text-foreground font-bold">
             {activeTab === 'notes' ? 'Notes Mode' : activeTab === 'history' ? 'Revision Stats' : activeTab === 'add_solution' ? 'New Solution' : 'Explanation'}
           </h3>
         </div>

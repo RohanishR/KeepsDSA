@@ -19,7 +19,7 @@ export default function ProfilePage() {
                 className="object-cover"
              />
           </div>
-          <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-primary to-secondary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-bold px-3 py-1 rounded-full shadow-[0_0_10px_rgba(188,195,255,0.4)] flex items-center gap-1">
+          <div className="absolute -bottom-2 -right-2 bg-linear-to-r from-primary to-secondary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider font-bold px-3 py-1 rounded-full shadow-[0_0_10px_rgba(188,195,255,0.4)] flex items-center gap-1">
             <span className="material-symbols-outlined text-[14px]">stars</span>
             PRO
           </div>
@@ -36,26 +36,26 @@ export default function ProfilePage() {
               </p>
             </div>
             <div className="flex gap-3">
-              <button className="px-4 py-2 rounded-lg border border-border/30 font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-foreground hover:bg-muted/80 transition-colors flex items-center gap-2">
+              <button className="px-4 py-2 rounded-lg border border-border/30 font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-foreground hover:bg-muted/80 transition-colors flex items-center gap-2">
                 <span className="material-symbols-outlined text-[18px]">person_add</span>
                 Follow
               </button>
-              <button className="px-4 py-2 rounded-lg bg-muted/80 font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium text-foreground hover:bg-accent transition-colors">
+              <button className="px-4 py-2 rounded-lg bg-muted/80 font-subheading text-[12px] uppercase tracking-wider font-medium text-foreground hover:bg-accent transition-colors">
                 <span className="material-symbols-outlined text-[18px]">more_horiz</span>
               </button>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-4 mt-2">
-            <div className="flex items-center gap-2 text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em]">
+            <div className="flex items-center gap-2 text-muted-foreground font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em]">
               <span className="material-symbols-outlined text-[16px]">location_on</span>
               San Francisco, CA
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em]">
+            <div className="flex items-center gap-2 text-muted-foreground font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em]">
               <span className="material-symbols-outlined text-[16px]">link</span>
               <a className="hover:text-primary transition-colors" href="#">github.com/alexc</a>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em]">
+            <div className="flex items-center gap-2 text-muted-foreground font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em]">
               <span className="material-symbols-outlined text-[16px]">calendar_today</span>
               Joined Sep 2021
             </div>
@@ -65,17 +65,17 @@ export default function ProfilePage() {
           <div className="flex gap-6 mt-4 p-4 rounded-lg bg-card/50/50 border border-border/10">
             <div className="flex flex-col">
               <span className="font-heading text-[24px] leading-[32px] text-primary font-bold">1,248</span>
-              <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground uppercase">Problems Solved</span>
+              <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground">Problems Solved</span>
             </div>
             <div className="w-px bg-outline-variant/20"></div>
             <div className="flex flex-col">
               <span className="font-heading text-[24px] leading-[32px] text-secondary font-bold">89</span>
-              <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground uppercase">Contest Rating</span>
+              <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground">Contest Rating</span>
             </div>
             <div className="w-px bg-outline-variant/20"></div>
             <div className="flex flex-col">
               <span className="font-heading text-[24px] leading-[32px] text-tertiary font-bold">4.2k</span>
-              <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground uppercase">Reputation</span>
+              <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground">Reputation</span>
             </div>
           </div>
         </div>
@@ -90,9 +90,9 @@ export default function ProfilePage() {
           <section className="glass-panel border border-border/10 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05)] rounded-xl p-0 overflow-hidden flex flex-col">
             {/* Tab Header */}
             <div className="flex border-b border-border/20 px-4 overflow-x-auto custom-scrollbar">
-              <button className="px-6 py-4 font-subheading text-[12px] uppercase tracking-wider text-[12px] font-bold tracking-[0.05em] text-primary border-b-2 border-primary bg-primary/5 whitespace-nowrap">Public Notes</button>
-              <button className="px-6 py-4 font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap">Timeline</button>
-              <button className="px-6 py-4 font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap">Achievements</button>
+              <button className="px-6 py-4 font-subheading text-[12px] uppercase tracking-wider font-bold tracking-[0.05em] text-primary border-b-2 border-primary bg-primary/5 whitespace-nowrap">Public Notes</button>
+              <button className="px-6 py-4 font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap">Timeline</button>
+              <button className="px-6 py-4 font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap">Achievements</button>
             </div>
             
             {/* Tab Content (Public Notes) */}
@@ -101,7 +101,7 @@ export default function ProfilePage() {
               <div className="p-4 rounded-lg bg-card/50 border border-border/10 hover:border-primary/30 transition-all cursor-pointer group focus-within:shadow-[inset_0_0_10px_rgba(188,195,255,0.1)]">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-heading text-[18px] leading-[24px] font-medium text-foreground group-hover:text-primary transition-colors">Dynamic Programming: State Space Reduction</h4>
-                  <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground bg-accent px-2 py-1 rounded">2 days ago</span>
+                  <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground bg-accent px-2 py-1 rounded">2 days ago</span>
                 </div>
                 <p className="text-[16px] leading-[24px] text-muted-foreground line-clamp-2 mb-3">Exploring techniques to reduce the state space in multi-dimensional DP problems, specifically focusing on bitmask optimization and rolling arrays.</p>
                 <div className="flex gap-2">
@@ -114,7 +114,7 @@ export default function ProfilePage() {
               <div className="p-4 rounded-lg bg-card/50 border border-border/10 hover:border-primary/30 transition-all cursor-pointer group focus-within:shadow-[inset_0_0_10px_rgba(188,195,255,0.1)]">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-heading text-[18px] leading-[24px] font-medium text-foreground group-hover:text-primary transition-colors">Graph Theory: Tarjan's SCC Algorithm Explained</h4>
-                  <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-muted-foreground bg-accent px-2 py-1 rounded">1 week ago</span>
+                  <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground bg-accent px-2 py-1 rounded">1 week ago</span>
                 </div>
                 <p className="text-[16px] leading-[24px] text-muted-foreground line-clamp-2 mb-3">A visual guide and implementation details for finding Strongly Connected Components using Tarjan's algorithm with low-link values.</p>
                 <div className="flex gap-2">
@@ -137,7 +137,7 @@ export default function ProfilePage() {
             
             <div className="space-y-3 mt-6">
               <div className="flex justify-between items-center">
-                <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-foreground">Dynamic Programming</span>
+                <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-foreground">Dynamic Programming</span>
                 <span className="font-mono text-[12px] text-primary">Lvl 9</span>
               </div>
               <div className="w-full bg-accent rounded-full h-1.5">
@@ -145,7 +145,7 @@ export default function ProfilePage() {
               </div>
               
               <div className="flex justify-between items-center mt-4">
-                <span className="font-subheading text-[12px] uppercase tracking-wider text-[12px] font-medium tracking-[0.05em] text-foreground">Graphs & BFS/DFS</span>
+                <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-foreground">Graphs & BFS/DFS</span>
                 <span className="font-mono text-[12px] text-secondary">Lvl 8</span>
               </div>
               <div className="w-full bg-accent rounded-full h-1.5">
