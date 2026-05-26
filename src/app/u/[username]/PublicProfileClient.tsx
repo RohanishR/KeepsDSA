@@ -5,6 +5,7 @@ import { motion, Variants } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import ActivityHeatmap from '@/components/dashboard/ActivityHeatmap';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface PublicProfileClientProps {
   data: {
@@ -53,7 +54,7 @@ export default function PublicProfileClient({ data }: PublicProfileClientProps) 
           
           <div className="relative">
             {user.image ? (
-              <img src={user.image} alt={user.name} className="w-32 h-32 rounded-full border-4 border-surface shadow-2xl" />
+              <Image src={user.image} alt={user.name} width={128} height={128} className="w-32 h-32 rounded-full border-4 border-surface shadow-2xl" />
             ) : (
               <div className="w-32 h-32 rounded-full bg-accent flex items-center justify-center border-4 border-surface shadow-2xl">
                 <span className="material-symbols-outlined text-[64px] text-primary">person</span>

@@ -18,8 +18,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'KeepsDSA - Your Coding Notes',
-  description: 'A modern platform for tracking and mastering Data Structures and Algorithms.',
+  title: {
+    default: 'KeepsDSA - Master Data Structures and Algorithms',
+    template: '%s | KeepsDSA',
+  },
+  description: 'A modern platform for tracking, practicing, and mastering Data Structures and Algorithms. Import from LeetCode, save your notes, and build a consistent coding habit.',
+  keywords: ['DSA', 'Data Structures', 'Algorithms', 'LeetCode Tracker', 'Coding Practice', 'Software Engineering'],
+  authors: [{ name: 'KeepsDSA Team' }],
+  creator: 'KeepsDSA',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://keepsdsa.com',
+    title: 'KeepsDSA - Master Data Structures and Algorithms',
+    description: 'A modern platform for tracking, practicing, and mastering Data Structures and Algorithms.',
+    siteName: 'KeepsDSA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'KeepsDSA - Master Data Structures and Algorithms',
+    description: 'A modern platform for tracking, practicing, and mastering Data Structures and Algorithms.',
+  },
 };
 
 import NextAuthSessionProvider from '@/components/providers/SessionProvider';

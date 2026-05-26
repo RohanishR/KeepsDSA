@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -77,7 +78,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left text-[13px] text-foreground hover:bg-muted transition-colors border-t border-border/20"
               >
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" className="w-4 h-4 opacity-70" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
+                <Image src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" width={16} height={16} className="opacity-70" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
                 Import from LeetCode
               </button>
             </motion.div>

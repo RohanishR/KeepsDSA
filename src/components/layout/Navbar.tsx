@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface NavbarProps {
   onToggleSidebar?: () => void;
@@ -52,10 +53,12 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen = true }: Navbar
               className="w-9 h-9 rounded-full bg-muted overflow-hidden border border-border/50 cursor-pointer shadow-[0_0_10px_rgba(29,161,242,0.1)] hover:shadow-[0_0_20px_rgba(29,161,242,0.2)] transition-shadow duration-300"
               onClick={() => setShowDropdown(!showDropdown)}
             >
-              <img 
+              <Image 
                 alt="User profile" 
                 className="w-full h-full object-cover" 
                 src={session.user.image || `https://ui-avatars.com/api/?name=${session.user.name}&background=3196e8&color=fff`}
+                width={36}
+                height={36}
               />
             </motion.div>
 

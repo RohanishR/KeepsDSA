@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
+import Image from 'next/image';
 
 interface PrivacySettings {
   isProfilePublic: boolean;
@@ -226,7 +227,7 @@ export default function SettingsClient({ initialData }: { initialData: SettingsD
           <div className="glass-panel p-6 rounded-xl flex flex-col items-center text-center group card-hover">
             <div className="relative mb-4">
               {initialData.image ? (
-                <img src={initialData.image} alt="Profile" className="w-24 h-24 rounded-full border-4 border-surface shadow-[0_0_15px_rgba(188,195,255,0.2)] group-hover:shadow-[0_0_25px_rgba(188,195,255,0.4)] transition-shadow duration-300" />
+                <Image src={initialData.image} alt="Profile" width={96} height={96} className="w-24 h-24 rounded-full border-4 border-surface shadow-[0_0_15px_rgba(188,195,255,0.2)] group-hover:shadow-[0_0_25px_rgba(188,195,255,0.4)] transition-shadow duration-300" />
               ) : (
                 <div className="w-24 h-24 rounded-full bg-accent flex items-center justify-center border-4 border-surface shadow-[0_0_15px_rgba(188,195,255,0.2)] group-hover:shadow-[0_0_25px_rgba(188,195,255,0.4)] transition-shadow duration-300">
                   <span className="material-symbols-outlined text-[40px] text-primary">person</span>

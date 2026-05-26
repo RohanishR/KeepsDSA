@@ -10,6 +10,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import debounce from 'lodash.debounce';
 import { ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas';
 import { LEETCODE_TOPICS } from '@/lib/constants';
+import Image from 'next/image';
 
 interface NotesEditorProps {
   slug: string;
@@ -324,7 +325,7 @@ export default function NotesEditor({ slug, initialNote }: NotesEditorProps) {
                     );
                   },
                   img({src, alt}) {
-                    return <img src={src} alt={alt} className="max-w-full rounded-lg my-4 shadow-lg border border-white/10" loading="lazy" />
+                    return <Image src={src || ''} alt={alt || ''} width={0} height={0} sizes="100vw" style={{ width: '100%', height: 'auto' }} className="rounded-lg my-4 shadow-lg border border-white/10" />
                   },
                   a({href, children}) {
                     return <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{children}</a>

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import ReactMarkdown from 'react-markdown';
@@ -29,7 +30,7 @@ export default function PublicProblemClient({ data }: PublicProblemClientProps) 
         <div className="flex items-center gap-4">
           <Link href={`/u/${user.username}`}>
             {user.image ? (
-              <img src={user.image} alt={user.name} className="w-12 h-12 rounded-full border-2 border-surface hover:border-primary transition-colors cursor-pointer" />
+              <Image src={user.image} alt={user.name} width={48} height={48} className="w-12 h-12 rounded-full border-2 border-surface hover:border-primary transition-colors cursor-pointer" />
             ) : (
               <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center border-2 border-surface hover:border-primary transition-colors cursor-pointer">
                 <span className="material-symbols-outlined text-primary text-[24px]">person</span>

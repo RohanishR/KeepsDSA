@@ -11,7 +11,7 @@ export async function GET() {
     }
 
     await dbConnect();
-    const uploads = await Upload.find({ userId: session.user.id }).sort({ createdAt: -1 });
+    const uploads = await Upload.find({ userId: session.user.id }).sort({ createdAt: -1 }).lean();
 
     return NextResponse.json({ uploads });
   } catch (error: any) {

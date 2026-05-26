@@ -3,7 +3,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
-import Editor from '@monaco-editor/react';
+import dynamic from 'next/dynamic';
+
+const Editor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
 
 const solutionSchema = z.object({
   title: z.string().min(1, 'Title is required'),

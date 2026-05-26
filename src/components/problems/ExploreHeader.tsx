@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import AddProblemModal from './AddProblemModal';
 import ImportLeetCodeModal from './ImportLeetCodeModal';
 
@@ -45,7 +46,7 @@ export default function ExploreHeader() {
             onClick={() => setIsImportModalOpen(true)}
             className="bg-muted/80 text-muted-foreground hover:text-foreground hover:bg-background-bright px-4 py-2 rounded-lg font-medium shadow-sm border border-border/30 transition-colors flex items-center gap-2"
           >
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" className="w-4 h-4 opacity-70" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
+            <Image src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" width={16} height={16} className="opacity-70" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
             Import
           </motion.button>
           <motion.button 

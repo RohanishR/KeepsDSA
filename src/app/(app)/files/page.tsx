@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { LEETCODE_TOPICS } from '@/lib/constants';
+import Image from 'next/image';
 
 interface Attachment {
   publicId: string;
@@ -235,10 +236,12 @@ export default function GlobalFilesPage() {
                           <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">PDF Document</span>
                         </div>
                       ) : (
-                        <img 
+                        <Image 
                           src={attachment.url} 
                           alt={attachment.originalName} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          fill
+                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                       )}
                       

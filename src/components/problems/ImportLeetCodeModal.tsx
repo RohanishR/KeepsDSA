@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface ImportLeetCodeModalProps {
   isOpen: boolean;
@@ -68,7 +69,7 @@ export default function ImportLeetCodeModal({ isOpen, onClose }: ImportLeetCodeM
         <div className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-[#ffa116]/10 flex items-center justify-center">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" className="w-5 h-5 opacity-80" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
+              <Image src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png" alt="LeetCode" width={20} height={20} className="opacity-80" style={{ filter: 'brightness(0) invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) brightness(1.2)' }} />
             </div>
             <div>
               <h2 className="text-xl font-bold text-foreground">Import from LeetCode</h2>
