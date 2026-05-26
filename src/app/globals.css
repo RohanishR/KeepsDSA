@@ -907,5 +907,97 @@
 }
 
 .switch input[type="checkbox"]:checked:active + .slider::after {
- transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+  transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+}
+
+/* ===== SOCIAL ICON TOOLTIPS (Footer) ===== */
+.social-icon-item {
+  position: relative;
+  list-style: none;
+}
+
+.social-icon-item a {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.social-icon-item a:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  color: white;
+  border-color: transparent;
+}
+
+.social-icon-item a::after {
+  display: none !important;
+}
+
+.social-svg {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+}
+
+.social-fill {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #000;
+  transition: all 0.3s ease-in-out;
+}
+
+.social-icon-item a:hover .social-fill {
+  height: 100%;
+}
+
+.social-tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.social-icon-item:hover .social-tooltip {
+  opacity: 1;
+  visibility: visible;
+  top: -42px;
+}
+
+/* Social-specific colors */
+.social-icon-item a[data-social="linkedin"] .social-fill,
+.social-tooltip-linkedin {
+  background-color: #0274b3;
+}
+
+.social-icon-item a[data-social="github"] .social-fill,
+.social-tooltip-github {
+  background-color: #24262a;
+}
+
+.social-icon-item a[data-social="youtube"] .social-fill,
+.social-tooltip-youtube {
+  background-color: #ff0000;
 }

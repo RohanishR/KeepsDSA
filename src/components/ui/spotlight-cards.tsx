@@ -11,13 +11,13 @@
  */
 
 import type { LucideIcon } from "lucide-react";
-import { Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw } from "lucide-react";
+import { Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw, Chrome, LineChart } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const iconMap: Record<string, LucideIcon> = {
-  Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw
+  Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw, Chrome, LineChart
 };
 
 // ─── Constants ──────────────────────────────────────────────────────────────────
@@ -262,7 +262,7 @@ export default function SpotlightCards({
       </div>
 
       {/* Card grid */}
-      <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
           <Card
             dimmed={hoveredTitle !== null && hoveredTitle !== item.title}
