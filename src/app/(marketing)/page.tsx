@@ -105,12 +105,12 @@ export default function LandingPage() {
       <section className="max-w-[1280px] mx-auto px-4 md:px-12 py-24 border-t border-border/10" id="features">
         <SpotlightCards 
           items={[
-            { icon: 'Chrome', title: 'Chrome Extension', description: 'Sync solutions instantly from LeetCode. Save your brute-force and optimal code, time complexity, and thoughts with a single click.', color: '#50fa7b' },
+            { icon: 'Monitor', title: 'Chrome Extension', description: 'Sync solutions instantly from LeetCode. Save your brute-force and optimal code, time complexity, and thoughts with a single click.', color: '#50fa7b' },
             { icon: 'GitCompare', title: 'Multi-solution Tracking', description: "Don't just store one answer. Track brute-force, optimal, and alternative approaches side-by-side to understand trade-offs.", color: '#4296f4' },
             { icon: 'PenLine', title: 'Handwritten Notes', description: 'Snap a photo of your whiteboard scribbles or iPad notes. We attach them directly to the problem context.', color: '#ffb86c' },
             { icon: 'Sparkles', title: 'AI Explanations', description: 'Stuck on a specific line of code? Highlight it and get an instant, context-aware explanation tailored to your skill level.', color: '#bd93f9' },
             { icon: 'RefreshCw', title: 'Spaced Repetition', description: 'Our algorithm schedules revisions based on your mastery level, ensuring concepts move from short-term to long-term memory.', color: '#ff5555' },
-            { icon: 'LineChart', title: 'Detailed Analytics', description: 'Track your problem-solving consistency, visualize your strengths, and focus on weak areas with detailed dashboards.', color: '#f1fa8c' },
+            { icon: 'Activity', title: 'Detailed Analytics', description: 'Track your problem-solving consistency, visualize your strengths, and focus on weak areas with detailed dashboards.', color: '#f1fa8c' },
           ]}
         />
       </section>

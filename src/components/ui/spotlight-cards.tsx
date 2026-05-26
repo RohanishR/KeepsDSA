@@ -11,13 +11,13 @@
  */
 
 import type { LucideIcon } from "lucide-react";
-import { Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw, Chrome, LineChart } from "lucide-react";
+import { Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw, Monitor, Activity } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const iconMap: Record<string, LucideIcon> = {
-  Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw, Chrome, LineChart
+  Cloud, Code, Cpu, Globe, Lock, Zap, GitCompare, PenLine, Sparkles, RefreshCw, Monitor, Activity
 };
 
 // ─── Constants ──────────────────────────────────────────────────────────────────
