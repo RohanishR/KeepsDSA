@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import SidebarFilters from './SidebarFilters';
 import ExploreHeader from '@/components/problems/ExploreHeader';
+import DeleteAnimatedButton from '@/components/ui/DeleteAnimatedButton';
 
 interface ExploreClientProps {
   availableTags: string[];
@@ -102,6 +103,11 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
         p._id === problemId ? { ...p, isBookmarked: !p.isBookmarked } : p
       ));
     }
+  };
+
+  const handleProblemDeleted = (problemId: string) => {
+    setProblems(prev => prev.filter(p => p._id !== problemId));
+    setTotalCount(prev => Math.max(0, prev - 1));
   };
 
   return (
@@ -231,23 +237,26 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
                             )}
                           </div>
                           {viewMode === 'grid' && (
-                            <label 
-                              className="ui-bookmark group"
-                              onClick={(e) => toggleBookmark(e, problem._id)}
-                            >
-                              <input 
-                                type="checkbox"
-                                checked={problem.isBookmarked}
-                                readOnly
-                              />
-                              <div className="bookmark">
-                                <svg viewBox="0 0 32 32">
-                                  <g>
-                                    <path d="M27 4v27a1 1 0 0 1-1.625.781L16 24.281l-9.375 7.5A1 1 0 0 1 5 31V4a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4z" />
-                                  </g>
-                                </svg>
-                              </div>
-                            </label>
+                            <div className="flex items-center gap-3">
+                              <DeleteAnimatedButton problemSlug={problem.slug} onDeleted={() => handleProblemDeleted(problem._id)} />
+                              <label 
+                                className="ui-bookmark group"
+                                onClick={(e) => toggleBookmark(e, problem._id)}
+                              >
+                                <input 
+                                  type="checkbox"
+                                  checked={problem.isBookmarked}
+                                  readOnly
+                                />
+                                <div className="bookmark">
+                                  <svg viewBox="0 0 32 32">
+                                    <g>
+                                      <path d="M27 4v27a1 1 0 0 1-1.625.781L16 24.281l-9.375 7.5A1 1 0 0 1 5 31V4a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4z" />
+                                    </g>
+                                  </svg>
+                                </div>
+                              </label>
+                            </div>
                           )}
                         </div>
 
@@ -288,23 +297,26 @@ export default function ExploreClient({ availableTags }: ExploreClientProps) {
                         </div>
 
                         {viewMode === 'list' && (
-                          <label 
-                            className="ui-bookmark group ml-2"
-                            onClick={(e) => toggleBookmark(e, problem._id)}
-                          >
-                            <input 
-                              type="checkbox"
-                              checked={problem.isBookmarked}
-                              readOnly
-                            />
-                            <div className="bookmark">
-                              <svg viewBox="0 0 32 32">
-                                <g>
-                                  <path d="M27 4v27a1 1 0 0 1-1.625.781L16 24.281l-9.375 7.5A1 1 0 0 1 5 31V4a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4z" />
-                                </g>
-                              </svg>
-                            </div>
-                          </label>
+                          <div className="flex items-center gap-4 ml-4">
+                            <DeleteAnimatedButton problemSlug={problem.slug} onDeleted={() => handleProblemDeleted(problem._id)} />
+                            <label 
+                              className="ui-bookmark group"
+                              onClick={(e) => toggleBookmark(e, problem._id)}
+                            >
+                              <input 
+                                type="checkbox"
+                                checked={problem.isBookmarked}
+                                readOnly
+                              />
+                              <div className="bookmark">
+                                <svg viewBox="0 0 32 32">
+                                  <g>
+                                    <path d="M27 4v27a1 1 0 0 1-1.625.781L16 24.281l-9.375 7.5A1 1 0 0 1 5 31V4a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4z" />
+                                  </g>
+                                </svg>
+                              </div>
+                            </label>
+                          </div>
                         )}
                       </div>
                       

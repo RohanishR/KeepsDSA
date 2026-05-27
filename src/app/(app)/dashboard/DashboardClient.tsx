@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import ActivityHeatmap from '@/components/dashboard/ActivityHeatmap';
 import { formatDistanceToNow } from 'date-fns';
+import ExploreButton from '@/components/ui/ExploreButton';
 
 interface DashboardClientProps {
   initialData: {
@@ -94,10 +95,7 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
           <p className="font-sans text-[15px] text-muted-foreground mt-1">Your logic is sharp today. Let&apos;s build.</p>
         </div>
         <div className="flex gap-3">
-          <Link href="/explore" className="group bg-card text-foreground hover:bg-accent px-5 py-2.5 rounded-xl font-medium shadow-sm border border-border/50 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]">
-            <span className="material-symbols-outlined text-[18px] text-primary transition-transform duration-200 group-hover:scale-110">search</span>
-            Explore
-          </Link>
+          <ExploreButton />
           <Link href="/revision" className="group bg-primary text-primary-foreground px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]">
             <span className="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:rotate-12">history_edu</span>
             Start Revision

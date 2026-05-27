@@ -140,7 +140,7 @@ export default function ProblemWorkspace({ problem, initialSolutions, initialNot
           
           {/* Action Buttons */}
           <div className="flex items-center gap-1 px-1 shrink-0">
-            <button onClick={() => setIsAIOpen(true)} className="flex items-center gap-1.5 px-3 py-1.5 h-[30px] rounded-md text-[12px] font-bold bg-linear-to-r from-primary/10 to-primary/5 text-primary hover:bg-primary/20 border border-primary/20 transition-colors shadow-sm mr-1">
+            <button onClick={() => setIsAIOpen(!isAIOpen)} className="flex items-center gap-1.5 px-3 py-1.5 h-[30px] rounded-md text-[12px] font-bold bg-linear-to-r from-primary/10 to-primary/5 text-primary hover:bg-primary/20 border border-primary/20 transition-colors shadow-sm mr-1">
               <span className="material-symbols-outlined text-[16px]">psychology</span>
               Ask AI
             </button>

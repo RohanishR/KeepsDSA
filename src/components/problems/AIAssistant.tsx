@@ -98,7 +98,7 @@ export default function AIAssistant({ isOpen, onClose, codeContext, problemTitle
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-background/60 backdrop-blur-sm z-[150] md:hidden"
+              className="fixed inset-0 bg-background/80 z-[99] md:hidden"
               onClick={onClose}
             />
           )}
@@ -114,8 +114,8 @@ export default function AIAssistant({ isOpen, onClose, codeContext, problemTitle
             animate="visible"
             exit="exit"
             className={isIntegrated 
-              ? "w-full h-full bg-card flex flex-col relative"
-              : "fixed inset-y-0 right-0 w-full md:w-[380px] bg-card border-l border-border/40 shadow-2xl z-[100] flex flex-col"
+              ? "w-full h-full bg-card rounded-xl border border-border/10 flex flex-col overflow-hidden shadow-inner relative"
+              : "fixed inset-y-0 right-0 w-full md:w-[380px] bg-card border-l border-border/40 shadow-2xl z-[100] flex flex-col rounded-l-2xl md:rounded-none"
             }
           >
             {/* Header */}

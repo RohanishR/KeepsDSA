@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
@@ -47,7 +47,15 @@ export function BeamsBackground({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const beamsRef = useRef<Beam[]>([]);
     const animationFrameRef = useRef<number>(0);
-    const MINIMUM_BEAMS = 20;
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Detect mobile on mount
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const opacityMap = {
         subtle: 0.7,
@@ -62,15 +70,19 @@ export function BeamsBackground({
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
+        const mobile = window.innerWidth < 768;
+
         const updateCanvasSize = () => {
-            const dpr = window.devicePixelRatio || 1;
+            // Cap DPR at 1 on mobile to avoid rendering at retina resolution
+            const dpr = mobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
             ctx.scale(dpr, dpr);
 
-            const totalBeams = MINIMUM_BEAMS * 1.5;
+            // Fewer beams on mobile (8 vs 30)
+            const totalBeams = mobile ? 8 : 30;
             beamsRef.current = Array.from({ length: totalBeams }, () =>
                 createBeam(canvas.width, canvas.height)
             );
@@ -135,11 +147,22 @@ export function BeamsBackground({
             ctx.restore();
         }
 
-        function animate() {
+        // On mobile, throttle to ~30fps instead of 60fps
+        let lastFrameTime = 0;
+        const frameBudget = mobile ? 33 : 0; // ~30fps on mobile, uncapped on desktop
+
+        function animate(now: number = 0) {
             if (!canvas || !ctx) return;
 
+            if (now - lastFrameTime < frameBudget) {
+                animationFrameRef.current = requestAnimationFrame(animate);
+                return;
+            }
+            lastFrameTime = now;
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.filter = "blur(35px)";
+            // Skip canvas-level blur on mobile — use CSS blur only
+            ctx.filter = mobile ? "none" : "blur(35px)";
 
             const totalBeams = beamsRef.current.length;
             beamsRef.current.forEach((beam, index) => {
@@ -177,9 +200,10 @@ export function BeamsBackground({
             <canvas
                 ref={canvasRef}
                 className="absolute inset-0"
-                style={{ filter: "blur(15px)" }}
+                style={{ filter: isMobile ? "blur(12px)" : "blur(15px)" }}
             />
 
+            {/* Ambient pulse overlay — no backdropFilter on mobile */}
             <motion.div
                 className="absolute inset-0 bg-neutral-950/5"
                 animate={{
@@ -190,7 +214,7 @@ export function BeamsBackground({
                     ease: "easeInOut",
                     repeat: Number.POSITIVE_INFINITY,
                 }}
-                style={{
+                style={isMobile ? undefined : {
                     backdropFilter: "blur(50px)",
                 }}
             />

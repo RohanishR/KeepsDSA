@@ -5,6 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import ExtensionTooltip from './ExtensionTooltip';
 
 interface NavbarProps {
   onToggleSidebar?: () => void;
@@ -40,9 +41,7 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen = true }: Navbar
 
       <div className="flex items-center gap-4 ml-auto">
         <div className="hidden lg:flex items-center gap-2">
-          <button className="text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-110 active:scale-95 p-1 rounded-lg hover:bg-primary/10">
-            <span className="material-symbols-outlined">notifications</span>
-          </button>
+          <ExtensionTooltip />
         </div>
         
         {session?.user ? (

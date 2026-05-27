@@ -2,14 +2,21 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="w-full py-10 mt-auto bg-background/80 backdrop-blur-md border-t border-border/10">
-      <div className="flex flex-col gap-8 max-w-container mx-auto px-margin-desktop">
-        {/* Top row: Brand + Social Icons */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="font-heading text-headline-md font-bold text-primary">KeepsDSA</div>
+    <footer className="w-full py-6 mt-auto bg-background/80 backdrop-blur-md border-t border-border/10">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 max-w-container mx-auto px-margin-desktop">
+        <div className="font-heading text-headline-md font-bold text-primary">KeepsDSA</div>
 
-          {/* Social Icons */}
-          <ul className="flex items-center gap-3 list-none p-0 m-0">
+        <div className="flex items-center gap-6">
+          <p className="font-sans text-body-md text-muted-foreground">© 2026 KeepsDSA Platform.</p>
+          <div className="flex gap-4">
+            <Link className="font-subheading text-[12px] uppercase tracking-wider text-label-sm text-muted-foreground hover:text-primary transition-colors duration-200" href="/about">About</Link>
+            <Link className="font-subheading text-[12px] uppercase tracking-wider text-label-sm text-muted-foreground hover:text-primary transition-colors duration-200" href="/privacy">Privacy</Link>
+            <Link className="font-subheading text-[12px] uppercase tracking-wider text-label-sm text-muted-foreground hover:text-primary transition-colors duration-200" href="/terms">Terms</Link>
+          </div>
+        </div>
+
+        {/* Social Icons */}
+        <ul className="flex items-center gap-3 list-none p-0 m-0">
             <li className="social-icon-item">
               <a href="https://www.linkedin.com/in/ramanrohanish" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" data-social="linkedin">
                 <div className="social-fill" />
@@ -38,17 +45,6 @@ export default function Footer() {
               <div className="social-tooltip social-tooltip-youtube">YouTube</div>
             </li>
           </ul>
-        </div>
-
-        {/* Bottom row: Copyright + Links */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-6 border-t border-border/10">
-          <p className="font-sans text-body-md text-muted-foreground">© 2026 KeepsDSA Platform.</p>
-          <div className="flex gap-4">
-            <Link className="font-subheading text-[12px] uppercase tracking-wider text-label-sm text-muted-foreground hover:text-primary transition-colors duration-200" href="/about">About</Link>
-            <Link className="font-subheading text-[12px] uppercase tracking-wider text-label-sm text-muted-foreground hover:text-primary transition-colors duration-200" href="/privacy">Privacy</Link>
-            <Link className="font-subheading text-[12px] uppercase tracking-wider text-label-sm text-muted-foreground hover:text-primary transition-colors duration-200" href="/terms">Terms</Link>
-          </div>
-        </div>
       </div>
     </footer>
   );
