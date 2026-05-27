@@ -1,8 +1,23 @@
 import NextAuth from "next-auth";
 import { authConfig } from "@/auth.config";
+import { NextResponse } from "next/server";
 
 export default NextAuth(authConfig).auth((req) => {
   const { nextUrl } = req;
+  
+  // Handle CORS preflight requests
+  if (req.method === "OPTIONS" && nextUrl.pathname.startsWith("/api/")) {
+    return new NextResponse(null, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS, PATCH, DELETE, POST, PUT",
+        "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization",
+      },
+    });
+  }
+
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith('/api/auth');
