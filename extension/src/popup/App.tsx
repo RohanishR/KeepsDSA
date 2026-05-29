@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LogOut, Code2, CloudCog } from 'lucide-react';
+import { API_URL, WEB_URL } from '../config';
 
 export default function App() {
   const [token, setToken] = useState<string | null>(null);
@@ -21,7 +22,7 @@ export default function App() {
     setError('');
     
     try {
-      const res = await fetch('http://localhost:3000/api/extension/auth', {
+      const res = await fetch(`${API_URL}/auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: inputToken.trim() })
@@ -89,7 +90,7 @@ export default function App() {
             </button>
           </div>
           
-          <a href="http://localhost:3000/extension" target="_blank" rel="noreferrer" className="text-primary text-[12px] font-medium mt-6 hover:underline decoration-primary/50 underline-offset-4 transition-all">
+          <a href={`${WEB_URL}/extension`} target="_blank" rel="noreferrer" className="text-primary text-[12px] font-medium mt-6 hover:underline decoration-primary/50 underline-offset-4 transition-all">
             Get your API key from Settings &rarr;
           </a>
         </div>
@@ -132,7 +133,7 @@ export default function App() {
       {/* Footer */}
       <div className="px-5 py-4 border-t border-border/40 bg-card/30 flex justify-between items-center text-[11px] text-muted-foreground font-medium uppercase tracking-wider relative z-10">
         <span className="opacity-70">v1.0.0</span>
-        <a href="http://localhost:3000/explore" target="_blank" rel="noreferrer" className="text-primary hover:text-primary/80 transition-colors flex items-center gap-1 group">
+        <a href={`${WEB_URL}/explore`} target="_blank" rel="noreferrer" className="text-primary hover:text-primary/80 transition-colors flex items-center gap-1 group">
           Open Dashboard
           <span className="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
         </a>

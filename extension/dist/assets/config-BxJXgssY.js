@@ -1,0 +1,1 @@
+var e=`https://keepsdsa.vercel.app`,t=`${e}/api/extension`;export{e as n,t};
