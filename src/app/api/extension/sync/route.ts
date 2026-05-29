@@ -5,11 +5,21 @@ import { Problem } from '@/models/Problem';
 import { Solution } from '@/models/Solution';
 import mongoose from 'mongoose';
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 export async function POST(req: Request) {
   try {
     const authHeader = req.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Missing or invalid token' }, { status: 401 });
+      return NextResponse.json({ error: 'Missing or invalid token' }, { status: 401, headers: corsHeaders });
     }
 
     const token = authHeader.split(' ')[1];
@@ -17,14 +27,14 @@ export async function POST(req: Request) {
     
     const user = await User.findOne({ extensionToken: token });
     if (!user) {
-      return NextResponse.json({ error: 'Invalid extension token' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid extension token' }, { status: 401, headers: corsHeaders });
     }
 
     const payload = await req.json();
     const { title, slug, difficulty, tags, url, code, language, description } = payload;
 
     if (!slug || !title) {
-      return NextResponse.json({ error: 'Invalid payload: slug and title required' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid payload: slug and title required' }, { status: 400, headers: corsHeaders });
     }
 
     // 1. Upsert Problem
@@ -78,9 +88,9 @@ export async function POST(req: Request) {
       }
     }
 
-    return NextResponse.json({ success: true, message: 'Synced successfully', problemId: problem._id });
+    return NextResponse.json({ success: true, message: 'Synced successfully', problemId: problem._id }, { headers: corsHeaders });
   } catch (error: any) {
     console.error('Sync Error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500, headers: corsHeaders });
   }
 }
