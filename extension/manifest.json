@@ -20,7 +20,6 @@
   "permissions": ["storage", "activeTab", "scripting"],
   "host_permissions": [
     "https://leetcode.com/*",
-    "http://localhost:3000/*",
     "https://*.vercel.app/*",
     "https://keepsdsa.com/*"
   ]
