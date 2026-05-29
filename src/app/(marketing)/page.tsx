@@ -15,12 +15,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative max-w-[1280px] mx-auto px-4 md:px-12 pt-16 md:pt-32 pb-24 flex flex-col items-center text-center">
         <div className="absolute w-[600px] h-[600px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(58,82,237,0.15)_0%,rgba(7,7,8,0)_70%)] z-[-1] pointer-events-none"></div>
-        
-        {/* Animated Badge */}
-        <div className="animate-fade-in-down inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-container/30 bg-primary/20/10 mb-8 animate-glow-pulse">
-          <span className="material-symbols-outlined text-primary text-[16px]">new_releases</span>
-          <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-primary">v1.0.0 is now live</span>
-        </div>
+      
         
         {/* Animated Heading */}
         <h1 className="animate-fade-in-up font-heading text-[48px] md:text-[64px] leading-[56px] md:leading-[72px] font-bold tracking-tighter mb-6 max-w-4xl text-foreground">

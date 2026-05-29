@@ -31,7 +31,6 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <div className="px-gutter mb-8 flex items-center justify-between">
         <div>
           <h1 className="font-heading text-[32px] font-bold text-primary tracking-tighter leading-none mt-2">KeepsDSA</h1>
-          <p className="font-subheading text-[12px] uppercase tracking-wider text-[10px] text-muted-foreground mt-1 tracking-widest">v1.0.0-beta</p>
         </div>
         <button onClick={onToggle} className="md:hidden text-muted-foreground hover:text-foreground">
           <span className="material-symbols-outlined">close</span>

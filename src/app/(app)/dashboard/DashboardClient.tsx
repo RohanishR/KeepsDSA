@@ -341,40 +341,44 @@ export default function DashboardClient({ initialData }: DashboardClientProps) {
           
           <div className="flex-1 flex flex-col gap-1 overflow-y-auto pr-2 custom-scrollbar max-h-[250px]">
             {activityFeed.length > 0 ? (
-              activityFeed.map((activity, index) => (
-                <motion.div
-                  key={activity._id}
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 + index * 0.06, duration: 0.3 }}
-                >
-                  <Link href={`/problem/${activity.problem.slug}`} className="flex gap-3 group py-2.5 px-3 rounded-xl hover:bg-accent/50 transition-colors duration-200">
-                    <div className="flex flex-col items-center pt-0.5">
-                      <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
-                        <span className="material-symbols-outlined text-[16px]">code</span>
+              activityFeed.map((activity, index) => {
+                if (!activity.problem) return null;
+                
+                return (
+                  <motion.div
+                    key={activity._id}
+                    initial={{ opacity: 0, x: 12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + index * 0.06, duration: 0.3 }}
+                  >
+                    <Link href={`/problem/${activity.problem.slug}`} className="flex gap-3 group py-2.5 px-3 rounded-xl hover:bg-accent/50 transition-colors duration-200">
+                      <div className="flex flex-col items-center pt-0.5">
+                        <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
+                          <span className="material-symbols-outlined text-[16px]">code</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-start gap-2">
-                        <h4 className="text-[13px] font-bold text-foreground group-hover:text-primary transition-colors truncate">{activity.problem.title}</h4>
-                        <span className="text-[10px] text-muted-foreground whitespace-nowrap shrink-0">{formatDistanceToNow(new Date(activity.createdAt), { addSuffix: true })}</span>
-                      </div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase border
-                          ${activity.problem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
-                          ${activity.problem.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
-                          ${activity.problem.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
-                        `}>
-                          {activity.problem.difficulty}
-                        </span>
-                        {activity.language && (
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-start gap-2">
+                          <h4 className="text-[13px] font-bold text-foreground group-hover:text-primary transition-colors truncate">{activity.problem.title}</h4>
+                          <span className="text-[10px] text-muted-foreground whitespace-nowrap shrink-0">{formatDistanceToNow(new Date(activity.createdAt), { addSuffix: true })}</span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase border
+                            ${activity.problem.difficulty === 'Easy' ? 'bg-[#132b1a] text-[#4ade80] border-[#4ade80]/20' : ''}
+                            ${activity.problem.difficulty === 'Medium' ? 'bg-[#3b2d13] text-[#facc15] border-[#facc15]/20' : ''}
+                            ${activity.problem.difficulty === 'Hard' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}
+                          `}>
+                            {activity.problem.difficulty}
+                          </span>
+                          {activity.language && (
                           <span className="text-[10px] text-muted-foreground font-mono bg-muted px-1.5 py-0.5 rounded">{activity.language}</span>
                         )}
                       </div>
                     </div>
                   </Link>
                 </motion.div>
-              ))
+              );
+            })
             ) : (
               <div className="flex-1 flex items-center justify-center flex-col text-muted-foreground py-8">
                 <span className="material-symbols-outlined text-[28px] mb-2 opacity-40">history</span>
