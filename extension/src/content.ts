@@ -220,7 +220,7 @@ async function handleSyncClick() {
   btn.style.pointerEvents = 'none';
 
   try {
-    const payload = extractProblemData();
+    const payload = await extractProblemData();
     
     // Send to background script
     const response = await new Promise<any>((resolve) => {
