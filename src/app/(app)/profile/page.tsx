@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function ProfilePage() {
   return (
-    <div className="flex-1 max-w-[1280px] mx-auto w-full flex flex-col gap-stack-gap-lg pt-8 pb-16">
+    <div className="flex-1 max-w-[1280px] mx-auto w-full flex flex-col gap-stack-gap-lg pt-8 pb-16 px-4 md:px-8 overflow-x-hidden">
       {/* Profile Header Section */}
       <section className="glass-panel border border-border/10 shadow-[inset_1px_1px_0px_rgba(255,255,255,0.05),0_0_20px_rgba(188,195,255,0.05)] rounded-xl p-6 md:p-8 flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
         {/* Decorative background glow */}
@@ -62,7 +62,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Mini Stats Row */}
-          <div className="flex gap-6 mt-4 p-4 rounded-lg bg-card/50/50 border border-border/10">
+          <div className="flex flex-wrap gap-4 md:gap-6 mt-4 p-4 rounded-lg bg-card/50/50 border border-border/10">
             <div className="flex flex-col">
               <span className="font-heading text-[24px] leading-[32px] text-primary font-bold">1,248</span>
               <span className="font-subheading text-[12px] uppercase tracking-wider font-medium tracking-[0.05em] text-muted-foreground">Problems Solved</span>
@@ -182,7 +182,7 @@ export default function ProfilePage() {
               <span className="material-symbols-outlined text-[#ffd700]">military_tech</span>
               Recent Badges
             </h3>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <div className="w-12 h-12 rounded-full bg-accent border border-[#ffd700]/30 flex items-center justify-center text-[#ffd700] hover:scale-110 transition-transform cursor-pointer shadow-[0_0_10px_rgba(255,215,0,0.1)]" title="100 Days Streak">
                 <span className="material-symbols-outlined">local_fire_department</span>
               </div>

@@ -142,13 +142,13 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   };
 
   return (
-    <>
+    <div className="overflow-x-hidden min-h-screen relative">
       <div className="fixed inset-0 z-[-2]">
         <BeamsBackground className="h-full bg-[#070708]" intensity="medium" />
       </div>
       <div className="fixed inset-0 z-[-1] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBoNDBWMHgtNDB6IiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYSkiLz48L3N2Zz4=')] opacity-20 pointer-events-none"></div>
       
       <PublicProfileClient data={JSON.parse(JSON.stringify(publicData))} />
-    </>
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import SpotlightCards from '@/components/ui/spotlight-cards';
 
 export default function LandingPage() {
   return (
-    <>
+    <div className="overflow-x-hidden relative">
       {/* Ambient Glow Background */}
       <div className="fixed inset-0 z-[-2]">
         <BeamsBackground className="h-full bg-[#070708]" intensity="medium" />
@@ -82,7 +82,7 @@ export default function LandingPage() {
               <div className="pl-5 relative"><span className="absolute left-0 text-muted-foreground/50">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diff = target - n</div>
               
               {/* Floating Insights Panel Mock — animated */}
-              <div className="absolute bottom-6 right-6 w-64 glass-panel rounded-lg p-4 border-l-2 border-primary-container shadow-lg animate-float">
+              <div className="absolute bottom-6 right-6 w-64 glass-panel rounded-lg p-4 border-l-2 border-primary-container shadow-lg animate-float hidden sm:block">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="material-symbols-outlined text-primary text-[18px]">lightbulb</span>
                   <span className="font-subheading text-[12px] uppercase tracking-wider font-bold text-primary">Mastery Insight</span>
@@ -128,6 +128,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

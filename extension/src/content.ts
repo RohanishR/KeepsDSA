@@ -52,28 +52,71 @@ function injectFloatingButton() {
   buttonInjected = true;
 }
 
-function extractProblemData() {
+// Helper to get full code from editor instances in page context
+function getEditorCode(): Promise<string> {
+  return new Promise((resolve) => {
+    const eventId = 'KeepsDSACode_' + Date.now();
+    const script = document.createElement('script');
+    script.textContent = `
+      (function() {
+        let code = '';
+        try {
+          // Try Monaco
+          if (window.monaco && window.monaco.editor) {
+            const models = window.monaco.editor.getModels();
+            if (models.length > 0) code = models[0].getValue();
+          } 
+          // Try CodeMirror 6
+          else {
+            const cmContent = document.querySelector('.cm-content');
+            if (cmContent && cmContent.cmView && cmContent.cmView.view) {
+              code = cmContent.cmView.view.state.doc.toString();
+            } else if (document.querySelector('.view-lines')) {
+              // Fallback for monaco if window.monaco is hidden but we can access editor instance
+              const editorNode = document.querySelector('.monaco-editor');
+              // Not easily accessible without window.monaco
+            }
+          }
+        } catch(e) {}
+        document.dispatchEvent(new CustomEvent('${eventId}', { detail: code }));
+      })();
+    `;
+
+    const listener = (e: any) => {
+      document.removeEventListener(eventId, listener);
+      script.remove();
+      resolve(e.detail || '');
+    };
+
+    document.addEventListener(eventId, listener);
+    document.documentElement.appendChild(script);
+    
+    // Timeout fallback
+    setTimeout(() => {
+      document.removeEventListener(eventId, listener);
+      if (script.parentNode) script.remove();
+      resolve('');
+    }, 1500);
+  });
+}
+
+async function extractProblemData() {
   const url = window.location.href;
   const slugMatch = url.match(/problems\/([^\/]+)/);
   const slug = slugMatch ? slugMatch[1] : null;
 
   if (!slug) throw new Error('Could not extract problem slug from URL');
 
-  // Safest title fallback: format the slug
   const formattedSlug = slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-  // Try to find actual h1 title first
   const titleEl = document.querySelector('h1') || document.querySelector('[data-cy="question-title"]');
   const title = titleEl?.textContent ? titleEl.textContent.replace(/^\d+\.\s*/, '') : formattedSlug;
 
-  // Description
   const descEl = document.querySelector('[data-track-load="description_content"]');
   const description = descEl ? descEl.innerHTML : '';
 
-  // Try to find difficulty
   const difficultyEl = document.querySelector('.text-difficulty-easy, .text-difficulty-medium, .text-difficulty-hard');
   const difficulty = difficultyEl ? difficultyEl.textContent : 'Medium';
 
-  // Try to find tags
   const tagEls = document.querySelectorAll('a[href^="/tag/"]');
   const tags: string[] = [];
   tagEls.forEach(el => {
@@ -81,85 +124,89 @@ function extractProblemData() {
   });
 
   // Extract Code
-  let code = '';
+  let code = await getEditorCode();
   
-  // Try CodeMirror first (newer LeetCode UI)
-  const cmLines = document.querySelectorAll('.cm-line');
-  if (cmLines.length > 0) {
-    code = Array.from(cmLines).map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
-  } 
-  // Try Monaco editor (Older LeetCode UI or specific layouts)
-  else {
-    const lines = document.querySelectorAll('.view-lines .view-line');
-    if (lines.length > 0) {
-      // Monaco absolute positions lines, so DOM order may not be visual order!
-      // Sort by the 'top' CSS property to ensure correct code order.
-      const sortedLines = Array.from(lines).sort((a, b) => {
-        const topA = parseInt((a as HTMLElement).style.top || '0', 10);
-        const topB = parseInt((b as HTMLElement).style.top || '0', 10);
-        return topA - topB;
-      });
-      code = sortedLines.map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
+  if (!code) {
+    // Fallback DOM extraction
+    const cmLines = document.querySelectorAll('.cm-line');
+    if (cmLines.length > 0) {
+      code = Array.from(cmLines).map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
     } else {
-      // Fallback: Submission page or other code blocks (avoiding test cases which are usually <code> inside the description)
-      const preEls = document.querySelectorAll('pre');
-      for (let i = preEls.length - 1; i >= 0; i--) {
-        if (preEls[i].textContent && preEls[i].textContent!.length > 20) {
-          code = preEls[i].textContent || '';
-          break;
+      const lines = document.querySelectorAll('.view-lines .view-line');
+      if (lines.length > 0) {
+        const sortedLines = Array.from(lines).sort((a, b) => {
+          const topA = parseInt((a as HTMLElement).style.top || '0', 10);
+          const topB = parseInt((b as HTMLElement).style.top || '0', 10);
+          return topA - topB;
+        });
+        code = sortedLines.map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
+      } else {
+        const preEls = document.querySelectorAll('pre');
+        for (let i = preEls.length - 1; i >= 0; i--) {
+          if (preEls[i].textContent && preEls[i].textContent!.length > 20) {
+            code = preEls[i].textContent || '';
+            break;
+          }
         }
       }
     }
   }
 
   // Extract Language
-  let language = 'javascript';
-  const knownLanguages = ['c++', 'java', 'python', 'python3', 'c', 'c#', 'javascript', 'typescript', 'php', 'swift', 'kotlin', 'dart', 'go', 'ruby', 'scala', 'rust'];
+  let language = 'JavaScript';
+  const knownLanguages: Record<string, string> = {
+    'c++': 'C++', 'cpp': 'C++',
+    'java': 'Java',
+    'python': 'Python', 'python3': 'Python',
+    'c': 'C',
+    'c#': 'C#', 'csharp': 'C#',
+    'javascript': 'JavaScript',
+    'typescript': 'TypeScript',
+    'php': 'PHP',
+    'swift': 'Swift',
+    'kotlin': 'Kotlin',
+    'go': 'Go',
+    'ruby': 'Ruby',
+    'rust': 'Rust'
+  };
   
   let foundLang = '';
-  // Try to find the specific headlessui button first (LeetCode dropdowns)
   const langEls = document.querySelectorAll('[id^="headlessui-listbox-button-"], [id^="headlessui-popover-button-"]');
   for (let i = 0; i < langEls.length; i++) {
     const text = langEls[i]?.textContent?.trim().toLowerCase();
-    if (text && knownLanguages.includes(text)) {
+    if (text && Object.keys(knownLanguages).includes(text)) {
       foundLang = text;
       break;
     }
   }
 
-  // If not found, try any button inside the editor area
   if (!foundLang) {
     const editorArea = document.querySelector('[data-track-load="editor_content"]') || document.body;
     const candidateElements = editorArea.querySelectorAll('button, .text-xs, .text-sm, [data-mode-id]');
     for (let i = 0; i < candidateElements.length; i++) {
       const el = candidateElements[i];
       let text = (el.getAttribute('data-mode-id') || el.textContent || '').trim().toLowerCase();
-      // Handle data-mode-id="cpp"
       if (text === 'cpp') text = 'c++';
-      if (knownLanguages.includes(text)) {
+      if (Object.keys(knownLanguages).includes(text)) {
         foundLang = text;
         break;
       }
     }
   }
 
-  if (foundLang && knownLanguages.includes(foundLang)) {
-    language = foundLang;
-    // Normalize for KeepsDSA syntax highlighter
-    if (language === 'c++') language = 'cpp';
-    if (language === 'python3') language = 'python';
-    if (language === 'c#') language = 'csharp';
+  if (foundLang && knownLanguages[foundLang]) {
+    language = knownLanguages[foundLang];
   }
 
   return {
     title,
     slug,
     difficulty,
-    tags: Array.from(new Set(tags)), // unique
+    tags: Array.from(new Set(tags)),
     url,
     code,
     language,
-    description // added description!
+    description
   };
 }
 

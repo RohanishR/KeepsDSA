@@ -132,19 +132,28 @@ export default function App() {
         <div className="flex items-center gap-3">
           {profile?.image ? (
             <img src={profile.image} alt="Profile" className="w-8 h-8 rounded-full border border-border/50 object-cover" />
+          ) : profile?.name ? (
+            <div className="w-8 h-8 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center shadow-sm shadow-primary/10">
+              <span className="text-primary font-bold text-[14px] uppercase">{profile.name.charAt(0)}</span>
+            </div>
           ) : (
             <div className="w-8 h-8 bg-card border border-border/30 rounded-lg flex items-center justify-center shadow-sm shadow-primary/10">
               <Code2 className="w-4 h-4 text-primary" />
             </div>
           )}
           <div className="flex flex-col">
-            <span className="font-heading font-bold text-[14px] tracking-wide text-foreground leading-tight">
+            <span className="font-heading font-bold text-[14px] tracking-wide text-foreground leading-tight truncate max-w-[130px]">
               {profile?.name || 'KeepsDSA'}
             </span>
-            {profile?.name && <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Connected</span>}
+            {profile?.name && (
+              <span className="text-[9px] text-[#00b87a] uppercase tracking-wider font-bold flex items-center gap-1 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00b87a]"></span>
+                Connected
+              </span>
+            )}
           </div>
         </div>
-        <button onClick={handleLogout} className="text-muted-foreground hover:text-primary hover:bg-accent p-2 rounded-lg transition-colors border border-transparent hover:border-border/30" title="Disconnect">
+        <button onClick={handleLogout} className="text-muted-foreground hover:text-red-400 hover:bg-red-400/10 p-2 rounded-lg transition-colors border border-transparent hover:border-red-400/20" title="Disconnect">
           <LogOut className="w-4 h-4" />
         </button>
       </div>
@@ -159,7 +168,7 @@ export default function App() {
         </div>
         <h2 className="text-[20px] font-bold mb-3 font-heading text-foreground">Ready to Sync</h2>
         <p className="text-muted-foreground text-[13px] max-w-[260px] mx-auto leading-relaxed">
-          Open any LeetCode problem page and click the floating <strong className="text-foreground font-semibold px-1.5 py-0.5 rounded bg-accent border border-border/30 shadow-sm mx-0.5">Save to KeepsDSA</strong> button.
+          Open any LeetCode problem page and click the floating <strong className="text-primary font-semibold px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 shadow-sm mx-0.5">Save to KeepsDSA</strong> button.
         </p>
       </div>
       

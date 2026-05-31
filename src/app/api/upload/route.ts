@@ -24,10 +24,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'File is required' }, { status: 400 });
     }
 
-    // Base64 overhead is ~33%, so a 5MB file is roughly 6.6MB in length.
-    // We set a hard limit of 8,000,000 characters to prevent overloading the server.
-    if (file.length > 8000000) {
-      return NextResponse.json({ error: 'File size exceeds the 5MB limit' }, { status: 413 });
+    // Base64 overhead is ~33%, so a 10MB file is roughly 13.3MB in length.
+    // We set a hard limit of 14,000,000 characters to prevent overloading the server.
+    if (file.length > 14000000) {
+      return NextResponse.json({ error: 'File size exceeds the 10MB limit' }, { status: 413 });
     }
 
     await dbConnect();

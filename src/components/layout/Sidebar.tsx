@@ -34,23 +34,23 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       onMouseLeave={() => setIsHovered(false)}
       className={`fixed left-0 top-0 h-full z-40 bg-background/70 backdrop-blur-xl border-r border-border/40 shadow-[0_0_20px_rgba(29,161,242,0.05)] py-gutter flex flex-col transition-all duration-300 ease-in-out ${isExpanded ? 'w-[260px] translate-x-0 shadow-2xl' : 'w-[80px] -translate-x-full md:translate-x-0'}`}
     >
-      <div className="px-gutter mb-8 flex items-center justify-between overflow-hidden">
+      <div className={`mb-8 flex items-center justify-between overflow-hidden transition-all duration-300 ${isExpanded ? 'px-gutter' : 'px-0 justify-center'}`}>
         <div>
-          <h1 className={`font-heading text-[32px] font-bold text-primary tracking-tighter leading-none mt-2 transition-opacity duration-200 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+          <h1 className={`font-heading text-[32px] font-bold text-primary tracking-tighter leading-none mt-2 transition-opacity duration-200 ${isExpanded ? 'opacity-100' : 'opacity-0 hidden'}`}>
             KeepsDSA
           </h1>
         </div>
-        <button onClick={onToggle} className="md:hidden text-muted-foreground hover:text-foreground">
+        <button onClick={onToggle} className={`md:hidden text-muted-foreground hover:text-foreground ${!isExpanded && 'hidden'}`}>
           <span className="material-symbols-outlined">close</span>
         </button>
       </div>
       
-      <div className="px-gutter mb-6 relative">
+      <div className={`mb-6 relative transition-all duration-300 ${isExpanded ? 'px-gutter' : 'px-3'}`}>
         <button 
           onClick={() => isExpanded ? setIsAddMenuOpen(!isAddMenuOpen) : router.push('/explore?action=add_problem')}
-          className={`w-full bg-primary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider py-2.5 rounded shadow-[0_0_15px_rgba(29,161,242,0.3)] hover:shadow-[0_0_25px_rgba(29,161,242,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] ${!isExpanded && 'px-0'}`}
+          className={`bg-primary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider rounded shadow-[0_0_15px_rgba(29,161,242,0.3)] hover:shadow-[0_0_25px_rgba(29,161,242,0.5)] transition-all duration-300 flex items-center justify-center font-bold hover:scale-[1.02] active:scale-[0.98] mx-auto ${isExpanded ? 'w-full py-2.5 gap-2' : 'w-12 h-12 p-0 rounded-xl'}`}
         >
-          <span className="material-symbols-outlined text-[18px]">add</span>
+          <span className="material-symbols-outlined text-[20px]">add</span>
           {isExpanded && (
             <>
               <span>New Problem</span>
@@ -108,7 +108,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
               transition={{ delay: index * 0.05, duration: 0.3 }}
             >
               <Link 
-                className={`relative flex items-center gap-3 py-2.5 rounded-lg transition-all duration-200 group ${isActive ? 'bg-primary/10 text-primary font-bold' : 'text-muted-foreground hover:text-foreground hover:bg-muted'} ${isExpanded ? 'px-4' : 'justify-center'}`} 
+                className={`relative flex items-center gap-3 py-2.5 rounded-lg transition-all duration-200 group ${isActive ? 'bg-primary/10 text-primary font-bold' : 'text-muted-foreground hover:text-foreground hover:bg-muted'} ${isExpanded ? 'px-4' : 'w-12 h-12 mx-auto justify-center p-0'}`} 
                 href={item.href}
                 title={!isExpanded ? item.label : undefined}
               >
@@ -116,7 +116,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 {isActive && (
                   <motion.div 
                     layoutId="sidebar-active-pill"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full"
+                    className={`absolute top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full ${isExpanded ? 'left-0' : '-left-3'}`}
                     transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                   />
                 )}
