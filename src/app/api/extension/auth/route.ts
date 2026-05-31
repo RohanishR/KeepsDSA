@@ -27,7 +27,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid extension token' }, { status: 401, headers: corsHeaders });
     }
 
-    return NextResponse.json({ success: true, userId: user._id }, { headers: corsHeaders });
+    return NextResponse.json({ 
+      success: true, 
+      userId: user._id,
+      name: user.name,
+      image: user.image
+    }, { headers: corsHeaders });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500, headers: corsHeaders });
   }

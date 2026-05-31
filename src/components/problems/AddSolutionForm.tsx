@@ -186,9 +186,18 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
               type="text" 
               value={form.timeComplexity}
               onChange={e => setForm({...form, timeComplexity: e.target.value})}
-              placeholder="O(n)"
+              list="time-complexity-options"
+              placeholder="O(N)"
               className="w-20 bg-accent border border-border/20 rounded px-2 py-0.5 text-foreground text-xs font-mono focus:outline-none focus:border-primary"
             />
+            <datalist id="time-complexity-options">
+              <option value="O(1)" />
+              <option value="O(log N)" />
+              <option value="O(N)" />
+              <option value="O(N log N)" />
+              <option value="O(N^2)" />
+              <option value="O(2^N)" />
+            </datalist>
           </div>
           
           {/* Space Complexity */}
@@ -198,9 +207,16 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
               type="text" 
               value={form.spaceComplexity}
               onChange={e => setForm({...form, spaceComplexity: e.target.value})}
+              list="space-complexity-options"
               placeholder="O(1)"
               className="w-20 bg-accent border border-border/20 rounded px-2 py-0.5 text-foreground text-xs font-mono focus:outline-none focus:border-primary"
             />
+            <datalist id="space-complexity-options">
+              <option value="O(1)" />
+              <option value="O(log N)" />
+              <option value="O(N)" />
+              <option value="O(N^2)" />
+            </datalist>
           </div>
 
           <div className="h-4 w-px bg-outline-variant/20"></div>

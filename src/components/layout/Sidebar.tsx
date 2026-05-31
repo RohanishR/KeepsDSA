@@ -25,12 +25,20 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const isExpanded = isOpen || isHovered;
 
   return (
-    <nav className={`fixed left-0 top-0 h-full w-[260px] z-40 bg-background/70 backdrop-blur-xl border-r border-border/40 shadow-[0_0_20px_rgba(29,161,242,0.05)] py-gutter flex flex-col transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-      <div className="px-gutter mb-8 flex items-center justify-between">
+    <nav 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`fixed left-0 top-0 h-full z-40 bg-background/70 backdrop-blur-xl border-r border-border/40 shadow-[0_0_20px_rgba(29,161,242,0.05)] py-gutter flex flex-col transition-all duration-300 ease-in-out ${isExpanded ? 'w-[260px] translate-x-0 shadow-2xl' : 'w-[80px] -translate-x-full md:translate-x-0'}`}
+    >
+      <div className="px-gutter mb-8 flex items-center justify-between overflow-hidden">
         <div>
-          <h1 className="font-heading text-[32px] font-bold text-primary tracking-tighter leading-none mt-2">KeepsDSA</h1>
+          <h1 className={`font-heading text-[32px] font-bold text-primary tracking-tighter leading-none mt-2 transition-opacity duration-200 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+            KeepsDSA
+          </h1>
         </div>
         <button onClick={onToggle} className="md:hidden text-muted-foreground hover:text-foreground">
           <span className="material-symbols-outlined">close</span>
@@ -39,16 +47,20 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       
       <div className="px-gutter mb-6 relative">
         <button 
-          onClick={() => setIsAddMenuOpen(!isAddMenuOpen)}
-          className="w-full bg-primary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider text-[13px] py-2.5 rounded shadow-[0_0_15px_rgba(29,161,242,0.3)] hover:shadow-[0_0_25px_rgba(29,161,242,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98]"
+          onClick={() => isExpanded ? setIsAddMenuOpen(!isAddMenuOpen) : router.push('/explore?action=add_problem')}
+          className={`w-full bg-primary text-primary-foreground font-subheading text-[12px] uppercase tracking-wider py-2.5 rounded shadow-[0_0_15px_rgba(29,161,242,0.3)] hover:shadow-[0_0_25px_rgba(29,161,242,0.5)] transition-all duration-300 flex items-center justify-center gap-2 font-bold hover:scale-[1.02] active:scale-[0.98] ${!isExpanded && 'px-0'}`}
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
-          <span>New Problem</span>
-          <motion.span 
-            animate={{ rotate: isAddMenuOpen ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            className="material-symbols-outlined text-[16px] ml-1"
-          >expand_more</motion.span>
+          {isExpanded && (
+            <>
+              <span>New Problem</span>
+              <motion.span 
+                animate={{ rotate: isAddMenuOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="material-symbols-outlined text-[16px] ml-1"
+              >expand_more</motion.span>
+            </>
+          )}
         </button>
 
         <AnimatePresence>
@@ -96,8 +108,9 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
               transition={{ delay: index * 0.05, duration: 0.3 }}
             >
               <Link 
-                className={`relative flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 group ${isActive ? 'bg-primary/10 text-primary font-bold' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`} 
+                className={`relative flex items-center gap-3 py-2.5 rounded-lg transition-all duration-200 group ${isActive ? 'bg-primary/10 text-primary font-bold' : 'text-muted-foreground hover:text-foreground hover:bg-muted'} ${isExpanded ? 'px-4' : 'justify-center'}`} 
                 href={item.href}
+                title={!isExpanded ? item.label : undefined}
               >
                 {/* Animated active indicator */}
                 {isActive && (
@@ -108,7 +121,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
                   />
                 )}
                 <span className={`material-symbols-outlined text-[20px] transition-transform duration-200 ${isActive ? '' : 'group-hover:scale-110'}`}>{item.icon}</span>
-                <span className="text-[14px]">{item.label}</span>
+                {isExpanded && <span className="text-[14px] whitespace-nowrap">{item.label}</span>}
               </Link>
             </motion.li>
           );
@@ -116,15 +129,17 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       </ul>
       
       {/* Collapse button for desktop */}
-      <div className="mt-auto px-4 pb-4 hidden md:block">
-        <button 
-          onClick={onToggle}
-          className="flex items-center gap-2 text-[12px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded hover:bg-muted w-full group"
-        >
-          <span className="material-symbols-outlined text-[16px] transition-transform duration-200 group-hover:-translate-x-0.5">keyboard_double_arrow_left</span>
-          Collapse Sidebar
-        </button>
-      </div>
+      {isExpanded && (
+        <div className="mt-auto px-4 pb-4 hidden md:block">
+          <button 
+            onClick={onToggle}
+            className="flex items-center gap-2 text-[12px] text-muted-foreground hover:text-foreground transition-colors py-2 px-3 rounded hover:bg-muted w-full group"
+          >
+            <span className="material-symbols-outlined text-[16px] transition-transform duration-200 group-hover:-translate-x-0.5">keyboard_double_arrow_left</span>
+            Collapse Sidebar
+          </button>
+        </div>
+      )}
     </nav>
   );
 }

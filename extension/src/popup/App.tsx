@@ -4,14 +4,32 @@ import { API_URL, WEB_URL } from '../config';
 
 export default function App() {
   const [token, setToken] = useState<string | null>(null);
+  const [profile, setProfile] = useState<{name?: string, image?: string} | null>(null);
   const [inputToken, setInputToken] = useState('');
   const [error, setError] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
-    chrome.storage.local.get(['keepsDsaToken'], (result) => {
+    chrome.storage.local.get(['keepsDsaToken', 'profileName', 'profileImage'], async (result) => {
       if (result.keepsDsaToken) {
-        setToken(result.keepsDsaToken as string);
+        setToken(result.keepsDsaToken);
+        if (result.profileName) {
+          setProfile({ name: result.profileName, image: result.profileImage });
+        } else {
+          // Fetch profile if we only had the token (legacy support)
+          try {
+            const res = await fetch(`${API_URL}/auth`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token: result.keepsDsaToken })
+            });
+            const data = await res.json();
+            if (res.ok && data.name) {
+              setProfile({ name: data.name, image: data.image });
+              chrome.storage.local.set({ profileName: data.name, profileImage: data.image });
+            }
+          } catch(e) {}
+        }
       }
     });
   }, []);
@@ -31,8 +49,13 @@ export default function App() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Authentication failed');
       
-      await chrome.storage.local.set({ keepsDsaToken: inputToken.trim() });
+      await chrome.storage.local.set({ 
+        keepsDsaToken: inputToken.trim(),
+        profileName: data.name,
+        profileImage: data.image
+      });
       setToken(inputToken.trim());
+      setProfile({ name: data.name, image: data.image });
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -41,8 +64,9 @@ export default function App() {
   };
 
   const handleLogout = async () => {
-    await chrome.storage.local.remove(['keepsDsaToken']);
+    await chrome.storage.local.remove(['keepsDsaToken', 'profileName', 'profileImage']);
     setToken(null);
+    setProfile(null);
     setInputToken('');
   };
 
@@ -106,10 +130,19 @@ export default function App() {
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border/40 glass-panel relative z-10">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-card border border-border/30 rounded-lg flex items-center justify-center shadow-sm shadow-primary/10">
-            <Code2 className="w-4 h-4 text-primary" />
+          {profile?.image ? (
+            <img src={profile.image} alt="Profile" className="w-8 h-8 rounded-full border border-border/50 object-cover" />
+          ) : (
+            <div className="w-8 h-8 bg-card border border-border/30 rounded-lg flex items-center justify-center shadow-sm shadow-primary/10">
+              <Code2 className="w-4 h-4 text-primary" />
+            </div>
+          )}
+          <div className="flex flex-col">
+            <span className="font-heading font-bold text-[14px] tracking-wide text-foreground leading-tight">
+              {profile?.name || 'KeepsDSA'}
+            </span>
+            {profile?.name && <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">Connected</span>}
           </div>
-          <span className="font-heading font-bold text-[14px] tracking-wide text-foreground">KeepsDSA</span>
         </div>
         <button onClick={handleLogout} className="text-muted-foreground hover:text-primary hover:bg-accent p-2 rounded-lg transition-colors border border-transparent hover:border-border/30" title="Disconnect">
           <LogOut className="w-4 h-4" />

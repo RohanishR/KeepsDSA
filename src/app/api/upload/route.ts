@@ -32,10 +32,18 @@ export async function POST(req: Request) {
 
     await dbConnect();
 
-    const uploadResponse = await cloudinary.uploader.upload(file, {
+    const isPdf = file.startsWith('data:application/pdf');
+    const uploadOptions: any = {
       folder: `keepsdsa/users/${session.user.id}`,
       resource_type: resourceType, // 'image', 'video', 'raw', or 'auto'
-    });
+    };
+
+    if (isPdf) {
+      // Cloudinary needs the extension in the public_id for 'raw' files so browsers download it properly
+      uploadOptions.public_id = `${Date.now()}-${originalName.replace(/\.[^/.]+$/, "")}.pdf`;
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(file, uploadOptions);
 
     const newUpload = await Upload.create({
       userId: session.user.id,

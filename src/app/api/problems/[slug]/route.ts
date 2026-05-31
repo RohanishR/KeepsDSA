@@ -108,8 +108,12 @@ export async function DELETE(
       return NextResponse.json({ error: 'Problem not found' }, { status: 404 });
     }
 
-    // Ideally, also delete associated notes, solutions, and revisions here
-    // or rely on a pre-remove hook in Mongoose (though findOneAndDelete doesn't trigger pre('remove')).
+    // Delete associated notes, solutions, and revisions
+    const { Solution } = await import('@/models/Solution');
+    const { Revision } = await import('@/models/Revision');
+    
+    await Solution.deleteMany({ problemId: problem._id });
+    await Revision.deleteMany({ problemId: problem._id });
     
     return NextResponse.json({ success: true, message: 'Problem deleted' });
   } catch (error) {

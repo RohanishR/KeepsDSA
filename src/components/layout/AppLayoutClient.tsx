@@ -45,7 +45,7 @@ export default function AppLayoutClient({ children }: { children: React.ReactNod
 
       <div 
         className={`flex-1 flex flex-col min-h-[100dvh] relative transition-all duration-300 ${
-          isSidebarOpen ? 'md:ml-[260px]' : 'ml-0'
+          isSidebarOpen ? 'md:ml-[260px]' : 'md:ml-[80px]'
         }`}
       >
         <Navbar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} isSidebarOpen={isSidebarOpen} />

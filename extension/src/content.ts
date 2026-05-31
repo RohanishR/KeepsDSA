@@ -82,21 +82,32 @@ function extractProblemData() {
 
   // Extract Code
   let code = '';
-  // 1. Try Monaco editor (Problem page)
-  const lines = document.querySelectorAll('.view-lines .view-line');
-  if (lines.length > 0) {
-    // Monaco preserves spaces inside spans. textContent works reasonably well.
-    // Replace non-breaking spaces with regular spaces
-    code = Array.from(lines).map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
-  } else {
-    // 2. Submission page or other code blocks (avoiding test cases which are usually <code> inside the description)
-    // Submissions usually use a <pre> block
-    const preEls = document.querySelectorAll('pre');
-    // Find the pre block that looks like code (not a short test case)
-    for (let i = preEls.length - 1; i >= 0; i--) {
-      if (preEls[i].textContent && preEls[i].textContent!.length > 20) {
-        code = preEls[i].textContent || '';
-        break;
+  
+  // Try CodeMirror first (newer LeetCode UI)
+  const cmLines = document.querySelectorAll('.cm-line');
+  if (cmLines.length > 0) {
+    code = Array.from(cmLines).map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
+  } 
+  // Try Monaco editor (Older LeetCode UI or specific layouts)
+  else {
+    const lines = document.querySelectorAll('.view-lines .view-line');
+    if (lines.length > 0) {
+      // Monaco absolute positions lines, so DOM order may not be visual order!
+      // Sort by the 'top' CSS property to ensure correct code order.
+      const sortedLines = Array.from(lines).sort((a, b) => {
+        const topA = parseInt((a as HTMLElement).style.top || '0', 10);
+        const topB = parseInt((b as HTMLElement).style.top || '0', 10);
+        return topA - topB;
+      });
+      code = sortedLines.map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
+    } else {
+      // Fallback: Submission page or other code blocks (avoiding test cases which are usually <code> inside the description)
+      const preEls = document.querySelectorAll('pre');
+      for (let i = preEls.length - 1; i >= 0; i--) {
+        if (preEls[i].textContent && preEls[i].textContent!.length > 20) {
+          code = preEls[i].textContent || '';
+          break;
+        }
       }
     }
   }
@@ -105,15 +116,26 @@ function extractProblemData() {
   let language = 'javascript';
   const knownLanguages = ['c++', 'java', 'python', 'python3', 'c', 'c#', 'javascript', 'typescript', 'php', 'swift', 'kotlin', 'dart', 'go', 'ruby', 'scala', 'rust'];
   
-  // 1. Try to find the specific headlessui button first
-  const langEl = document.querySelector('[id^="headlessui-listbox-button-"]');
-  let foundLang = langEl?.textContent?.trim().toLowerCase();
+  let foundLang = '';
+  // Try to find the specific headlessui button first (LeetCode dropdowns)
+  const langEls = document.querySelectorAll('[id^="headlessui-listbox-button-"], [id^="headlessui-popover-button-"]');
+  for (let i = 0; i < langEls.length; i++) {
+    const text = langEls[i]?.textContent?.trim().toLowerCase();
+    if (text && knownLanguages.includes(text)) {
+      foundLang = text;
+      break;
+    }
+  }
 
-  // 2. If it's not a known language, scan all buttons and small text elements
-  if (!foundLang || !knownLanguages.includes(foundLang)) {
-    const candidateElements = document.querySelectorAll('button, .text-xs, .text-sm');
+  // If not found, try any button inside the editor area
+  if (!foundLang) {
+    const editorArea = document.querySelector('[data-track-load="editor_content"]') || document.body;
+    const candidateElements = editorArea.querySelectorAll('button, .text-xs, .text-sm, [data-mode-id]');
     for (let i = 0; i < candidateElements.length; i++) {
-      const text = (candidateElements[i].textContent || '').trim().toLowerCase();
+      const el = candidateElements[i];
+      let text = (el.getAttribute('data-mode-id') || el.textContent || '').trim().toLowerCase();
+      // Handle data-mode-id="cpp"
+      if (text === 'cpp') text = 'c++';
       if (knownLanguages.includes(text)) {
         foundLang = text;
         break;

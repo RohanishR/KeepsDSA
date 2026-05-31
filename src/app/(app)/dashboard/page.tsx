@@ -17,9 +17,8 @@ export default async function Dashboard() {
   const userId = session.user.id;
   const now = new Date();
 
-  // 1. Total Solved
+  // 1. Find all unique problem IDs the user has solutions for
   const distinctSolvedProblems = await Solution.distinct('problemId', { userId });
-  const totalSolved = distinctSolvedProblems.length;
 
   // 2. Revisions Due & Upcoming
   const problems = await Problem.find({ userId }).lean();
@@ -95,7 +94,7 @@ export default async function Dashboard() {
 
   // 4. Difficulty Distribution
   const solvedProblemDocs = await Problem.find({ _id: { $in: distinctSolvedProblems } }).select('difficulty tags').lean();
-  
+  const totalSolved = solvedProblemDocs.length;
   const difficultyCounts = { Easy: 0, Medium: 0, Hard: 0 };
   const topicCounts: Record<string, number> = {};
 
