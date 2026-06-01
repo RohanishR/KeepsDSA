@@ -28,20 +28,40 @@ export default function SolutionViewer({ solution }: SolutionViewerProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const normalizeLanguage = (lang: string): string => {
+    const langMap: Record<string, string> = {
+      'python': 'Python', 'python3': 'Python', 'py': 'Python',
+      'javascript': 'JavaScript', 'js': 'JavaScript',
+      'typescript': 'TypeScript', 'ts': 'TypeScript',
+      'java': 'Java',
+      'c++': 'C++', 'cpp': 'C++',
+      'c': 'C',
+      'go': 'Go', 'golang': 'Go',
+      'rust': 'Rust', 'rs': 'Rust',
+    };
+    return langMap[lang.toLowerCase()] || lang;
+  };
+
   const getMonacoLanguage = (lang: string) => {
     const map: Record<string, string> = {
       'Python': 'python', 'JavaScript': 'javascript', 'TypeScript': 'typescript',
-      'Java': 'java', 'C++': 'cpp', 'C': 'c', 'Go': 'go', 'Rust': 'rust'
+      'Java': 'java', 'C++': 'cpp', 'C': 'c', 'Go': 'go', 'Rust': 'rust',
+      // Also handle lowercase/raw values directly
+      'python': 'python', 'python3': 'python', 'javascript': 'javascript',
+      'typescript': 'typescript', 'java': 'java', 'cpp': 'cpp', 'c++': 'cpp',
+      'c': 'c', 'go': 'go', 'rust': 'rust',
     };
     return map[lang] || 'plaintext';
   };
+
+  const displayLanguage = normalizeLanguage(solution.language);
 
   return (
     <div className="flex flex-col h-full bg-background">
       {/* Status Bar */}
       <div className="flex items-center justify-between px-4 py-1.5 bg-card border-b border-border">
         <div className="flex items-center gap-3">
-          <span className="text-[11px] font-mono text-foreground bg-background px-2 py-0.5 rounded">{solution.language}</span>
+          <span className="text-[11px] font-mono text-foreground bg-background px-2 py-0.5 rounded">{displayLanguage}</span>
           {solution.approachType && solution.approachType !== 'Other' ? (
             <span className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold border 
               ${solution.approachType === 'Brute Force' ? 'bg-[#3b1313] text-[#f87171] border-[#f87171]/20' : ''}

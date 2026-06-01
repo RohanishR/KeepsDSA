@@ -52,57 +52,96 @@ function injectFloatingButton() {
   buttonInjected = true;
 }
 
-// Helper to get full code from editor instances in page context
-function getEditorCode(): Promise<string> {
+// Use the background script to run code in the page's JS context via chrome.scripting.executeScript
+// This bypasses CSP restrictions that block inline script injection
+function getEditorCodeViaBackground(): Promise<string> {
   return new Promise((resolve) => {
-    const eventId = 'KeepsDSACode_' + Date.now();
-    const script = document.createElement('script');
-    script.textContent = `
-      (function() {
-        let code = '';
-        try {
-          // Try Monaco
-          if (window.monaco && window.monaco.editor) {
-            const models = window.monaco.editor.getModels();
-            if (models.length > 0) code = models[0].getValue();
-          } 
-          // Try CodeMirror 6
-          else {
-            const cmContent = document.querySelector('.cm-content');
-            if (cmContent && cmContent.cmView && cmContent.cmView.view) {
-              code = cmContent.cmView.view.state.doc.toString();
-            } else if (document.querySelector('.view-lines')) {
-              // Fallback for monaco if window.monaco is hidden but we can access editor instance
-              const editorNode = document.querySelector('.monaco-editor');
-              // Not easily accessible without window.monaco
-            }
-          }
-        } catch(e) {}
-        document.dispatchEvent(new CustomEvent('${eventId}', { detail: code }));
-      })();
-    `;
-
-    const listener = (e: any) => {
-      document.removeEventListener(eventId, listener);
-      script.remove();
-      resolve(e.detail || '');
-    };
-
-    document.addEventListener(eventId, listener);
-    document.documentElement.appendChild(script);
-    
+    chrome.runtime.sendMessage({ action: 'extractCode' }, (response) => {
+      resolve(response?.code || '');
+    });
     // Timeout fallback
-    setTimeout(() => {
-      document.removeEventListener(eventId, listener);
-      if (script.parentNode) script.remove();
-      resolve('');
-    }, 1500);
+    setTimeout(() => resolve(''), 3000);
   });
+}
+
+// Fallback: use keyboard shortcut to select all + copy from Monaco/CodeMirror
+async function getEditorCodeViaClipboard(): Promise<string> {
+  try {
+    // Find the editor's focusable area
+    const editorArea = document.querySelector('.monaco-editor textarea.inputarea') 
+      || document.querySelector('.cm-content')
+      || document.querySelector('.view-lines');
+    
+    if (!editorArea) return '';
+    
+    // Focus the editor
+    (editorArea as HTMLElement).focus();
+    
+    // Save current clipboard
+    let savedClipboard = '';
+    try { savedClipboard = await navigator.clipboard.readText(); } catch {}
+    
+    // Select All + Copy
+    document.execCommand('selectAll');
+    await new Promise(r => setTimeout(r, 50));
+    document.execCommand('copy');
+    await new Promise(r => setTimeout(r, 100));
+    
+    // Read copied code
+    const code = await navigator.clipboard.readText();
+    
+    // Restore previous clipboard if we had something
+    if (savedClipboard && savedClipboard !== code) {
+      try { await navigator.clipboard.writeText(savedClipboard); } catch {}
+    }
+    
+    // Deselect
+    window.getSelection()?.removeAllRanges();
+    
+    return code || '';
+  } catch {
+    return '';
+  }
+}
+
+// DOM-based extraction with scrolling to capture all virtualized lines
+function getEditorCodeFromDOM(): string {
+  // Strategy 1: CodeMirror 6 (.cm-line) — these are NOT virtualized, all lines exist in DOM
+  const cmLines = document.querySelectorAll('.cm-line');
+  if (cmLines.length > 0) {
+    return Array.from(cmLines)
+      .map(line => (line.textContent || '').replace(/\u00a0/g, ' '))
+      .join('\n');
+  }
+  
+  // Strategy 2: Monaco view-lines — these ARE virtualized, only visible lines exist
+  // We sort by their top position to maintain order
+  const viewLines = document.querySelectorAll('.view-lines .view-line');
+  if (viewLines.length > 0) {
+    const sortedLines = Array.from(viewLines).sort((a, b) => {
+      const topA = parseInt((a as HTMLElement).style.top || '0', 10);
+      const topB = parseInt((b as HTMLElement).style.top || '0', 10);
+      return topA - topB;
+    });
+    return sortedLines
+      .map(line => (line.textContent || '').replace(/\u00a0/g, ' '))
+      .join('\n');
+  }
+  
+  // Strategy 3: any <pre> code block
+  const preEls = document.querySelectorAll('pre');
+  for (let i = preEls.length - 1; i >= 0; i--) {
+    if (preEls[i].textContent && preEls[i].textContent!.length > 20) {
+      return preEls[i].textContent || '';
+    }
+  }
+  
+  return '';
 }
 
 async function extractProblemData() {
   const url = window.location.href;
-  const slugMatch = url.match(/problems\/([^\/]+)/);
+  const slugMatch = url.match(/problems\/([^\/\?]+)/);
   const slug = slugMatch ? slugMatch[1] : null;
 
   if (!slug) throw new Error('Could not extract problem slug from URL');
@@ -123,37 +162,23 @@ async function extractProblemData() {
     if (el.textContent) tags.push(el.textContent);
   });
 
-  // Extract Code
-  let code = await getEditorCode();
+  // === Extract Code (try multiple strategies) ===
   
+  // Strategy 1: Use background script to access monaco/codemirror in page context
+  let code = await getEditorCodeViaBackground();
+  
+  // Strategy 2: Try clipboard approach (Ctrl+A, Ctrl+C)
   if (!code) {
-    // Fallback DOM extraction
-    const cmLines = document.querySelectorAll('.cm-line');
-    if (cmLines.length > 0) {
-      code = Array.from(cmLines).map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
-    } else {
-      const lines = document.querySelectorAll('.view-lines .view-line');
-      if (lines.length > 0) {
-        const sortedLines = Array.from(lines).sort((a, b) => {
-          const topA = parseInt((a as HTMLElement).style.top || '0', 10);
-          const topB = parseInt((b as HTMLElement).style.top || '0', 10);
-          return topA - topB;
-        });
-        code = sortedLines.map(line => (line.textContent || '').replace(/\u00a0/g, ' ')).join('\n');
-      } else {
-        const preEls = document.querySelectorAll('pre');
-        for (let i = preEls.length - 1; i >= 0; i--) {
-          if (preEls[i].textContent && preEls[i].textContent!.length > 20) {
-            code = preEls[i].textContent || '';
-            break;
-          }
-        }
-      }
-    }
+    code = await getEditorCodeViaClipboard();
+  }
+  
+  // Strategy 3: DOM fallback
+  if (!code) {
+    code = getEditorCodeFromDOM();
   }
 
-  // Extract Language
-  let language = 'JavaScript';
+  // === Extract Language ===
+  let language = 'Python';
   const knownLanguages: Record<string, string> = {
     'c++': 'C++', 'cpp': 'C++',
     'java': 'Java',
@@ -165,32 +190,47 @@ async function extractProblemData() {
     'php': 'PHP',
     'swift': 'Swift',
     'kotlin': 'Kotlin',
-    'go': 'Go',
+    'go': 'Go', 'golang': 'Go',
     'ruby': 'Ruby',
     'rust': 'Rust'
   };
   
   let foundLang = '';
-  const langEls = document.querySelectorAll('[id^="headlessui-listbox-button-"], [id^="headlessui-popover-button-"]');
-  for (let i = 0; i < langEls.length; i++) {
-    const text = langEls[i]?.textContent?.trim().toLowerCase();
-    if (text && Object.keys(knownLanguages).includes(text)) {
+  
+  // Method 1: Check the language selector button text on LeetCode's new UI
+  const langButton = document.querySelector('button[id*="headlessui-listbox-button"]') 
+    || document.querySelector('button[id*="headlessui-popover-button"]');
+  if (langButton) {
+    const text = langButton.textContent?.trim().toLowerCase();
+    if (text && knownLanguages[text]) {
       foundLang = text;
-      break;
     }
   }
-
+  
+  // Method 2: Look at all buttons near the code area for language text
   if (!foundLang) {
-    const editorArea = document.querySelector('[data-track-load="editor_content"]') || document.body;
-    const candidateElements = editorArea.querySelectorAll('button, .text-xs, .text-sm, [data-mode-id]');
-    for (let i = 0; i < candidateElements.length; i++) {
-      const el = candidateElements[i];
-      let text = (el.getAttribute('data-mode-id') || el.textContent || '').trim().toLowerCase();
+    const codeSection = document.querySelector('[data-track-load="editor_content"]') || document.querySelector('.flex.items-center') || document.body;
+    const allButtons = codeSection.querySelectorAll('button, [role="button"]');
+    for (let i = 0; i < allButtons.length; i++) {
+      const el = allButtons[i];
+      let text = (el.textContent || '').trim().toLowerCase();
+      // Skip if too long — probably not a language label
+      if (text.length > 15) continue;
       if (text === 'cpp') text = 'c++';
-      if (Object.keys(knownLanguages).includes(text)) {
+      if (knownLanguages[text]) {
         foundLang = text;
         break;
       }
+    }
+  }
+
+  // Method 3: Check data-mode-id attribute (older Monaco editors)
+  if (!foundLang) {
+    const modeEl = document.querySelector('[data-mode-id]');
+    if (modeEl) {
+      let mode = modeEl.getAttribute('data-mode-id')?.toLowerCase() || '';
+      if (mode === 'cpp') mode = 'c++';
+      if (knownLanguages[mode]) foundLang = mode;
     }
   }
 

@@ -27,6 +27,34 @@ const LANG_ICONS: Record<string, string> = {
   'C++': '', 'C': '', 'Go': '', 'Rust': ''
 };
 
+// Normalize any incoming language value to match our LANGUAGES array exactly
+function normalizeLanguage(lang: string | undefined): string {
+  if (!lang) return 'Python';
+  
+  // If it's already an exact match, return it
+  if (LANGUAGES.includes(lang as any)) return lang;
+  
+  // Map common variations to our exact display names
+  const langMap: Record<string, string> = {
+    'python': 'Python', 'python3': 'Python', 'py': 'Python',
+    'javascript': 'JavaScript', 'js': 'JavaScript',
+    'typescript': 'TypeScript', 'ts': 'TypeScript',
+    'java': 'Java',
+    'c++': 'C++', 'cpp': 'C++', 'c plus plus': 'C++',
+    'c': 'C',
+    'go': 'Go', 'golang': 'Go',
+    'rust': 'Rust', 'rs': 'Rust',
+    'c#': 'C#', 'csharp': 'C#',
+    'swift': 'Swift',
+    'kotlin': 'Kotlin', 'kt': 'Kotlin',
+    'ruby': 'Ruby', 'rb': 'Ruby',
+    'php': 'PHP',
+  };
+  
+  const normalized = langMap[lang.toLowerCase()];
+  return normalized || 'Python';
+}
+
 export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { slug: string, initialSolution?: any, onSuccess: () => void }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -34,7 +62,7 @@ export default function AddSolutionForm({ slug, initialSolution, onSuccess }: { 
   const [showExplanation, setShowExplanation] = useState(!!initialSolution?.explanation);
   const [form, setForm] = useState<SolutionInput>({
     title: initialSolution?.title || '',
-    language: initialSolution?.language || 'Python',
+    language: normalizeLanguage(initialSolution?.language),
     code: initialSolution?.code || '',
     timeComplexity: initialSolution?.timeComplexity || '',
     spaceComplexity: initialSolution?.spaceComplexity || '',
