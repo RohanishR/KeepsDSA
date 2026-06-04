@@ -252,7 +252,7 @@ export default function RevisionPage() {
               handlePrev();
             }
           }}
-          className="w-full max-w-[800px] min-h-[450px] max-h-[70vh] perspective-1000 relative group cursor-pointer" 
+          className="w-full max-w-[800px] h-[520px] perspective-1000 relative group cursor-pointer" 
           onClick={() => !isSubmitting && setIsFlipped(!isFlipped)}
         >
           <div className={`w-full h-full relative transform-style-3d transition-transform duration-700 ease-in-out ${isFlipped ? 'rotate-y-180' : ''}`}>
