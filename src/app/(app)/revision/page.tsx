@@ -252,7 +252,7 @@ export default function RevisionPage() {
               handlePrev();
             }
           }}
-          className="w-full max-w-[800px] h-[450px] perspective-1000 relative group cursor-pointer" 
+          className="w-full max-w-[800px] min-h-[450px] max-h-[70vh] perspective-1000 relative group cursor-pointer" 
           onClick={() => !isSubmitting && setIsFlipped(!isFlipped)}
         >
           <div className={`w-full h-full relative transform-style-3d transition-transform duration-700 ease-in-out ${isFlipped ? 'rotate-y-180' : ''}`}>
@@ -273,14 +273,13 @@ export default function RevisionPage() {
                 </div>
               </div>
               
-              <div className="flex-1 flex flex-col justify-center items-center text-center px-6 md:px-12">
-                <h3 className="text-[24px] md:text-[28px] leading-[36px] font-semibold text-foreground mb-4">{problem.title}</h3>
-                <div className="text-[14px] leading-[24px] text-muted-foreground max-w-lg max-h-[150px] overflow-hidden relative">
+              <div className="flex-1 flex flex-col justify-center items-center text-center px-6 md:px-12 min-h-0">
+                <h3 className="text-[24px] md:text-[28px] leading-[36px] font-semibold text-foreground mb-4 shrink-0">{problem.title}</h3>
+                <div className="text-[14px] leading-[24px] text-muted-foreground max-w-lg overflow-y-auto custom-scrollbar w-full">
                   <div 
                     className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1" 
                     dangerouslySetInnerHTML={{ __html: problem.description || "No description provided." }} 
                   />
-                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
                 </div>
               </div>
               
