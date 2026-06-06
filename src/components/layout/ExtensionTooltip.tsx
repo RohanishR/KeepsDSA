@@ -9,7 +9,7 @@ const ExtensionTooltip = () => {
           <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" className="w-4 h-4">
             <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
           </svg>
-          Extension Info
+          Info
         </span>
       </button>
       <div className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 top-full right-0 mt-3 w-80 transition-all duration-300 ease-out transform group-hover:translate-y-0 -translate-y-2 origin-top-right">
@@ -25,7 +25,6 @@ const ExtensionTooltip = () => {
           <div className="space-y-2 pl-2">
             <ul className="text-[13px] text-gray-300 space-y-2 list-disc pl-4 marker:text-indigo-500">
               <li>Download ChromeExtension to Import problems from LeetCode</li>
-              <li>Make sure you select the language after importing problems by clicking on Edit button</li>
             </ul>
           </div>
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 blur-xl opacity-50 pointer-events-none" />
